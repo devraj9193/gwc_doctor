@@ -24,9 +24,9 @@ class ConsultationModel {
   int? status;
   int? errorCode;
   List<Appointment>? appointmentList;
-  int? pendingConsultation;
-  int? completedConsultation;
-  int? mrPendingConsultation;
+  String? pendingConsultation;
+  String? completedConsultation;
+  String? mrPendingConsultation;
   List<DocumentUpload>? documentUpload;
 
   factory ConsultationModel.fromJson(Map<String, dynamic> json) =>
@@ -35,9 +35,9 @@ class ConsultationModel {
         errorCode: json["errorCode"],
         appointmentList: List<Appointment>.from(
             json["appointment_list"].map((x) => Appointment.fromJson(x))),
-        pendingConsultation: json["pending_consultation"],
-        completedConsultation: json["completed_consultation"],
-        mrPendingConsultation: json["mr_pending_consultation"],
+        pendingConsultation: json["pending_consultation"].toString(),
+        completedConsultation: json["completed_consultation"].toString(),
+        mrPendingConsultation: json["mr_pending_consultation"].toString(),
         documentUpload: List<DocumentUpload>.from(json["document_upload"].map((x) => DocumentUpload.fromJson(x))),
 
       );

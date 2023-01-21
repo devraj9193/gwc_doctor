@@ -34,85 +34,81 @@ class _LifestyleDetailsState extends State<LifestyleDetails> {
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
-      child: Expanded(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: FutureBuilder(
-              future: evaluationDetailsController.fetchEvaluationDetails(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(snapshot.error.toString()),
-                  );
-                } else if (snapshot.hasData) {
-                  var data = snapshot.data;
-                  getDetails(data);
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: FutureBuilder(
+          future: evaluationDetailsController.fetchEvaluationDetails(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            } else if (snapshot.hasData) {
+              var data = snapshot.data;
+              getDetails(data);
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildTextStyle("Habits Or Addiction "),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
                     children: [
-                      buildTextStyle("Habits Or Addiction "),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
+                      Wrap(
                         children: [
-                          Wrap(
-                            children: [
-                              ...habitCheckBox
-                                  .map(buildWrapingCheckBox)
-                                  .toList(),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width: 20,
-                                  child: Checkbox(
-                                    activeColor: kPrimaryColor,
-                                    value: habitOtherSelected,
-                                    onChanged: (v) {
-                                      setState(() {
-                                        habitOtherSelected = v!;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                SizedBox(width: 2.w),
-                                Text(
-                                  'Other :',
-                                  style: TextStyle(
-                                    fontSize: 9.sp,
-                                    color: gBlackColor,
-                                    fontFamily: "GothamBook",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 1.5.h),
-                          Text(
-                            data.data.anyHabbitOrAddictionOther ?? "",
-                            style: TextStyle(
-                              fontSize: 9.sp,
-                              color: gBlackColor,
-                              fontFamily: "GothamBook",
-                            ),
-                          ),
+                          ...habitCheckBox
+                              .map(buildWrapingCheckBox)
+                              .toList(),
                         ],
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              child: Checkbox(
+                                activeColor: kPrimaryColor,
+                                value: habitOtherSelected,
+                                onChanged: (v) {
+                                  setState(() {
+                                    habitOtherSelected = v!;
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(width: 2.w),
+                            Text(
+                              'Other :',
+                              style: TextStyle(
+                                fontSize: 9.sp,
+                                color: gBlackColor,
+                                fontFamily: "GothamBook",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       SizedBox(height: 1.5.h),
+                      Text(
+                        data.data.anyHabbitOrAddictionOther ?? "",
+                        style: TextStyle(
+                          fontSize: 9.sp,
+                          color: gBlackColor,
+                          fontFamily: "GothamBook",
+                        ),
+                      ),
                     ],
-                  );
-                }
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.h),
-                  child: buildCircularIndicator(),
-                );
-              }),
-        ),
-      ),
+                  ),
+                  SizedBox(height: 1.5.h),
+                ],
+              );
+            }
+            return Container();
+            //   Padding(
+            //   padding: EdgeInsets.symmetric(vertical: 20.h),
+            //   child: buildCircularIndicator(),
+            // );
+          }),
     );
   }
 

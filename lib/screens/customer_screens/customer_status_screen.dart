@@ -21,9 +21,7 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
         future: consultationController.fetchConsultation(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
+            return Container();
           } else if (snapshot.hasData) {
             var data = snapshot.data;
             return Row(

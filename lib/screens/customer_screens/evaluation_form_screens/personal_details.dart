@@ -3,7 +3,6 @@ import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 import '../../../controller/mr_reports_controller.dart';
 import '../../../utils/constants.dart';
-import '../../../widgets/widgets.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails({Key? key}) : super(key: key);
@@ -17,197 +16,247 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: FutureBuilder(
-            future: mrReportsController.fetchPersonalDetails(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.error.toString()),
-                );
-              } else if (snapshot.hasData) {
-                var data = snapshot.data;
-                return Column(
+    return FutureBuilder(
+        future: mrReportsController.fetchPersonalDetails(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          } else if (snapshot.hasData) {
+            var data = snapshot.data;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildTextStyle("Full Name :"),
-                    SizedBox(height: 1.5.h),
-                    Text(
-                      data.data.patient.user.name ?? "",
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: gTextColor,
-                        fontFamily: "GothamBook",
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    buildTextStyle("Marital Status :"),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Radio(
-                          value: "single",
-                          activeColor: gPrimaryColor,
-                          groupValue:
-                              data.data.patient.maritalStatus.toString(),
-                          onChanged: (value) {},
-                        ),
                         Text(
-                          'Single',
+                          "Personal Details",
+                          textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 9.sp,
-                            color: gTextColor,
-                            fontFamily: "GothamBook",
-                          ),
+                              fontFamily: "PoppinsBold",
+                              color: kPrimaryColor,
+                              fontSize: 15.sp),
                         ),
-                        SizedBox(width: 3.w),
-                        Radio(
-                          value: "married",
-                          activeColor: gPrimaryColor,
-                          groupValue:
-                              data.data.patient.maritalStatus.toString(),
-                          onChanged: (value) {},
-                        ),
-                        Text(
-                          'Married',
-                          style: TextStyle(
-                            fontSize: 9.sp,
-                            color: gTextColor,
-                            fontFamily: "GothamBook",
-                          ),
-                        ),
-                        SizedBox(width: 3.w),
-                        Radio(
-                            value: "separated",
-                            groupValue:
-                                data.data.patient.maritalStatus.toString(),
-                            activeColor: gPrimaryColor,
-                            onChanged: (value) {}),
-                        Text(
-                          "Separated",
-                          style: TextStyle(
-                            fontSize: 9.sp,
-                            color: gTextColor,
-                            fontFamily: "GothamBook",
+                        SizedBox(width: 2.w),
+                        Expanded(
+                          child: Container(
+                            height: 1,
+                            color: kPrimaryColor,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 0.5.h),
-                    buildTextStyle("Phone Number :"),
-                    SizedBox(height: 1.5.h),
                     Text(
-                      data.data.patient.user.phone ?? "",
+                      "Let Us Know You Better",
+                      textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 9.sp,
-                        color: gTextColor,
-                        fontFamily: "GothamBook",
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    buildTextStyle("Email ID :"),
-                    SizedBox(height: 1.5.h),
-                    Text(
-                      data.data.patient.user.email ?? "",
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: gTextColor,
-                        fontFamily: "GothamBook",
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    buildTextStyle("Age :"),
-                    SizedBox(height: 1.5.h),
-                    Text(
-                      data.data.patient.user.age ?? "",
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: gTextColor,
-                        fontFamily: "GothamBook",
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    buildTextStyle("Gender :"),
-                    Row(
-                      children: [
-                        Radio(
-                          value: "male",
-                          activeColor: gPrimaryColor,
-                          groupValue: data.data.patient.user.gender.toString(),
-                          onChanged: (value) {},
-                        ),
-                        Text(
-                          'Male',
-                          style: TextStyle(
-                            fontSize: 9.sp,
-                            color: gTextColor,
-                            fontFamily: "GothamBook",
-                          ),
-                        ),
-                        SizedBox(width: 3.w),
-                        Radio(
-                          value: "female",
-                          activeColor: gPrimaryColor,
-                          groupValue: data.data.patient.user.gender.toString(),
-                          onChanged: (value) {},
-                        ),
-                        Text(
-                          'Female',
-                          style: TextStyle(
-                            fontSize: 9.sp,
-                            color: gTextColor,
-                            fontFamily: "GothamBook",
-                          ),
-                        ),
-                        SizedBox(width: 3.w),
-                        Radio(
-                            value: "other",
-                            groupValue:
-                                data.data.patient.user.gender.toString(),
-                            activeColor: gPrimaryColor,
-                            onChanged: (value) {}),
-                        Text(
-                          "Other",
-                          style: TextStyle(
-                            fontSize: 9.sp,
-                            color: gTextColor,
-                            fontFamily: "GothamBook",
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 0.5.h),
-                    buildTextStyle(
-                        "Full Postal Address To Deliver Your Ready To Cook Kit :"),
-                    SizedBox(height: 1.5.h),
-                    Text(
-                      data.data.patient.user.address ?? "",
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: gTextColor,
-                        fontFamily: "GothamBook",
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    buildTextStyle("Pin Code :"),
-                    SizedBox(height: 1.5.h),
-                    Text(
-                      data.data.patient.user.pincode ?? "",
-                      style: TextStyle(
-                        fontSize: 9.sp,
-                        color: gTextColor,
-                        fontFamily: "GothamBook",
-                      ),
+                          fontFamily: "PoppinsRegular",
+                          color: gMainColor,
+                          fontSize: 9.sp),
                     ),
                   ],
-                );
-              }
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.h),
-                child: buildCircularIndicator(),
-              );
-            }),
+                ),
+                SizedBox(height: 2.h),
+                buildTextStyle("Full Name :"),
+                SizedBox(height: 1.5.h),
+                Text(
+                  data.data.patient.user.name ?? "",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: "GothamBook",
+                      color: gBlackColor,
+                      fontSize: 9.sp),
+                ),
+                SizedBox(height: 2.h),
+                buildTextStyle("Marital Status :"),
+                Row(
+                  children: [
+                    Radio(
+                      value: "single",
+                      activeColor: gSecondaryColor,
+                      groupValue: data.data.patient.maritalStatus.toString(),
+                      onChanged: (value) {},
+                    ),
+                    Text(
+                      'Single',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 9.sp),
+                    ),
+                    SizedBox(width: 3.w),
+                    Radio(
+                      value: "married",
+                      activeColor: gSecondaryColor,
+                      groupValue: data.data.patient.maritalStatus.toString(),
+                      onChanged: (value) {},
+                    ),
+                    Text(
+                      'Married',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 9.sp),
+                    ),
+                    SizedBox(width: 3.w),
+                    Radio(
+                        value: "separated",
+                        groupValue: data.data.patient.maritalStatus.toString(),
+                        activeColor: gSecondaryColor,
+                        onChanged: (value) {}),
+                    Text(
+                      "Separated",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 9.sp),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 0.5.h),
+                buildTextStyle("Phone Number :"),
+                SizedBox(height: 1.5.h),
+                Text(
+                  data.data.patient.user.phone ?? "",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: "GothamBook",
+                      color: gBlackColor,
+                      fontSize: 9.sp),
+                ),
+                SizedBox(height: 2.h),
+                buildTextStyle("Email ID :"),
+                SizedBox(height: 1.5.h),
+                Text(
+                  data.data.patient.user.email ?? "",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: "GothamBook",
+                      color: gBlackColor,
+                      fontSize: 9.sp),
+                ),
+                SizedBox(height: 2.h),
+                buildTextStyle("Age :"),
+                SizedBox(height: 1.5.h),
+                Text(
+                  data.data.patient.user.age ?? "",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                      fontFamily: "GothamBook",
+                      color: gBlackColor,
+                      fontSize: 9.sp),
+                ),
+                SizedBox(height: 2.h),
+                buildTextStyle("Gender :"),
+                Row(
+                  children: [
+                    Radio(
+                      value: "male",
+                      activeColor: gSecondaryColor,
+                      groupValue: data.data.patient.user.gender.toString(),
+                      onChanged: (value) {},
+                    ),
+                    Text(
+                      'Male',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 9.sp),
+                    ),
+                    SizedBox(width: 3.w),
+                    Radio(
+                      value: "female",
+                      activeColor: gSecondaryColor,
+                      groupValue: data.data.patient.user.gender.toString(),
+                      onChanged: (value) {},
+                    ),
+                    Text(
+                      'Female',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 9.sp),
+                    ),
+                    SizedBox(width: 3.w),
+                    Radio(
+                        value: "other",
+                        groupValue: data.data.patient.user.gender.toString(),
+                        activeColor: gSecondaryColor,
+                        onChanged: (value) {}),
+                    Text(
+                      "Other",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 9.sp),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 0.5.h),
+                buildTextStyle('Address'),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildContainer("${data.data.patient.user.address ?? ""},"),
+                    SizedBox(width: 1.w),
+                    Expanded(
+                      child: buildContainer(data.data.patient.address2 ?? ''),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 1.h),
+                buildTextStyle('Pin Code'),
+                buildContainer(
+                  data.data.patient.user.pincode ?? "",
+                ),
+                SizedBox(height: 1.h),
+                buildTextStyle('City'),
+                buildContainer(data.data.patient.city ?? ""),
+                SizedBox(height: 1.h),
+                buildTextStyle('State'),
+                buildContainer(data.data.patient.state ?? ''),
+                SizedBox(height: 1.h),
+                buildTextStyle('Country'),
+                buildContainer(data.data.patient.country ?? ''),
+              ],
+            );
+          }
+          return Container();
+        });
+  }
+
+  buildContainer(String title) {
+    return Container(
+      // padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
+      margin: EdgeInsets.symmetric(vertical: 1.h),
+      // width: double.maxFinite,
+      // decoration: BoxDecoration(
+      //   border: Border.all(
+      //     color: gGreyColor.withOpacity(0.5),
+      //     width: 1,
+      //   ),
+      //   borderRadius: BorderRadius.circular(8),
+      //   color: gWhiteColor,
+      // ),
+      child: Text(
+        title,
+        textAlign: TextAlign.start,
+        style: TextStyle(
+            height: 1.3,
+            fontFamily: "GothamBook",
+            color: gBlackColor,
+            fontSize: 9.sp),
       ),
     );
   }
@@ -219,19 +268,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
           TextSpan(
             text: title,
             style: TextStyle(
-              height: 1.5,
               fontSize: 11.sp,
-              color: gPrimaryColor,
+              color: gBlackColor,
               fontFamily: "GothamMedium",
             ),
           ),
           TextSpan(
             text: ' *',
             style: TextStyle(
-              fontSize: 11.sp,
-              height: 1.5,
-              color: gSecondaryColor,
-              fontFamily: "GothamMedium",
+              fontSize: 9.sp,
+              color: gGreyColor,
+              fontFamily: "PoppinsSemiBold",
             ),
           ),
         ],

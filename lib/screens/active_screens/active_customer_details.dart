@@ -4,13 +4,30 @@ import '../../utils/constants.dart';
 import '../../widgets/widgets.dart';
 import '../customer_screens/case_study_details.dart';
 import '../customer_screens/evaluation_form_screens/evaluation_details.dart';
+import '../customer_screens/evaluation_get_details.dart';
 import '../customer_screens/medical_report_details.dart';
 import '../customer_screens/user_reports_details.dart';
 import '../daily_progress_screens/progress_details.dart';
 import '../meal_plans_screens/day_plan_details.dart';
 
 class ActiveCustomerDetails extends StatefulWidget {
-  const ActiveCustomerDetails({Key? key}) : super(key: key);
+  final String userName;
+  final String age;
+  final String appointmentDetails;
+  final String status;
+  final String startDate;
+  final String presentDay;
+  final String finalDiagnosis;
+  const ActiveCustomerDetails(
+      {Key? key,
+      required this.userName,
+      required this.age,
+      required this.appointmentDetails,
+      required this.status,
+      required this.startDate,
+      required this.presentDay,
+      required this.finalDiagnosis})
+      : super(key: key);
 
   @override
   State<ActiveCustomerDetails> createState() => _ActiveCustomerDetailsState();
@@ -32,6 +49,108 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                 buildAppBar(() {
                   Navigator.pop(context);
                 }),
+                //  SizedBox(height: 1.h),
+                Text(
+                  widget.userName,
+                  style: TextStyle(
+                      fontFamily: "GothamMedium",
+                      color: gTextColor,
+                      fontSize: 10.sp),
+                ),
+                SizedBox(height: 0.5.h),
+                Text(
+                  widget.age,
+                  style: TextStyle(
+                      fontFamily: "GothamMedium",
+                      color: gTextColor,
+                      fontSize: 8.sp),
+                ),
+                SizedBox(height: 0.5.h),
+                Text(
+                  widget.appointmentDetails,
+                  style: TextStyle(
+                      fontFamily: "GothamBook",
+                      color: gTextColor,
+                      fontSize: 8.sp),
+                ),
+                SizedBox(height: 0.5.h),
+                (widget.status.isEmpty)
+                    ? Container()
+                    : Row(
+                        children: [
+                          Text(
+                            "Status : ",
+                            style: TextStyle(
+                                fontFamily: "GothamBook",
+                                color: gBlackColor,
+                                fontSize: 8.sp),
+                          ),
+                          Text(
+                            widget.status,
+                            style: TextStyle(
+                                fontFamily: "GothamMedium",
+                                color: gPrimaryColor,
+                                fontSize: 8.sp),
+                          ),
+                        ],
+                      ),
+                SizedBox(height: 0.5.h),
+                Row(
+                  children: [
+                    Text(
+                      "Start Date : ",
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 8.sp),
+                    ),
+                    Text(
+                      widget.startDate,
+                      style: TextStyle(
+                          fontFamily: "GothamMedium",
+                          color: gPrimaryColor,
+                          fontSize: 8.sp),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 0.5.h),
+                Row(
+                  children: [
+                    Text(
+                      "Present Day : ",
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 8.sp),
+                    ),
+                    Text(
+                      widget.presentDay,
+                      style: TextStyle(
+                          fontFamily: "GothamMedium",
+                          color: gPrimaryColor,
+                          fontSize: 8.sp),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 0.5.h),
+                Row(
+                  children: [
+                    Text(
+                      "Final Diagnosis : ",
+                      style: TextStyle(
+                          fontFamily: "GothamBook",
+                          color: gBlackColor,
+                          fontSize: 8.sp),
+                    ),
+                    Text(
+                      widget.finalDiagnosis,
+                      style: TextStyle(
+                          fontFamily: "GothamMedium",
+                          color: gPrimaryColor,
+                          fontSize: 8.sp),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 1.h),
                 TabBar(
                     // padding: EdgeInsets.symmetric(horizontal: 3.w),
@@ -42,6 +161,10 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                     labelPadding:
                         EdgeInsets.only(right: 6.w, top: 1.h, bottom: 1.h),
                     indicatorPadding: EdgeInsets.only(right: 5.w),
+                    unselectedLabelStyle: TextStyle(
+                        fontFamily: "GothamBook",
+                        color: gGreyColor,
+                        fontSize: 9.sp),
                     labelStyle: TextStyle(
                         fontFamily: "GothamMedium",
                         color: gPrimaryColor,
@@ -55,14 +178,16 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                       Text('Case Study'),
                     ]),
                 const Expanded(
-                  child: TabBarView(children: [
-                    ProgressDetails(),
-                    DayPlanDetails(),
-                    EvaluationDetails(),
-                    UserReportsDetails(),
-                    MedicalReportDetails(),
-                    CaseStudyDetails(),
-                  ]),
+                  child: TabBarView(
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        ProgressDetails(),
+                        DayPlanDetails(),
+                        EvaluationGetDetails(),
+                        UserReportsDetails(),
+                        MedicalReportDetails(),
+                        CaseStudyDetails(),
+                      ]),
                 ),
               ],
             ),

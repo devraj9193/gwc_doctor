@@ -3,7 +3,64 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:im_animations/im_animations.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
+import '../controller/customer_call_controller.dart';
 import '../utils/constants.dart';
+
+CustomerCallController callController = Get.put(CustomerCallController());
+
+class CommonDecoration {
+  static InputDecoration buildInputDecoration(String hintText, TextEditingController controller, {Widget? suffixIcon}) {
+    return InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(
+            fontFamily: "GothamBook", color: gTextColor, fontSize: 10.sp),
+        border: InputBorder.none,
+        suffixIcon: suffixIcon
+      // controller.text.isEmpty
+      //     ? Container(
+      //         width: 0,
+      //       )
+      //     : IconButton(
+      //         onPressed: () {
+      //           controller.clear();
+      //         },
+      //         icon: const Icon(
+      //           Icons.close,
+      //           color: kPrimaryColor,
+      //         ),
+      //       ),
+    );
+  }
+
+  static InputDecoration buildTextInputDecoration(String hintText, TextEditingController controller, {Widget? suffixIcon}) {
+    return InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(
+          fontFamily: "PoppinsRegular",
+          color: Colors.grey,
+          fontSize: 10.sp,
+        ),
+        counterText: "",
+        border: const UnderlineInputBorder(
+          borderSide: BorderSide(
+              color: kPrimaryColor, width: 1.0, style: BorderStyle.solid),
+        ),
+        suffixIcon: suffixIcon
+      // controller.text.isEmpty
+      //     ? const SizedBox()
+      //     : IconButton(
+      //         onPressed: () {
+      //           controller.clear();
+      //         },
+      //         icon: const Icon(
+      //           Icons.close,
+      //           color: kPrimaryColor,
+      //         ),
+      //       ),
+    );
+  }
+}
+
 
 Center buildLoadingBar() {
   return Center(
@@ -77,10 +134,11 @@ Row buildAppBar(VoidCallback func) {
           ),
         ),
       ),
+      SizedBox(width:2.w),
       SizedBox(
-        height: 8.h,
+        height: 5.h,
         child: const Image(
-          image: AssetImage("assets/images/Gut wellness logo green.png"),
+          image: AssetImage("assets/images/Gut wellness logo.png"),
         ),
       ),
     ],
@@ -98,6 +156,37 @@ Center buildCircularIndicator() {
   );
 }
 
+buildLabelTextField(String name){
+  return RichText(
+      text: TextSpan(
+          text: name,
+          style: TextStyle(
+            fontSize: 9.sp,
+            color: gPrimaryColor,
+            fontFamily: "GothamBook",
+          ),
+          children: [
+            TextSpan(
+              text: ' *',
+              style: TextStyle(
+                fontSize: 9.sp,
+                color: gSecondaryColor,
+                fontFamily: "GothamBook",
+              ),
+            )
+          ]
+      )
+  );
+  return Text(
+    'Full Name:*',
+    style: TextStyle(
+      fontSize: 9.sp,
+      color: kTextColor,
+      fontFamily: "PoppinsSemiBold",
+    ),
+  );
+}
+
 buildThreeBounceIndicator({Color? color}) {
   return Center(
     child: SpinKitThreeBounce(
@@ -105,6 +194,209 @@ buildThreeBounceIndicator({Color? color}) {
       size: 25,
     ),
   );
+}
+
+TextStyle buildTextStyle() {
+  return const TextStyle(
+    color: gBlackColor,
+    fontSize: 12,
+    fontFamily: "GothamBook",
+  );
+}
+
+void dialog(BuildContext context) {
+  showDialog(
+    barrierDismissible: false,
+    barrierColor: gWhiteColor.withOpacity(0.8),
+    context: context,
+    builder: (context) => Center(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5.w),
+        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
+        decoration: BoxDecoration(
+          color: gWhiteColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: gMainColor, width: 1),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              "Log Out ?",
+              style: TextStyle(
+                color: gTextColor,
+                fontFamily: "GothamMedium",
+                fontSize: 11.sp,
+              ),
+            ),
+            SizedBox(height: 2.h),
+            Text('Are you sure you want to log out?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: "GothamBook",
+                  color: gTextColor,
+                  fontSize: 11.sp,
+                )),
+            SizedBox(height: 2.5.h),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+
+                  },
+                  child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 9.w, vertical: 1.h),
+                      decoration: BoxDecoration(
+                        color: gPrimaryColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: gMainColor),
+                      ),
+                      child: Text("Call",
+                          style: TextStyle(
+                            color: gMainColor,
+                            fontFamily: "GothamMedium",
+                            fontSize: 9.sp,
+                          ))),
+                ),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).pop(false),
+                  child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 9.w, vertical: 1.h),
+                      decoration: BoxDecoration(
+                        color: gWhiteColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: gMainColor),
+                      ),
+                      child: Text("Cancel",
+                          style: TextStyle(
+                            color: gPrimaryColor,
+                            fontFamily: "GothamMedium",
+                            fontSize: 9.sp,
+                          ))),
+                ),
+                SizedBox(width: 3.w),
+
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+void callDialog(BuildContext context) {
+  showDialog(
+    barrierDismissible: false,
+    barrierColor: gWhiteColor.withOpacity(0.8),
+    context: context,
+    builder: (context) => Center(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 5.w),
+        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
+        decoration: BoxDecoration(
+          color: gWhiteColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: gMainColor, width: 1),
+        ),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              "Call",
+              style: TextStyle(
+                color: gPrimaryColor,
+                fontFamily: "GothamMedium",
+                fontSize: 11.sp,
+              ),
+            ),
+            SizedBox(height: 2.h),
+            Align(
+              alignment: Alignment.topLeft,
+              child: Text('Are you sure you want to call?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "GothamBook",
+                    color: gMainColor,
+                    fontSize: 11.sp,
+                  )),
+            ),
+            SizedBox(height: 4.h),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    callController.fetchCustomersCall();
+                    Get.back();
+                  },
+                  child: Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
+                      decoration: BoxDecoration(
+                        color: gPrimaryColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: gMainColor),
+                      ),
+                      child: Text("Call",
+                          style: TextStyle(
+                            color: gMainColor,
+                            fontFamily: "GothamMedium",
+                            fontSize: 9.sp,
+                          ))),
+                ),
+                SizedBox(width: 3.w),
+                GestureDetector(
+                  onTap: () => Navigator.of(context).pop(false),
+                  child: Container(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
+                      decoration: BoxDecoration(
+                        color: gWhiteColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: gMainColor),
+                      ),
+                      child: Text("Cancel",
+                          style: TextStyle(
+                            color: gPrimaryColor,
+                            fontFamily: "GothamMedium",
+                            fontSize: 9.sp,
+                          ))),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+class CommonButton {
+
+  static ElevatedButton submitButton(func, String title) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: gPrimaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 5.w),
+      ),
+      onPressed: func,
+      child: Text(
+        title,
+        style: TextStyle(
+          fontFamily: "PoppinsRegular",
+          color: Colors.white,
+          fontSize: 13.sp,
+        ),
+      ),
+    );
+  }
 }
 
 List<String> dailyProgress = [

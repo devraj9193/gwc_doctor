@@ -19,30 +19,32 @@ class MealActiveListController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
 
-    final response = await http.get(Uri.parse(mealPlanListUrl), headers: {
+    final response = await http.get(Uri.parse(GwcApi.mealPlanListUrl), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
+      print("meal: ${response.body}");
       MealActiveModel jsonData = mealActiveModelFromJson(response.body);
       List<MealPlanList>? arrData = jsonData.mealPlanList;
-      print("status: ${arrData?[0].status}");
+      //print("status: ${arrData?[0].userDetails?.status}");
       return arrData;
     } else {
       throw Exception();
     }
   }
 
-  Future<List<MealPlanList>?> fetchActiveList() async {
+  Future<List<ActiveDetail>?> fetchActiveList() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
 
-    final response = await http.get(Uri.parse(mealPlanListUrl), headers: {
+    final response = await http.get(Uri.parse(GwcApi.mealPlanListUrl), headers: {
       'Authorization': 'Bearer $token',
     });
+    print("Active List: ${response.body}");
     if (response.statusCode == 200) {
       MealActiveModel jsonData = mealActiveModelFromJson(response.body);
-      List<MealPlanList>? arrData = jsonData.completedMealPlanList;
-      print("status: ${arrData?[0].status}");
+      List<ActiveDetail>? arrData = jsonData.activeDetails;
+      print("diagnosis: ${arrData?[1].userFinalDiagnosis}");
       return arrData;
     } else {
       throw Exception();

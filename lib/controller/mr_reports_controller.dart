@@ -26,7 +26,7 @@ class MRReportsController extends GetxController {
     var teamPatientId = preferences.getString("team_patient_id");
 
     final response =
-        await http.get(Uri.parse("$customerMRReport/$teamPatientId"), headers: {
+        await http.get(Uri.parse("${GwcApi.customerMRReport}/$teamPatientId"), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
@@ -47,7 +47,7 @@ class MRReportsController extends GetxController {
     var teamPatientId = preferences.getString("team_patient_id");
 
     final response =
-        await http.get(Uri.parse("$customerMRReport/$teamPatientId"), headers: {
+        await http.get(Uri.parse("${GwcApi.customerMRReport}/$teamPatientId"), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {

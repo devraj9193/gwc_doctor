@@ -22,72 +22,69 @@ class _ProgressDetailsState extends State<ProgressDetails> {
       Get.put(DayProgressController());
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: dayProgressController.fetchDayProgressList(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return const Text("");
-          } else if (snapshot.hasData) {
-            var data = snapshot.data;
-            return Column(
-              children: [
-                Container(
-                  height: 1,
-                  color: Colors.grey.withOpacity(0.3),
-                ),
-                SizedBox(height: 2.h),
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: ((context, index) {
-                    double y = data[index] / 100.toDouble();
-                    return Padding(
-                      padding: EdgeInsets.symmetric(vertical: 1.h),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (ct) =>  MealYogaPlanDetails(selectedDay: dailyProgress[index]),
+    return SingleChildScrollView(
+      child: FutureBuilder(
+          future: dayProgressController.fetchDayProgressList(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasError) {
+              return const Text("");
+            } else if (snapshot.hasData) {
+              var data = snapshot.data;
+              return Column(
+                children: [
+                  Container(
+                    height: 1,
+                    color: Colors.grey.withOpacity(0.3),
+                  ),
+                  SizedBox(height: 2.h),
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: data.length,
+                    itemBuilder: ((context, index) {
+                      double y = data[index] / 100.toDouble();
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 1.h),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ct) => MealYogaPlanDetails(
+                                    selectedDay: dailyProgress[index]),
+                              ),
+                            );
+                          },
+                          child: LinearPercentIndicator(
+                            leading: Text(
+                              "Day - ${dailyProgress[index]}",
+                              style: TextStyle(
+                                  fontSize: 10.sp,
+                                  fontFamily: "GothamMedium",
+                                  color: gPrimaryColor),
                             ),
-                          );
-                        },
-                        child: LinearPercentIndicator(
-                          leading: Text(
-                            "Day - ${dailyProgress[index]}",
-                            style: TextStyle(
-                                fontSize: 10.sp,
-                                fontFamily: "GothamMedium",
-                                color: gPrimaryColor),
+                            animation: true,
+                            lineHeight: 3.h,
+                            animationDuration: 5000,
+                            percent: buildBar(y),
+                            center: buildCenterText(data[index]),
+                            backgroundColor: const Color(0xffECF0FA),
+                            progressColor: buildTextColor(y),
+                            barRadius: const Radius.circular(10),
                           ),
-                          animation: true,
-                          lineHeight: 3.h,
-                          animationDuration: 5000,
-                          percent: y,
-                          center: Text(
-                            "${data[index].toString()} %",
-                            style: TextStyle(
-                                fontSize: 8.sp,
-                                fontFamily: "GothamBook",
-                                color: gMainColor),
-                          ),
-                          backgroundColor: const Color(0xffECF0FA),
-                          progressColor: buildTextColor(y),
-                          barRadius: const Radius.circular(10),
                         ),
-                      ),
-                    );
-                  }),
-                ),
-              ],
+                      );
+                    }),
+                  ),
+                ],
+              );
+            }
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: buildCircularIndicator(),
             );
-          }
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: buildCircularIndicator(),
-          );
-        });
+          }),
+    );
   }
 
   Color? buildTextColor(double value) {
@@ -95,9 +92,33 @@ class _ProgressDetailsState extends State<ProgressDetails> {
       textColor = gSecondaryColor;
     } else if (0.6 > value) {
       textColor = gMainColor;
-    } else if (1.0 > value) {
+    } else if (1.0 >= value) {
       textColor = gPrimaryColor;
     }
-    return textColor!;
+    return textColor;
+  }
+
+  buildCenterText(double data) {
+    if (100 < data) {
+      return Text(
+        "100 %",
+        style: TextStyle(
+            fontSize: 8.sp, fontFamily: "GothamBook", color: gMainColor),
+      );
+    } else {
+      return Text(
+        "${data.toStringAsFixed(2)} %",
+        style: TextStyle(
+            fontSize: 8.sp, fontFamily: "GothamBook", color: gMainColor),
+      );
+    }
+  }
+
+  buildBar(double y) {
+    if (1.0 < y) {
+      return 1.0;
+    } else {
+      return y;
+    }
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../controller/day_plan_list_controller.dart';
+import '../../model/day_plan_model.dart';
 import '../../utils/constants.dart';
 import '../../widgets/widgets.dart';
 import 'package:get/get.dart';
@@ -18,23 +20,8 @@ class _DayPlanDetailsState extends State<DayPlanDetails> {
   Color? textColor;
   String selectedDay = "1";
 
-  var items = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-  ];
+  Map<String, List<DayPlan>> mealPlanData1 = {};
+  final pageController = PageController();
 
   DayPlanListController dayPlanListController =
       Get.put(DayPlanListController());
@@ -48,37 +35,37 @@ class _DayPlanDetailsState extends State<DayPlanDetails> {
           height: 1,
           color: Colors.grey.withOpacity(0.3),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Day $selectedDay Meal Plan',
-              style: TextStyle(
-                  fontSize: 10.sp,
-                  fontFamily: "GothamMedium",
-                  color: gPrimaryColor),
-            ),
-            DropdownButton(
-              value: selectedDay,
-              style: TextStyle(
-                  fontSize: 8.sp, fontFamily: "GothamBook", color: gBlackColor),
-              items: items.map((String items) {
-                return DropdownMenuItem(
-                  value: items,
-                  child: Text("Day $items"),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedDay = newValue!;
-                });
-              },
-            ),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text(
+        //       'Day $selectedDay Meal Plan',
+        //       style: TextStyle(
+        //           fontSize: 10.sp,
+        //           fontFamily: "GothamMedium",
+        //           color: gPrimaryColor),
+        //     ),
+        //     DropdownButton(
+        //       value: selectedDay,
+        //       style: TextStyle(
+        //           fontSize: 8.sp, fontFamily: "GothamBook", color: gBlackColor),
+        //       items: dailyProgress.map((String items) {
+        //         return DropdownMenuItem(
+        //           value: items,
+        //           child: Text("Day $items"),
+        //         );
+        //       }).toList(),
+        //       onChanged: (String? newValue) {
+        //         setState(() {
+        //           selectedDay = newValue!;
+        //         });
+        //       },
+        //     ),
+        //   ],
+        // ),
         Expanded(
           child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             child: buildMealPlan(),
           ),
         ),
@@ -87,191 +74,319 @@ class _DayPlanDetailsState extends State<DayPlanDetails> {
   }
 
   buildMealPlan() {
-    return FutureBuilder(
-        future: dayPlanListController.fetchDayPlanList(selectedDay),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return const Text("");
-          } else if (snapshot.hasData) {
-            var data = snapshot.data;
-            return Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 1.w),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 20,
-                        offset: const Offset(2, 10),
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    children: [
-                      Container(
-                        height: 5.h,
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8)),
-                          gradient: LinearGradient(colors: [
-                            Color(0xffE06666),
-                            Color(0xff93C47D),
-                            Color(0xffFFD966),
-                          ], begin: Alignment.topLeft, end: Alignment.topRight),
-                        ),
-                      ),
-                      DataTable(
-                        headingTextStyle: TextStyle(
-                          color: gWhiteColor,
-                          fontSize: 10.sp,
-                          fontFamily: "GothamMedium",
-                        ),
-                        headingRowHeight: 5.h,
-                        horizontalMargin: 2.w,
-                       // columnSpacing: 50,
-                        dataRowHeight: 6.h,
-                        // headingRowColor:
-                        //     MaterialStateProperty.all(const Color(0xffE06666)),
-                        columns: const <DataColumn>[
-                          DataColumn(label: Text('Time')),
-                          DataColumn(label: Text('Meal/Yoga')),
-                          DataColumn(label: Text('  Status  ')),
-                        ],
-                        rows: List.generate(data.data.length, (index) {
-                          return DataRow(
-                            cells: [
-                              DataCell(
-                                Text(
-                                  data.data[index].mealTime.toString(),
-                                  style: TextStyle(
-                                    height: 1.5,
-                                    color: gTextColor,
-                                    fontSize: 8.sp,
-                                    fontFamily: "GothamBold",
-                                  ),
-                                ),
-                              ),
-                              DataCell(
+    return Column(
+      children: [
+        SizedBox(
+          height: 65.h,
+          width: double.maxFinite,
+          child: PageView(
+            controller: pageController,
+            children: [
+              ...dailyProgress
+                  .map(
+                    (e) => FutureBuilder(
+                        future: dayPlanListController.fetchDayPlanList(e),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
+                          if (snapshot.hasError) {
+                            return const Text("");
+                          } else if (snapshot.hasData) {
+                            var data = snapshot.data;
+                            mealPlanData1 = data.data;
+                            return SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(height: 2.h),
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      data.data[index].type == "yoga"
-                                          ? Row(
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () {},
-                                                  child: Image(
-                                                    image: const AssetImage(
-                                                        "assets/images/noun-play-1832840.png"),
-                                                    height: 2.h,
-                                                  ),
-                                                ),
-                                                SizedBox(width: 2.w),
-                                              ],
-                                            )
-                                          : Container(),
-                                      Expanded(
-                                        child: Text(
-                                          data.data[index].name.toString(),
-                                          maxLines: 3,
-                                          textAlign: TextAlign.start,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            height: 1.5,
-                                            color: gTextColor,
-                                            fontSize: 8.sp,
-                                            fontFamily: "GothamBook",
-                                          ),
-                                        ),
+                                      Text(
+                                        'Day $e Meal Plan',
+                                        style: TextStyle(
+                                            fontSize: 10.sp,
+                                            fontFamily: "GothamMedium",
+                                            color: gPrimaryColor),
                                       ),
+                                      // DropdownButton(
+                                      //   value: selectedDay,
+                                      //   style: TextStyle(
+                                      //       fontSize: 8.sp,
+                                      //       fontFamily: "GothamBook",
+                                      //       color: gBlackColor),
+                                      //   items:
+                                      //       dailyProgress.map((String items) {
+                                      //     return DropdownMenuItem(
+                                      //       value: items,
+                                      //       child: Text("Day $items"),
+                                      //     );
+                                      //   }).toList(),
+                                      //   onChanged: (String? newValue) {
+                                      //     setState(() {
+                                      //       selectedDay = newValue!;
+                                      //     });
+                                      //     e = selectedDay;
+                                      //   },
+                                      // ),
                                     ],
                                   ),
-                                  placeholder: true, onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (ct) => MealPdf(
-                                      pdfLink: data.data[index].url.toString(),
+                                  SizedBox(height: 2.h),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 1.w),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          blurRadius: 20,
+                                          offset: const Offset(2, 10),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Stack(
+                                      children: [
+                                        Container(
+                                          height: 5.h,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 5.w),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(8),
+                                                topRight: Radius.circular(8)),
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Color(0xffE06666),
+                                                  Color(0xff93C47D),
+                                                  Color(0xffFFD966),
+                                                ],
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.topRight),
+                                          ),
+                                        ),
+                                        DataTable(
+                                          headingTextStyle: TextStyle(
+                                            color: gWhiteColor,
+                                            fontSize: 9.sp,
+                                            fontFamily: "GothamMedium",
+                                          ),
+                                          headingRowHeight: 5.h,
+                                          horizontalMargin: 2.w,
+                                          dataRowHeight: getRowHeight(),
+                                          columns: const <DataColumn>[
+                                            DataColumn(label: Text('Time')),
+                                            DataColumn(
+                                                label: Text('Meal/Yoga')),
+                                            DataColumn(label: Text('Status')),
+                                          ],
+                                          rows: dataRowWidget(),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                );
-                              }),
-                              DataCell(
-                                Container(
-                                  width: 18.w,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 2.w, vertical: 0.5.h),
-                                  decoration: BoxDecoration(
-                                    color: gWhiteColor,
-                                    borderRadius: BorderRadius.circular(5),
-                                    border:
-                                        Border.all(color: gMainColor, width: 1),
+                                  Container(
+                                    width: (data.comment == null)
+                                        ? 0
+                                        : double.maxFinite,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 3.w, vertical: 1.h),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 3.w, vertical: 1.h),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          blurRadius: 20,
+                                          offset: const Offset(2, 10),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        (data.comment == null)
+                                            ? Container()
+                                            : Text(
+                                                "Comments : ",
+                                                // 'Lorem ipsum is simply dummy text of the printing and typesetting industry.Lorem ipsum has been the industry\'s standard dummy text ever since the 1500s,when an unknown printer took a gallery of type.',
+                                                style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    height: 1.3,
+                                                    fontFamily: "GothamBook",
+                                                    color: gPrimaryColor),
+                                              ),
+                                        (data.comment == null)
+                                            ? Container()
+                                            : SizedBox(height: 1.h),
+                                        Text(
+                                          data.comment ?? "",
+                                          // 'Lorem ipsum is simply dummy text of the printing and typesetting industry.Lorem ipsum has been the industry\'s standard dummy text ever since the 1500s,when an unknown printer took a gallery of type.',
+                                          style: TextStyle(
+                                              fontSize: 10.sp,
+                                              height: 1.3,
+                                              fontFamily: "GothamBook",
+                                              color: gTextColor),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                ],
+                              ),
+                            );
+                          }
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            child: buildCircularIndicator(),
+                          );
+                        }),
+                  )
+                  .toList(),
+            ],
+          ),
+        ),
+        SmoothPageIndicator(
+          controller: pageController,
+          count: dailyProgress.length,
+          axisDirection: Axis.horizontal,
+          effect: ScrollingDotsEffect(
+            dotColor: Colors.amberAccent,
+            activeDotColor: gSecondaryColor,
+            dotHeight: 1.h,
+            dotWidth: 2.w,
+            //jumpScale: 2,
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<DataRow> dataRowWidget() {
+    List<DataRow> data = [];
+    mealPlanData1.forEach((dayTime, value) {
+      data.add(
+        DataRow(
+          cells: [
+            DataCell(
+              Text(
+                dayTime,
+                style: TextStyle(
+                  height: 1.5,
+                  color: gTextColor,
+                  fontSize: 8.sp,
+                  fontFamily: "GothamBold",
+                ),
+              ),
+            ),
+            DataCell(
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ...value
+                      .map((e) => GestureDetector(
+                            onTap: () => MealPdf(pdfLink: e.url!),
+                            child: Row(
+                              children: [
+                                e.type == 'yoga'
+                                    ? GestureDetector(
+                                        onTap: () {},
+                                        child: Image(
+                                          image: const AssetImage(
+                                              "assets/images/noun-play-1832840.png"),
+                                          height: 2.h,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                if (e.type == 'yoga') SizedBox(width: 2.w),
+                                Expanded(
                                   child: Text(
-                                    data.data[index].status.toString(),
+                                    " ${e.name.toString()}",
+                                    maxLines: 3,
+                                    textAlign: TextAlign.start,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        fontFamily: "GothamBook",
-                                        // color: buildTextColor(
-                                        //     data[index].status.toString()),
-                                        fontSize: 8.sp),
+                                      height: 1.5,
+                                      color: gTextColor,
+                                      fontSize: 8.sp,
+                                      fontFamily: "GothamBook",
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          );
-                        }).toList(),
+                              ],
+                            ),
+                          ))
+                      .toList()
+                ],
+              ),
+              placeholder: true,
+            ),
+            DataCell(
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ...value.map((e) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 1.w, vertical: 1.h),
-                //  padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        blurRadius: 20,
-                        offset: const Offset(2, 10),
+                      child: Container(
+                        width: 18.w,
+                        margin: EdgeInsets.symmetric(vertical: 0.2.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 2.w, vertical: 0.5.h),
+                        decoration: BoxDecoration(
+                          color: gWhiteColor,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: gMainColor, width: 1),
+                        ),
+                        child: Text(
+                          e.status.toString(),
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: "GothamBook",
+                              color: buildTextColor(e.status.toString()),
+                              fontSize: 8.sp),
+                        ),
                       ),
-                    ],
-                  ),
-                  child: Text(
-                    data.comment ?? "",
-                   // 'Lorem ipsum is simply dummy text of the printing and typesetting industry.Lorem ipsum has been the industry\'s standard dummy text ever since the 1500s,when an unknown printer took a gallery of type.',
-                    style: TextStyle(
-                        fontSize: 10.sp,
-                        height: 1.3,
-                        fontFamily: "GothamBook",
-                        color: gTextColor),
-                  ),
-                ),
-              ],
-            );
-          }
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: buildCircularIndicator(),
-          );
-        });
+                    );
+                  }).toList()
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+    return data;
   }
 
   Color? buildTextColor(String status) {
-    if (status == "Followed") {
-      textColor = gPrimaryColor;
-    } else if (status == "UnFollowed") {
-      textColor = gSecondaryColor;
+    if (status == "followed") {
+      return textColor = gPrimaryColor;
+    } else if (status == "unfollowed") {
+      return textColor = gSecondaryColor;
     } else if (status == "Alternative without Doctor") {
-      textColor = gMainColor;
+      return textColor = gMainColor;
     } else if (status == "Alternative with Doctor") {
-      textColor = gTextColor;
+      return textColor = gTextColor;
     }
-    return textColor!;
+    return textColor;
+  }
+
+  getRowHeight() {
+    if (mealPlanData1.values.length > 1) {
+      return 8.h;
+    } else {
+      return 6.h;
+    }
   }
 }

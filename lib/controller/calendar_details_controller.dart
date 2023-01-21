@@ -15,10 +15,18 @@ class CalendarDetailsController extends GetxController {
   }
 
   Future<List<Meeting>?> fetchCalendarList() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var token = preferences.getString(AppConfig().bearerToken)!;
+    DateTime now =  DateTime. now();
+    DateTime lastDayOfMonth =  DateTime(now. year, now. month , now. day - 7);
+    DateTime nextDayOfMonth =  DateTime(now. year, now. month , now. day + 7);
+    var startDate = "${lastDayOfMonth.year}-${lastDayOfMonth.month}-${lastDayOfMonth.day}";
+    var endDate = "${nextDayOfMonth.year}-${nextDayOfMonth.month}-${nextDayOfMonth.day}";
+    print(startDate);
+    print(endDate);
 
-    final response = await http.get(Uri.parse("$calendarUrl?start=2022-10-13&end=2022-10-31"), headers: {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var token = preferences.getString(AppConfig().bearerToken);
+
+    final response = await http.get(Uri.parse("${GwcApi.calendarUrl}?start=$startDate&end=$endDate"), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {

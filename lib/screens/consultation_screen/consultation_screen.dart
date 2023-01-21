@@ -17,6 +17,7 @@ class ConsultationScreen extends StatefulWidget {
 }
 
 class _ConsultationScreenState extends State<ConsultationScreen> {
+  String statusText = "";
   ConsultationController consultationController =
       Get.put(ConsultationController());
 
@@ -144,11 +145,31 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                                       ),
                                       SizedBox(height: 0.5.h),
                                       Text(
-                                        "${data[index].appointmentDate.toString()} / ${data[index].appointmentStartTime.toString()}",
+                                        "${data[index].teamPatients.appointmentDate.toString()} / ${data[index].teamPatients.appointmentTime.toString()}",
                                         style: TextStyle(
                                             fontFamily: "GothamBook",
                                             color: gTextColor,
                                             fontSize: 8.sp),
+                                      ),
+                                      SizedBox(height: 0.5.h),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Status : ",
+                                            style: TextStyle(
+                                                fontFamily: "GothamBook",
+                                                color: gBlackColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Text(
+                                            buildStatusText(
+                                                data[index].status.toString()),
+                                            style: TextStyle(
+                                                fontFamily: "GothamMedium",
+                                                color: gPrimaryColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -163,8 +184,21 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                                         data[index].teamPatientId.toString());
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (ct) =>
-                                            const CustomerDetailsScreen(),
+                                        builder: (ct) => CustomerDetailsScreen(
+                                          userName: data[index]
+                                                  .teamPatients
+                                                  .patient
+                                                  .user
+                                                  .name ??
+                                              '',
+                                          age:
+                                              "${data[index].teamPatients.patient.user.age ?? ""} ${data[index].teamPatients.patient.user.gender ?? ""}",
+                                          appointmentDetails:
+                                              "${data[index].teamPatients.appointmentDate ?? ""} / ${data[index].teamPatients.appointmentTime ?? ""}",
+                                          status: buildStatusText(
+                                                  data[index].status) ??
+                                              '',
+                                        ),
                                       ),
                                     );
                                   },
@@ -237,8 +271,21 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                                     data[index].id.toString());
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (ct) =>
-                                        const CustomerDetailsScreen(),
+                                    builder: (ct) => CustomerDetailsScreen(
+                                      userName: data[index]
+
+                                              .patient
+                                              .user
+                                              .name ??
+                                          '',
+                                      age:
+                                          "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
+                                      appointmentDetails:
+                                          "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
+                                      status:
+                                          buildStatusText(data[index].status) ??
+                                              '',
+                                    ),
                                   ),
                                 );
                               },
@@ -291,6 +338,28 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                                                   fontSize: 8.sp),
                                             ),
                                             SizedBox(height: 0.5.h),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Status : ",
+                                                  style: TextStyle(
+                                                      fontFamily: "GothamBook",
+                                                      color: gBlackColor,
+                                                      fontSize: 8.sp),
+                                                ),
+                                                Text(
+                                                  buildStatusText(data[index]
+                                                      .status
+                                                      .toString()),
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          "GothamMedium",
+                                                      color: gPrimaryColor,
+                                                      fontSize: 8.sp),
+                                                ),
+                                              ],
+                                            ),
+                                            SizedBox(height: 0.5.h),
                                             RichText(
                                               text: TextSpan(
                                                 children: <TextSpan>[
@@ -321,10 +390,10 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                                           ],
                                         ),
                                       ),
-                                      Icon(
-                                        Icons.more_vert,
-                                        color: gGreyColor.withOpacity(0.5),
-                                      ),
+                                      // Icon(
+                                      //   Icons.more_vert,
+                                      //   color: gGreyColor.withOpacity(0.5),
+                                      // ),
                                       // PopupMenuButton(
                                       //   offset: const Offset(0, 30),
                                       //   shape: RoundedRectangleBorder(
@@ -434,5 +503,18 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("patient_id", patientId);
     preferences.setString("team_patient_id", teamPatientId);
+  }
+
+  String buildStatusText(String status) {
+    if (status == "consultation_done") {
+      return "Consultation Done";
+    } else if (status == "consultation_accepted") {
+      return "Consultation Accepted";
+    } else if (status == "consultation_rejected") {
+      return "Consultation Rejected";
+    } else if (status == "consultation_waiting") {
+      return "Consultation Waiting";
+    }
+    return statusText;
   }
 }

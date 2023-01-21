@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import '../model/evaluation_details_model.dart';
 import '../utils/app_config.dart';
 import '../utils/gwc_apis.dart';
-import '../widgets/widgets.dart';
 
 class EvaluationDetailsController extends GetxController {
   EvaluationDetailsModel? evaluationDetailsModel;
@@ -24,7 +23,7 @@ class EvaluationDetailsController extends GetxController {
     var patientId = preferences.getString("patient_id");
 
     final response =
-        await http.get(Uri.parse("$evaluationUrl/$patientId"), headers: {
+        await http.get(Uri.parse("${GwcApi.evaluationUrl}/$patientId"), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {

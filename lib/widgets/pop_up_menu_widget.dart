@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
-
-import '../screens/message_screens/message_screen.dart';
 import '../utils/constants.dart';
 
 class PopUpMenuWidget extends StatefulWidget {
-  const PopUpMenuWidget({Key? key}) : super(key: key);
+  final VoidCallback onView;
+  final VoidCallback onCall;
+  final VoidCallback onMessage;
+
+
+  const PopUpMenuWidget({Key? key, required this.onView, required this.onCall, required this.onMessage}) : super(key: key);
 
   @override
   State<PopUpMenuWidget> createState() => _PopUpMenuWidgetState();
@@ -26,14 +29,7 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
             children: [
               SizedBox(height: 1.h),
               GestureDetector(
-                onTap: () {
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (ct) =>
-                  //     const MessageScreen(),
-                  //   ),
-                  // );
-                },
+                onTap: widget.onView,
                 child: Row(
                   mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
@@ -51,19 +47,12 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 1.h),
+                margin: EdgeInsets.symmetric(vertical: 1.5.h),
                 height: 1,
                 color: gGreyColor.withOpacity(0.3),
               ),
               GestureDetector(
-                onTap: () {
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //     builder: (ct) =>
-                  //     const MessageScreen(),
-                  //   ),
-                  // );
-                },
+                onTap: widget.onCall,
                 child: Row(
                   mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,
@@ -84,19 +73,12 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 1.h),
+                margin: EdgeInsets.symmetric(vertical: 1.5.h),
                 height: 1,
                 color: gGreyColor.withOpacity(0.3),
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ct) =>
-                      const MessageScreen(),
-                    ),
-                  );
-                },
+                onTap: widget.onMessage,
                 child: Row(
                   mainAxisAlignment:
                   MainAxisAlignment.spaceBetween,

@@ -7,7 +7,6 @@ import '../../../controller/evaluation_details_controller.dart';
 import '../../../model/evaluation_details_model.dart';
 import '../../../utils/check_box_settings.dart';
 import '../../../utils/constants.dart';
-import '../../../widgets/widgets.dart';
 
 class HealthDetails extends StatefulWidget {
   const HealthDetails({Key? key}) : super(key: key);
@@ -147,425 +146,421 @@ class _HealthDetailsState extends State<HealthDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: FutureBuilder(
-            future: evaluationDetailsController.fetchEvaluationDetails(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.error.toString()),
-                );
-              } else if (snapshot.hasData) {
-                var data = snapshot.data;
-                getDetails(data);
-                return IgnorePointer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return FutureBuilder(
+        future: evaluationDetailsController.fetchEvaluationDetails(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          } else if (snapshot.hasData) {
+            var data = snapshot.data;
+            getDetails(data);
+            return IgnorePointer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildTextStyle('Weight In Kgs'),
+                  SizedBox(height: 1.h),
+                  buildAnswerTile(data.data.weight ?? ""),
+                  SizedBox(height: 2.h),
+                  buildTextStyle('Height In Feet & Inches'),
+                  SizedBox(height: 1.h),
+                  buildAnswerTile(data.data.height ?? ""),
+                  SizedBox(height: 2.h),
+                  buildTextStyle(
+                      'Brief Paragraph About Your Current Complaints Are & What You Are Looking To Heal Here'),
+                  SizedBox(height: 1.h),
+                  buildAnswerTile(data.data.healthProblem ?? ""),
+                  SizedBox(height: 2.h),
+                  buildTextStyle('Please Check All That Apply To You'),
+                  SizedBox(height: 1.h),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
                     children: [
-                      buildTextStyle('Weight In Kgs'),
+                      ...healthCheckBox1.map(buildHealthCheckBox).toList(),
+                      buildAnswerTile(data.data.listProblemsOther ?? ""),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+                  // health checkbox2
+                  buildTextStyle('Please Check All That Apply To You'),
+                  SizedBox(height: 1.h),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      ...healthCheckBox2.map(buildHealthCheckBox).toList(),
                       SizedBox(height: 1.h),
-                      buildAnswerTile(data.data.weight ?? ""),
-                      SizedBox(height: 2.h),
-                      buildTextStyle('Height In Feet & Inches'),
+                      buildTextStyle('Tongue Coating'),
                       SizedBox(height: 1.h),
-                      buildAnswerTile(data.data.height ?? ""),
-                      SizedBox(height: 2.h),
-                      buildTextStyle(
-                          'Brief Paragraph About Your Current Complaints Are & What You Are Looking To Heal Here'),
-                      SizedBox(height: 1.h),
-                      buildAnswerTile(data.data.healthProblem ?? ""),
-                      SizedBox(height: 2.h),
-                      buildTextStyle('Please Check All That Apply To You'),
-                      SizedBox(height: 1.h),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
+                      Column(
                         children: [
-                          ...healthCheckBox1.map(buildHealthCheckBox).toList(),
-                          buildAnswerTile(data.data.listProblemsOther ?? ""),
-                        ],
-                      ),
-                      SizedBox(height: 2.h),
-                      // health checkbox2
-                      buildTextStyle('Please Check All That Apply To You'),
-                      SizedBox(height: 1.h),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          ...healthCheckBox2.map(buildHealthCheckBox).toList(),
-                          SizedBox(height: 1.h),
-                          buildTextStyle('Tongue Coating'),
-                          SizedBox(height: 1.h),
-                          Column(
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Radio(
-                                      value: "clear",
-                                      groupValue:
-                                          data.data.tongueCoating.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Clear",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Radio(
-                                      value: "Coated with white layer",
-                                      groupValue:
-                                          data.data.tongueCoating.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Coated with white layer",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Radio(
-                                      value: "Coated with yellow layer",
-                                      groupValue:
-                                          data.data.tongueCoating.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Coated with yellow layer",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Radio(
-                                      value: "Coated with black layer",
-                                      groupValue:
-                                          data.data.tongueCoating.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Coated with black layer",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Radio(
-                                      value: "other",
-                                      groupValue:
-                                          data.data.tongueCoating.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Other:",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
+                              Radio(
+                                  value: "clear",
+                                  groupValue:
+                                      data.data.tongueCoating.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Clear",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
                               ),
                             ],
                           ),
-                          buildAnswerTile(data.data.tongueCoatingOther ?? ""),
+                          Row(
+                            children: [
+                              Radio(
+                                  value: "Coated with white layer",
+                                  groupValue:
+                                      data.data.tongueCoating.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Coated with white layer",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Radio(
+                                  value: "Coated with yellow layer",
+                                  groupValue:
+                                      data.data.tongueCoating.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Coated with yellow layer",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Radio(
+                                  value: "Coated with black layer",
+                                  groupValue:
+                                      data.data.tongueCoating.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Coated with black layer",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Radio(
+                                  value: "other",
+                                  groupValue:
+                                      data.data.tongueCoating.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Other:",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                      SizedBox(height: 2.h),
-                      buildTextStyle(
-                          "Has Frequency Of Urination Increased Or Decreased In The Recent Past"),
-                      SizedBox(height: 1.h),
+                      buildAnswerTile(data.data.tongueCoatingOther ?? ""),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+                  buildTextStyle(
+                      "Has Frequency Of Urination Increased Or Decreased In The Recent Past"),
+                  SizedBox(height: 1.h),
+                  Wrap(
+                    // mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ...urinFrequencyList
+                          .map(buildWrapingCheckBox)
+                          .toList()
+                    ],
+                  ),
+                  buildTextStyle("Urin Color"),
+                  SizedBox(height: 1.h),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
                       Wrap(
-                        // mainAxisSize: MainAxisSize.min,
                         children: [
-                          ...urinFrequencyList
+                          ...urinColorList
                               .map(buildWrapingCheckBox)
-                              .toList()
+                              .toList(),
                         ],
                       ),
-                      buildTextStyle("Urin Color"),
-                      SizedBox(height: 1.h),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: buildAnswerTile(
+                            data.data.urineColorOther ?? ""),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+                  buildTextStyle("Urin Smell"),
+                  SizedBox(height: 1.h),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Wrap(
                         children: [
-                          Wrap(
-                            children: [
-                              ...urinColorList
-                                  .map(buildWrapingCheckBox)
-                                  .toList(),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: buildAnswerTile(
-                                data.data.urineColorOther ?? ""),
-                          ),
+                          ...urinSmellList
+                              .map(buildHealthCheckBox)
+                              .toList(),
                         ],
                       ),
-                      SizedBox(height: 2.h),
-                      buildTextStyle("Urin Smell"),
-                      SizedBox(height: 1.h),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: buildAnswerTile(
+                            data.data.urineSmellOther ?? ""),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+                  buildTextStyle("What Does Your Urine Look Like"),
+                  SizedBox(
+                    height: 1.h,
+                  ),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Wrap(
                         children: [
-                          Wrap(
-                            children: [
-                              ...urinSmellList
-                                  .map(buildHealthCheckBox)
-                                  .toList(),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: buildAnswerTile(
-                                data.data.urineSmellOther ?? ""),
-                          ),
+                          ...urinLooksList
+                              .map(buildHealthCheckBox)
+                              .toList(),
                         ],
                       ),
-                      SizedBox(height: 2.h),
-                      buildTextStyle("What Does Your Urine Look Like"),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: buildAnswerTile(
+                            data.data.urineLookLikeOther ?? ""),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+                  buildTextStyle(
+                      "Which one is the closest match to your stool"),
+                  SizedBox(height: 1.h),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      SizedBox(
+                        height: 18.h,
+                        child: const Image(
+                          image:
+                              AssetImage("assets/images/stool_image.png"),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                       SizedBox(
                         height: 1.h,
                       ),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
+                      Column(
                         children: [
-                          Wrap(
+                          Row(
                             children: [
-                              ...urinLooksList
-                                  .map(buildHealthCheckBox)
-                                  .toList(),
+                              Radio(
+                                  value: "Seperate hard lumps",
+                                  groupValue:
+                                      data.data.closestStoolType.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Seperate hard lumps",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
+                              ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: buildAnswerTile(
-                                data.data.urineLookLikeOther ?? ""),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2.h),
-                      buildTextStyle(
-                          "Which one is the closest match to your stool"),
-                      SizedBox(height: 1.h),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          SizedBox(
-                            height: 18.h,
-                            child: const Image(
-                              image:
-                                  AssetImage("assets/images/stool_image.png"),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          Column(
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Radio(
-                                      value: "Seperate hard lumps",
-                                      groupValue:
-                                          data.data.closestStoolType.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Seperate hard lumps",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
+                              Radio(
+                                  value: "Lumpy & sausage like",
+                                  groupValue:
+                                      data.data.closestStoolType.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Lumpy & sausage like",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Radio(
-                                      value: "Lumpy & sausage like",
-                                      groupValue:
-                                          data.data.closestStoolType.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Lumpy & sausage like",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  value:
+                                      "Sausage shape with cracks on the surface",
+                                  groupValue:
+                                      data.data.closestStoolType.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Sausage shape with cracks on the surface",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Radio(
-                                      value:
-                                          "Sausage shape with cracks on the surface",
-                                      groupValue:
-                                          data.data.closestStoolType.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Sausage shape with cracks on the surface",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  value: "Smooth, soft sausage or snake",
+                                  groupValue:
+                                      data.data.closestStoolType.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Smooth, soft sausage or snake",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Radio(
-                                      value: "Smooth, soft sausage or snake",
-                                      groupValue:
-                                          data.data.closestStoolType.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Smooth, soft sausage or snake",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  value: "Soft blobs with clear cut edges",
+                                  groupValue:
+                                      data.data.closestStoolType.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "Soft blobs with clear cut edges",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Radio(
-                                      value: "Soft blobs with clear cut edges",
-                                      groupValue:
-                                          data.data.closestStoolType.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "Soft blobs with clear cut edges",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  Radio(
-                                      value:
-                                          "liquid consistency with no solid pieces",
-                                      groupValue:
-                                          data.data.closestStoolType.toString(),
-                                      activeColor: gPrimaryColor,
-                                      onChanged: (value) {}),
-                                  Text(
-                                    "liquid consistency with no solid pieces",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      color: gTextColor,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ],
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Radio(
+                                  value:
+                                      "liquid consistency with no solid pieces",
+                                  groupValue:
+                                      data.data.closestStoolType.toString(),
+                                  activeColor: gPrimaryColor,
+                                  onChanged: (value) {}),
+                              Text(
+                                "liquid consistency with no solid pieces",
+                                style: TextStyle(
+                                  fontSize: 9.sp,
+                                  color: gTextColor,
+                                  fontFamily: "GothamBook",
+                                ),
                               ),
                             ],
                           ),
                         ],
                       ),
-                      SizedBox(height: 2.h),
-                      buildTextStyle("Medical Interventions Done Before"),
-                      SizedBox(height: 1.h),
-                      ListView(
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          Wrap(
-                            children: [
-                              ...medicalInterventionsDoneBeforeList
-                                  .map(buildHealthCheckBox)
-                                  .toList(),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: buildAnswerTile(data.data
-                                    .anyMedicalIntervationDoneBeforeOther ??
-                                ""),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 2.h),
-                      buildTextStyle(
-                          'Any Medications/Supplements/Inhalers/Contraceptives You Consume At The Moment'),
-                      SizedBox(height: 1.h),
-                      buildAnswerTile(
-                          data.data.anyMedicationConsumeAtMoment ?? ""),
-                      SizedBox(height: 2.h),
-                      buildTextStyle(
-                          'Holistic/Alternative Therapies You Have Been Through & When (Ayurveda, Homeopathy) '),
-                      SizedBox(height: 1.h),
-                      buildAnswerTile(
-                          data.data.anyTherapiesHaveDoneBefore ?? ""),
-                      SizedBox(height: 2.h),
-                      // (data.data.medicalReport.isNotEmpty)
-                      //     ? buildTextStyle(
-                      //         "All Medical Records That Might Be Helpful To Evaluate Your Condition Better")
-                      //     : Container(width: 0),
-                      // SizedBox(height: 2.h),
-                      // // (data.data.medicalReport.isNotEmpty)
-                      // //     ? builListTile(data.data.medicalReport)
-                      // //     : Container(width: 0),
-                      // buildAnswerTile(
-                      //     data.data.medicalReport.toString()),
                     ],
                   ),
-                );
-              }
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.h),
-                child: buildCircularIndicator(),
-              );
-            }),
-      ),
-    );
+                  SizedBox(height: 2.h),
+                  buildTextStyle("Medical Interventions Done Before"),
+                  SizedBox(height: 1.h),
+                  ListView(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      Wrap(
+                        children: [
+                          ...medicalInterventionsDoneBeforeList
+                              .map(buildHealthCheckBox)
+                              .toList(),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: buildAnswerTile(data.data
+                                .anyMedicalIntervationDoneBeforeOther ??
+                            ""),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+                  buildTextStyle(
+                      'Any Medications/Supplements/Inhalers/Contraceptives You Consume At The Moment'),
+                  SizedBox(height: 1.h),
+                  buildAnswerTile(
+                      data.data.anyMedicationConsumeAtMoment ?? ""),
+                  SizedBox(height: 2.h),
+                  buildTextStyle(
+                      'Holistic/Alternative Therapies You Have Been Through & When (Ayurveda, Homeopathy) '),
+                  SizedBox(height: 1.h),
+                  buildAnswerTile(
+                      data.data.anyTherapiesHaveDoneBefore ?? ""),
+                  SizedBox(height: 2.h),
+                  // (data.data.medicalReport.isNotEmpty)
+                  //     ? buildTextStyle(
+                  //         "All Medical Records That Might Be Helpful To Evaluate Your Condition Better")
+                  //     : Container(width: 0),
+                  // SizedBox(height: 2.h),
+                  // // (data.data.medicalReport.isNotEmpty)
+                  // //     ? builListTile(data.data.medicalReport)
+                  // //     : Container(width: 0),
+                  // buildAnswerTile(
+                  //     data.data.medicalReport.toString()),
+                ],
+              ),
+            );
+          }
+          return Container();
+          //   Padding(
+          //   padding: EdgeInsets.symmetric(vertical: 20.h),
+          //   child: buildCircularIndicator(),
+          // );
+        });
   }
 
   builListTile(List<String> files) {

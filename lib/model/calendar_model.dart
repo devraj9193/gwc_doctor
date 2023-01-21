@@ -3,7 +3,6 @@
 //     final calendarModel = calendarModelFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ui';
 
 CalendarModel calendarModelFromJson(String str) =>
     CalendarModel.fromJson(json.decode(str));

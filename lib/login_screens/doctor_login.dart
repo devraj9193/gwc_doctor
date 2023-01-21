@@ -1,3 +1,4 @@
+import 'package:doctor_app_new/login_screens/resend_otp_screen.dart';
 import 'package:doctor_app_new/screens/dashboard_screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -363,12 +364,8 @@ class _DoctorLoginState extends State<DoctorLogin> {
           SizedBox(height: 2.h),
           GestureDetector(
             onTap: () {
-              if (phoneController.text.isEmpty) {
-                AppConfig().showSnackBar(context, "Please Enter Mobile Number",
-                    isError: true);
-              } else if (isPhone(phoneController.text)) {
-                getOtp(phoneController.text);
-              }
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const ResendOtpScreen()));
             },
             child: Text(
               "Resend OTP",
@@ -476,7 +473,13 @@ class _DoctorLoginState extends State<DoctorLogin> {
       print("model.userEvaluationStatus: ${model.userEvaluationStatus}");
 
       // _pref.setString(AppConfig.EVAL_STATUS, model.userEvaluationStatus!);
-      storeBearerToken(model.accessToken ?? '');
+      storeBearerToken(
+        model.accessToken ?? '',
+         model.loginUsername.toString(),
+         model.chatId.toString(),
+      );
+      print("Login_Username : ${model.loginUsername}");
+      print("chat_id : ${model.chatId}");
 
       if (model.userEvaluationStatus!.contains("pending")) {
         Navigator.of(context).pushReplacement(
@@ -507,8 +510,11 @@ class _DoctorLoginState extends State<DoctorLogin> {
     }
   }
 
-  void storeBearerToken(String token) async {
+  void storeBearerToken(
+      String token, String chatUserName, String chatUserId) async {
     _pref.setBool(AppConfig.isLogin, true);
     await _pref.setString(AppConfig().bearerToken, token);
+    _pref.setString("chatUserName", chatUserName);
+    _pref.setString("chatUserId", chatUserId);
   }
 }

@@ -16,18 +16,17 @@ class DayPlanListController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
     var userId = preferences.getString("user_id")!;
+     print(userId);
 
     final response = await http
-        .get(Uri.parse("$dayMealListUrl/$selectedDay/$userId"), headers: {
+        .get(Uri.parse("${GwcApi.dayMealListUrl}/$selectedDay/$userId"), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
+      print("meal: ${response.body}");
       res = jsonDecode(response.body);
       dayPlanModel = DayPlanModel.fromJson(res);
-      DayPlanModel jsonData = dayPlanModelFromJson(response.body);
-      // List<DayPlan>? arrData = jsonData.data;
-      // print("status: ${arrData?[0].name}");
-      // return arrData;
+    //  print("object: ${dayPlanModel?.data}");
     } else {
       throw Exception();
     }

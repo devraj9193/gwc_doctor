@@ -4,9 +4,10 @@ import 'package:sizer/sizer.dart';
 import '../../controller/meal_active_list_controller.dart';
 import '../../utils/constants.dart';
 import '../../widgets/widgets.dart';
-import '../customer_screens/customer_details_screen.dart';
 import '../customer_screens/customer_status_screen.dart';
 import 'package:get/get.dart';
+
+import 'meal_customer_details.dart';
 
 class MealPlansScreen extends StatefulWidget {
   const MealPlansScreen({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class MealPlansScreen extends StatefulWidget {
 }
 
 class _MealPlansScreenState extends State<MealPlansScreen> {
+  String statusText = "";
   MealActiveListController mealActiveListController =
       Get.put(MealActiveListController());
 
@@ -100,11 +102,31 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
                     itemBuilder: ((context, index) {
                       return GestureDetector(
                         onTap: () {
-                          saveUserId(data[index].patientId.toString(),
-                              data[index].id.toString());
+                          saveUserId(
+                              data[index].userDetails.patientId.toString(),
+                              data[index].userDetails.id.toString(),
+                              data[index]
+                                  .userDetails
+                                  .patient
+                                  .user
+                                  .id
+                                  .toString());
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ct) => const CustomerDetailsScreen(),
+                              builder: (ct) => MealsCustomerDetails(
+                                userName:
+                                    data[index].userDetails.patient.user.name ??
+                                        '',
+                                age:
+                                    "${data[index].userDetails.patient.user.age ?? ""} ${data[index].userDetails.patient.user.gender ?? ""}",
+                                appointmentDetails:
+                                    "${data[index].userDetails.appointmentDate ?? ""} / ${data[index].userDetails.appointmentTime ?? ""}",
+                                status: buildStatusText(
+                                        data[index].userDetails.status) ??
+                                    '',
+                                finalDiagnosis:
+                                    data[index].userFinalDiagnosis ?? '',
+                              ),
                             ),
                           );
                         },
@@ -116,6 +138,7 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
                                 CircleAvatar(
                                   radius: 2.h,
                                   backgroundImage: NetworkImage(data[index]
+                                      .userDetails
                                       .patient
                                       .user
                                       .profile
@@ -129,6 +152,7 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
                                     children: [
                                       Text(
                                         data[index]
+                                            .userDetails
                                             .patient
                                             .user
                                             .name
@@ -140,7 +164,7 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
                                       ),
                                       SizedBox(height: 0.5.h),
                                       Text(
-                                        "${data[index].patient.user.age.toString()} ${data[index].patient.user.gender.toString()}",
+                                        "${data[index].userDetails.patient.user.age.toString()} ${data[index].userDetails.patient.user.gender.toString()}",
                                         style: TextStyle(
                                             fontFamily: "GothamMedium",
                                             color: gTextColor,
@@ -148,11 +172,66 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
                                       ),
                                       SizedBox(height: 0.5.h),
                                       Text(
-                                        "${data[index].appointmentDate.toString()} / ${data[index].appointmentTime.toString()}",
+                                        "${data[index].userDetails.appointmentDate.toString()} / ${data[index].userDetails.appointmentTime.toString()}",
                                         style: TextStyle(
                                             fontFamily: "GothamBook",
                                             color: gTextColor,
                                             fontSize: 8.sp),
+                                      ),
+                                      SizedBox(height: 0.5.h),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Status : ",
+                                            style: TextStyle(
+                                                fontFamily: "GothamBook",
+                                                color: gBlackColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Text(
+                                            buildStatusText(data[index]
+                                                .userDetails
+                                                .status
+                                                .toString()),
+                                            style: TextStyle(
+                                                fontFamily: "GothamMedium",
+                                                color: gPrimaryColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 0.5.h),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Final Diagnosis : ",
+                                            style: TextStyle(
+                                                fontFamily: "GothamBook",
+                                                color: gBlackColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              data[index]
+                                                  .userFinalDiagnosis
+                                                  .toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontFamily: "GothamMedium",
+                                                  color: gPrimaryColor,
+                                                  fontSize: 8.sp),
+                                            ),
+                                          ),
+                                          Text(
+                                            "See more",
+                                            style: TextStyle(
+                                              fontSize: 8.sp,
+                                              color: gPrimaryColor,
+                                              fontFamily: "GothamBook",
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -258,9 +337,29 @@ class _MealPlansScreenState extends State<MealPlansScreen> {
     );
   }
 
-  saveUserId(String patientId, String teamPatientId) async {
+  saveUserId(String patientId, String teamPatientId, String userId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("patient_id", patientId);
     preferences.setString("team_patient_id", teamPatientId);
+    preferences.setString("user_id", userId);
+  }
+
+  String buildStatusText(String status) {
+    if (status == "report_upload") {
+      return "MR Upload";
+    } else if (status == "check_user_reports") {
+      return "Check User Reports";
+    } else if (status == "meal_plan_completed") {
+      return "Meal Plan Completed";
+    } else if (status == "shipping_paused") {
+      return "Shipping Paused";
+    } else if (status == "shipping_packed") {
+      return "Shipping Packed";
+    } else if (status == "shipping_approved") {
+      return "Shipping Approved";
+    } else if (status == "shipping_delivered") {
+      return "Shipping Delivered";
+    }
+    return statusText;
   }
 }

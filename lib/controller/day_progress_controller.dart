@@ -20,13 +20,14 @@ class DayProgressController extends GetxController {
     var userId = preferences.getString("user_id")!;
 
     final response = await http
-        .get(Uri.parse("$dayProgressListUrl/$userId"), headers: {
+        .get(Uri.parse("${GwcApi.dayProgressListUrl}/$userId"), headers: {
       'Authorization': 'Bearer $token',
     });
+    print("progress : ${response.body}");
     if (response.statusCode == 200) {
       DayProgressModel jsonData = dayProgressModelFromJson(response.body);
       List<double>? arrData = jsonData.data;
-      print("status: ${arrData?[0]}");
+      //print("status: ${arrData?[0]}");
       return arrData;
     } else {
       throw Exception();

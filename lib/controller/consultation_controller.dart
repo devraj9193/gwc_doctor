@@ -23,14 +23,16 @@ class ConsultationController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
 
-    final response = await http.get(Uri.parse(consultationUrl), headers: {
+    final response =
+        await http.get(Uri.parse(GwcApi.consultationUrl), headers: {
       'Authorization': 'Bearer $token',
     });
+   // print("Result: ${response.body}");
     if (response.statusCode == 200) {
       res = jsonDecode(response.body);
-     // print("Result: ${response.body}");
+
       consultationModel = ConsultationModel.fromJson(res);
-     // print("Result: ${consultationModel?.completedConsultation}");
+      // print("Result: ${consultationModel?.completedConsultation}");
     } else {
       throw Exception();
     }
@@ -41,13 +43,15 @@ class ConsultationController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
 
-    final response = await http.get(Uri.parse(consultationUrl), headers: {
+    final response =
+        await http.get(Uri.parse(GwcApi.consultationUrl), headers: {
       'Authorization': 'Bearer $token',
     });
+   // print("Result: ${response.body}");
     if (response.statusCode == 200) {
       ConsultationModel jsonData = consultationModelFromJson(response.body);
       List<Appointment>? arrData = jsonData.appointmentList;
-   //   print("status: ${arrData?[0].status}");
+      //   print("status: ${arrData?[0].status}");
       return arrData;
     } else {
       throw Exception();
@@ -58,13 +62,15 @@ class ConsultationController extends GetxController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
 
-    final response = await http.get(Uri.parse(consultationUrl), headers: {
+    final response =
+        await http.get(Uri.parse(GwcApi.consultationUrl), headers: {
       'Authorization': 'Bearer $token',
     });
+    //print("Result: ${response.body}");
     if (response.statusCode == 200) {
       ConsultationModel jsonData = consultationModelFromJson(response.body);
       List<DocumentUpload>? arrData = jsonData.documentUpload;
-      print("status: ${arrData?[0].status}");
+     // print("status: ${arrData?[0].status}");
       return arrData;
     } else {
       throw Exception();

@@ -30,8 +30,12 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
               future: mrReportsController.fetchMRReportsList(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                 if (snapshot.hasError) {
-                  return Center(
-                    child: Text(snapshot.error.toString()),
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 7.h),
+                    child: Image(
+                      image: const AssetImage("assets/images/Group 5294.png"),
+                      height: 35.h,
+                    ),
                   );
                 } else if (snapshot.hasData) {
                   var data = snapshot.data;

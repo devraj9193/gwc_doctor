@@ -17,6 +17,7 @@ class ActiveScreen extends StatefulWidget {
 }
 
 class _ActiveScreenState extends State<ActiveScreen> {
+  String statusText = "";
   MealActiveListController mealActiveListController =
       Get.put(MealActiveListController());
 
@@ -85,6 +86,7 @@ class _ActiveScreenState extends State<ActiveScreen> {
               );
             } else if (snapshot.hasData) {
               var data = snapshot.data;
+              print("Active List: $data");
               return Column(
                 children: [
                   Container(
@@ -102,12 +104,34 @@ class _ActiveScreenState extends State<ActiveScreen> {
                       return GestureDetector(
                         onTap: () {
                           saveUserId(
-                              data[index].patientId.toString(),
-                              data[index].id.toString(),
-                              data[index].patient.user.id.toString());
+                              data[index].userDetails.patientId.toString(),
+                              data[index].userDetails.id.toString(),
+                              data[index]
+                                  .userDetails
+                                  .patient
+                                  .user
+                                  .id
+                                  .toString());
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ct) => const ActiveCustomerDetails(),
+                              builder: (ct) => ActiveCustomerDetails(
+                                userName:
+                                    data[index].userDetails.patient.user.name ??
+                                        "",
+                                age:
+                                    "${data[index].userDetails.patient.user.age ?? ""} ${data[index].userDetails.patient.user.gender ?? ""}",
+                                appointmentDetails:
+                                    "${data[index].userDetails.appointmentDate ?? ""} / ${data[index].userDetails.appointmentTime ?? ""}",
+                                status: buildStatusText(
+                                        data[index].userDetails.status) ??
+                                    "",
+                                startDate: data[index]
+                                    .userProgramStartDate ?? "",
+                                presentDay: data[index]
+                                    .userPresentDay ?? '',
+                                finalDiagnosis: data[index]
+                                    .userFinalDiagnosis ?? '',
+                              ),
                             ),
                           );
                         },
@@ -119,6 +143,7 @@ class _ActiveScreenState extends State<ActiveScreen> {
                                 CircleAvatar(
                                   radius: 2.h,
                                   backgroundImage: NetworkImage(data[index]
+                                      .userDetails
                                       .patient
                                       .user
                                       .profile
@@ -132,6 +157,7 @@ class _ActiveScreenState extends State<ActiveScreen> {
                                     children: [
                                       Text(
                                         data[index]
+                                            .userDetails
                                             .patient
                                             .user
                                             .name
@@ -143,7 +169,7 @@ class _ActiveScreenState extends State<ActiveScreen> {
                                       ),
                                       SizedBox(height: 0.5.h),
                                       Text(
-                                        "${data[index].patient.user.age.toString()} ${data[index].patient.user.gender.toString()}",
+                                        "${data[index].userDetails.patient.user.age.toString()} ${data[index].userDetails.patient.user.gender.toString()}",
                                         style: TextStyle(
                                             fontFamily: "GothamMedium",
                                             color: gTextColor,
@@ -151,11 +177,96 @@ class _ActiveScreenState extends State<ActiveScreen> {
                                       ),
                                       SizedBox(height: 0.5.h),
                                       Text(
-                                        "${data[index].appointmentDate.toString()} / ${data[index].appointmentTime.toString()}",
+                                        "${data[index].userDetails.appointmentDate.toString()} / ${data[index].userDetails.appointmentTime.toString()}",
                                         style: TextStyle(
                                             fontFamily: "GothamBook",
                                             color: gTextColor,
                                             fontSize: 8.sp),
+                                      ),
+                                      SizedBox(height: 0.5.h),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Status : ",
+                                            style: TextStyle(
+                                                fontFamily: "GothamBook",
+                                                color: gBlackColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Text(
+                                            buildStatusText(data[index]
+                                                .userDetails
+                                                .status
+                                                .toString()),
+                                            style: TextStyle(
+                                                fontFamily: "GothamMedium",
+                                                color: gPrimaryColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 0.5.h),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Start Date : ",
+                                            style: TextStyle(
+                                                fontFamily: "GothamBook",
+                                                color: gBlackColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Text(
+                                            data[index]
+                                                .userProgramStartDate
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontFamily: "GothamMedium",
+                                                color: gPrimaryColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 0.5.h),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Present Day : ",
+                                            style: TextStyle(
+                                                fontFamily: "GothamBook",
+                                                color: gBlackColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Text(
+                                            data[index]
+                                                .userPresentDay
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontFamily: "GothamMedium",
+                                                color: gPrimaryColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 0.5.h),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Final Diagnosis : ",
+                                            style: TextStyle(
+                                                fontFamily: "GothamBook",
+                                                color: gBlackColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                          Text(
+                                            data[index]
+                                                .userFinalDiagnosis
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontFamily: "GothamMedium",
+                                                color: gPrimaryColor,
+                                                fontSize: 8.sp),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -276,5 +387,12 @@ class _ActiveScreenState extends State<ActiveScreen> {
     preferences.setString("patient_id", patientId);
     preferences.setString("team_patient_id", teamPatientId);
     preferences.setString("user_id", userId);
+  }
+
+  String buildStatusText(String status) {
+    if (status == "start_program") {
+      return "Started Program";
+    }
+    return statusText;
   }
 }

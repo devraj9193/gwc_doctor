@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import '../../utils/constants.dart';
 import '../../widgets/widgets.dart';
 import '../meal_plans_screens/meal_plans_screen.dart';
+import '../notification_screens/notification_screen.dart';
 
 class CalenderScreen extends StatefulWidget {
   const CalenderScreen({Key? key}) : super(key: key);
@@ -47,32 +48,36 @@ class _CalenderScreenState extends State<CalenderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return
+      //buildCalender();
+      SafeArea(
       child: Scaffold(
+        backgroundColor: const Color(0xffECF0F4),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 8.h,
-              child: const Image(
-                image: AssetImage("assets/images/Gut wellness logo green.png"),
+            Padding(
+              padding: EdgeInsets.only(left: 3.w,top: 1.h,bottom: 1.h),
+              child: SizedBox(
+                height: 5.h,
+                child: const Image(
+                  image:
+                      AssetImage("assets/images/Gut wellness logo.png"),
+                ),
               ),
             ),
-            SizedBox(height: 1.h),
             Padding(
-              padding: EdgeInsets.only(left: 5.w),
+              padding: EdgeInsets.only(left: 3.w),
               child: Text(
                 "Hi, Welcome back Dr.Lorem Ipsum",
                 style: TextStyle(
                     fontFamily: "GothamMedium",
-                    color: gTextColor,
-                    fontSize: 12.sp),
+                    color: gBlackColor,
+                    fontSize: 10.sp),
               ),
             ),
-            SizedBox(height: 2.h),
             Expanded(child: buildCalender()),
             buildDetails(),
-            SizedBox(height: 1.h)
           ],
         ),
       ),
@@ -80,46 +85,70 @@ class _CalenderScreenState extends State<CalenderScreen> {
   }
 
   buildCalender() {
-    return FutureBuilder(
-        future: calendarDetailsController.fetchCalendarList(),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
+    return  Container(
+      height: double.maxFinite,
+      width: double.maxFinite,
+      margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+      decoration: BoxDecoration(
+        color: gWhiteColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: FutureBuilder(
+          future: calendarDetailsController.fetchCalendarList(),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text(""),
+                //Text(snapshot.error.toString()),
+              );
+            } else if (snapshot.hasData) {
+              var data = snapshot.data;
+              return SfCalendar(
+                view: CalendarView.week,
+                showDatePickerButton: true,
+                headerHeight: 30,
+             //   headerDateFormat: "yMMMMEEEEd",
+                timeSlotViewSettings: const TimeSlotViewSettings(
+                  startHour: 8,
+                  endHour: 22,
+                  nonWorkingDays: <int>[DateTime.friday, DateTime.monday],
+                ),
+                showWeekNumber: true,
+                showNavigationArrow: true,
+                showCurrentTimeIndicator: true,
+                allowViewNavigation: true,
+                allowDragAndDrop: false,
+                dataSource: MeetingDataSource(_getDataSource(data)),
+                headerStyle: CalendarHeaderStyle(
+                  textAlign: TextAlign.center,
+                  textStyle: TextStyle(
+                    fontFamily: "GothamMedium",
+                    color: gTextColor,
+                    fontSize: 10.sp,
+                  ),
+                ),
+                viewHeaderStyle: ViewHeaderStyle(
+                  dayTextStyle: TextStyle(
+                    fontFamily: "GothamBold",
+                    color: gTextColor,
+                    fontSize: 9.sp,
+                  ),
+                  dateTextStyle: TextStyle(
+                    fontFamily: "GothamBook",
+                    color: gTextColor,
+                    fontSize: 9.sp,
+                  ),
+                ),
+                todayHighlightColor: gSecondaryColor,
+              );
+            }
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 20.h),
+              child: buildCircularIndicator(),
             );
-          } else if (snapshot.hasData) {
-            var data = snapshot.data;
-            return SfCalendar(
-              view: CalendarView.week,
-              dataSource: MeetingDataSource(_getDataSource(data)),
-              headerStyle: CalendarHeaderStyle(
-                textAlign: TextAlign.center,
-                textStyle: TextStyle(
-                  fontFamily: "GothamMedium",
-                  color: gTextColor,
-                  fontSize: 12.sp,
-                ),
-              ),
-              viewHeaderStyle: ViewHeaderStyle(
-                dayTextStyle: TextStyle(
-                  fontFamily: "GothamBold",
-                  color: gTextColor,
-                  fontSize: 10.sp,
-                ),
-                dateTextStyle: TextStyle(
-                  fontFamily: "GothamBook",
-                  color: gTextColor,
-                  fontSize: 10.sp,
-                ),
-              ),
-              todayHighlightColor: gSecondaryColor,
-            );
-          }
-          return Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.h),
-            child: buildCircularIndicator(),
-          );
-        });
+          }),
+    );
   }
 
   List<Meeting> _getDataSource(List<Meeting> data) {
@@ -139,8 +168,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 6,
           mainAxisExtent: 6.h,
         ),
         itemCount: doctorDetails.length,
@@ -173,40 +202,69 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 );
               }
             },
-            child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: gPrimaryColor,
-                  border: Border.all(color: gMainColor, width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      blurRadius: 5,
-                      offset: const Offset(2, 6),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                      height: 3.h,
-                      image: AssetImage(doctorDetails[index]["image"]),
-                      color: gMainColor,
-                    ),
-                    SizedBox(width: 2.w),
-                    Text(
-                      doctorDetails[index]["title"],
-                      style: TextStyle(
-                        fontFamily: "GothamMedium",
-                        color: gMainColor,
-                        fontSize: 10.sp,
+            child: buildCustomBadge(
+              child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 1.h),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: gPrimaryColor,
+                    border: Border.all(color: gMainColor, width: 1),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        blurRadius: 5,
+                        offset: const Offset(2, 6),
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image(
+                        height: 3.h,
+                        image: AssetImage(doctorDetails[index]["image"]),
+                        color: gMainColor,
+                      ),
+                      SizedBox(width: 2.w),
+                      Text(
+                        doctorDetails[index]["title"],
+                        style: TextStyle(
+                          fontFamily: "GothamMedium",
+                          color: gMainColor,
+                          fontSize: 10.sp,
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
           );
         });
+  }
+
+  buildCustomBadge({required Widget child}) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        // Positioned(
+        //   top: -8,
+        //   right: -5,
+        //   child: Container(
+        //     padding: const EdgeInsets.all(5.0),
+        //     decoration: const BoxDecoration(
+        //         color: gSecondaryColor, shape: BoxShape.circle),
+        //     child: Text(
+        //       "2",
+        //       style: TextStyle(
+        //         fontFamily: "GothamBook",
+        //         color: gWhiteColor,
+        //         fontSize: 7.5.sp,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+      ],
+    );
   }
 }
 
