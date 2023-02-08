@@ -86,11 +86,8 @@ class _PPDailyTasksUIState extends State<PPDailyTasksUI> {
   List<RoutineTask> dinner = [];
   List<RoutineTask> postDinner = [];
 
-
-
   List stages = [0,1,2,3,4,5,6];
   int currentStage = 0;
-
 
   @override
   void initState() {

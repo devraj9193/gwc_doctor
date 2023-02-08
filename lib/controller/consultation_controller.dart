@@ -3,7 +3,7 @@ import 'package:doctor_app_new/utils/app_config.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../model/consultation_model.dart';
+import '../model/customers_list_models/consultation_list_model.dart';
 import '../utils/gwc_apis.dart';
 
 class ConsultationController extends GetxController {
@@ -51,7 +51,7 @@ class ConsultationController extends GetxController {
     if (response.statusCode == 200) {
       ConsultationModel jsonData = consultationModelFromJson(response.body);
       List<Appointment>? arrData = jsonData.appointmentList;
-      //   print("status: ${arrData?[0].status}");
+        print("status Consultation: ${arrData?[0].status}");
       return arrData;
     } else {
       throw Exception();

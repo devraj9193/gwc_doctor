@@ -15,7 +15,6 @@ import 'package:get/get.dart';
 import '../../utils/app_config.dart';
 import '../../widgets/widgets.dart';
 import 'package:http/http.dart' as http;
-
 import '../message_screens/success_message_screen.dart';
 
 class GwcTeamsScreen extends StatefulWidget {
@@ -36,24 +35,30 @@ class _GwcTeamsScreenState extends State<GwcTeamsScreen> {
       length: 1,
       child: SafeArea(
         child: Scaffold(
+          appBar:dashboardAppBar(),
+          backgroundColor: gWhiteColor,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 1.h),
-              Padding(
-                padding: EdgeInsets.only(left: 3.w),
-                child: SizedBox(
-                  height: 5.h,
-                  child: const Image(
-                    image: AssetImage("assets/images/Gut wellness logo.png"),
-                  ),
-                ),
-              ),
+              // SizedBox(height: 1.h),
+              // Padding(
+              //   padding: EdgeInsets.only(left: 3.w),
+              //   child: SizedBox(
+              //     height: 5.h,
+              //     child: const Image(
+              //       image: AssetImage("assets/images/Gut wellness logo.png"),
+              //     ),
+              //   ),
+              // ),
               TabBar(
                   labelColor: gPrimaryColor,
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
                   unselectedLabelColor: gTextColor,
                   isScrollable: true,
+                  unselectedLabelStyle:TextStyle(
+                      fontFamily: "GothamBook",
+                      color: gBlackColor,
+                      fontSize: 9.sp),
                   indicatorColor: gPrimaryColor,
                   labelPadding:
                       EdgeInsets.only(right: 10.w, top: 1.h, bottom: 1.h),
@@ -61,7 +66,7 @@ class _GwcTeamsScreenState extends State<GwcTeamsScreen> {
                   labelStyle: TextStyle(
                       fontFamily: "GothamMedium",
                       color: gPrimaryColor,
-                      fontSize: 11.sp),
+                      fontSize: 10.sp),
                   tabs: const [
                     // Text('Doctors'),
                     Text('Success Team'),

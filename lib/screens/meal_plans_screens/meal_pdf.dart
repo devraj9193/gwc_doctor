@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../widgets/widgets.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../utils/constants.dart';
@@ -24,7 +23,25 @@ class MealPdf extends StatelessWidget {
                   child: Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
-                    child: buildAppBar(() {}),
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: (){},
+                          child: Icon(
+                            Icons.arrow_back_ios_new_sharp,
+                            color: gMainColor,
+                            size: 2.h,
+                          ),
+                        ),
+                        SizedBox(width: 2.w),
+                        SizedBox(
+                          height: 5.h,
+                          child: const Image(
+                            image: AssetImage("assets/images/Gut wellness logo.png"),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

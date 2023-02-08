@@ -24,17 +24,13 @@ class _PostCustomerDetailsState extends State<PostCustomerDetails> {
       length: 3,
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: gWhiteColor,
+        appBar: buildAppBar(() {
+          Navigator.pop(context);
+        }),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 1.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 3.w),
-                child: buildAppBar(() {
-                  Navigator.pop(context);
-                }),
-              ),
-              SizedBox(height: 1.h),
               TabBar(
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
                   labelColor: gPrimaryColor,
@@ -59,7 +55,7 @@ class _PostCustomerDetailsState extends State<PostCustomerDetails> {
                   ]),
               Expanded(
                 child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
                       buildBreakFast(),
                       buildLunch(),

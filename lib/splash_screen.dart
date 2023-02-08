@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:doctor_app_new/login_screens/doctor_login.dart';
+import 'package:doctor_app_new/screens/login_screens/doctor_login.dart';
 import 'package:doctor_app_new/model/quick_blox_repository/quick_blox_repository.dart';
 import 'package:doctor_app_new/screens/dashboard_screens/dashboard_screen.dart';
 import 'package:doctor_app_new/screens/notification_screens/notification_screen.dart';
@@ -26,6 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
   static final _notificationsPlugin = FlutterLocalNotificationsPlugin();
   String loginStatus = "";
   String deviceToken = "";
+
+  final SharedPreferences _pref = AppConfig().preferences!;
 
   getPref() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -156,6 +158,7 @@ class _SplashScreenState extends State<SplashScreen> {
       QuickBloxRepository().init(AppConfig.QB_APP_ID, AppConfig.QB_AUTH_KEY, AppConfig.QB_AUTH_SECRET, AppConfig.QB_ACCOUNT_KEY);
 
       QuickBloxRepository().initSubscription(deviceToken);
+      _pref.setString("device_token", deviceToken);
     });
   }
 

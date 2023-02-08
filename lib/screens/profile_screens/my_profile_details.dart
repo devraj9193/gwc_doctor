@@ -19,17 +19,15 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: gWhiteColor,
+        appBar: buildAppBar(() {
+          Navigator.pop(context);
+        }),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 2.h, left: 3.w),
-              child: buildAppBar(() {
-                Navigator.pop(context);
-              }),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 3.w),
+              padding: EdgeInsets.only(left: 3.w,top: 1.h),
               child: Text(
                 "My Profile",
                 textAlign: TextAlign.center,
@@ -39,7 +37,6 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
                     fontSize: 11.sp),
               ),
             ),
-            SizedBox(height: 1.h),
             Expanded(
               child: buildUserDetails(),
             ),
@@ -54,13 +51,7 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
         future: userProfileController.fetchUserProfile(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 7.h),
-              child: Image(
-                image: const AssetImage("assets/images/Group 5294.png"),
-                height: 35.h,
-              ),
-            );
+            return buildNoData();
           } else if (snapshot.hasData) {
             var data = snapshot.data;
             return LayoutBuilder(builder: (context, constraints) {

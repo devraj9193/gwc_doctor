@@ -39,12 +39,13 @@ class ApiClient {
     "Keep-Alive": "timeout=5, max=1"
   };
 
-  serverLoginWithOtpApi(String phone, String otp) async {
+  serverLoginWithOtpApi(String phone, String otp,String deviceToken) async {
     var path = GwcApi.loginWithOtpUrl;
 
     dynamic result;
 
-    Map bodyParam = {'phone': phone, 'otp': otp};
+    Map bodyParam = {'phone': phone, 'otp': otp,'device_token' : deviceToken};
+    print("Login Details : $bodyParam");
 
     try {
       final response = await httpClient

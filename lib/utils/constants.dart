@@ -14,6 +14,7 @@ const gTapColor = Color(0xffF8FAFF);
 const gBackgroundColor = Color(0xffFFE889);
 const gChatMeColor = Color(0xFFEEEEEE);
 const gPdfColor = Color(0xffFCF6F0);
+const chartBackGroundColor = Color(0xffECF0F4);
 
 const kPrimaryColor = Color(0xffBB0A36);
 const kSecondaryColor = Color(0xffFFF5F5);

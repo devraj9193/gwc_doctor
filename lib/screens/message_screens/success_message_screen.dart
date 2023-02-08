@@ -22,7 +22,7 @@ import 'package:http/http.dart' as http;
 import '../../controller/repository/api_service.dart';
 import '../../controller/services/chat_service.dart';
 import '../../controller/services/quick_blox_service.dart';
-import '../../model/consultation_model.dart';
+import '../../model/customers_list_models/consultation_list_model.dart';
 import '../../model/error_model.dart';
 import '../../model/message_model/get_chat_groupid_model.dart';
 import '../../model/quick_blox_repository/message_repo.dart';
@@ -238,6 +238,10 @@ class _SuccessMessageScreenState extends State<SuccessMessageScreen> with Widget
         child: SafeArea(
           child: Scaffold(
             key: _scaffoldKey,
+            appBar: buildAppBar(() async {
+              await _quickBloxService!.disconnect();
+              Navigator.pop(context);
+            }),
             body: Container(
               color: gSecondaryColor,
               child: Stack(
@@ -250,9 +254,6 @@ class _SuccessMessageScreenState extends State<SuccessMessageScreen> with Widget
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            buildAppBar(() async {
-                              await _quickBloxService!.disconnect();
-                              Navigator.pop(context);                            }),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

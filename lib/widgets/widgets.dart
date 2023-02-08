@@ -4,35 +4,40 @@ import 'package:im_animations/im_animations.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 import '../controller/customer_call_controller.dart';
+import '../screens/notification_screens/notification_screen.dart';
 import '../utils/constants.dart';
 
 CustomerCallController callController = Get.put(CustomerCallController());
 
 class CommonDecoration {
-  static InputDecoration buildInputDecoration(String hintText, TextEditingController controller, {Widget? suffixIcon}) {
+  static InputDecoration buildInputDecoration(
+      String hintText, TextEditingController controller,
+      {Widget? suffixIcon}) {
     return InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
             fontFamily: "GothamBook", color: gTextColor, fontSize: 10.sp),
         border: InputBorder.none,
         suffixIcon: suffixIcon
-      // controller.text.isEmpty
-      //     ? Container(
-      //         width: 0,
-      //       )
-      //     : IconButton(
-      //         onPressed: () {
-      //           controller.clear();
-      //         },
-      //         icon: const Icon(
-      //           Icons.close,
-      //           color: kPrimaryColor,
-      //         ),
-      //       ),
-    );
+        // controller.text.isEmpty
+        //     ? Container(
+        //         width: 0,
+        //       )
+        //     : IconButton(
+        //         onPressed: () {
+        //           controller.clear();
+        //         },
+        //         icon: const Icon(
+        //           Icons.close,
+        //           color: kPrimaryColor,
+        //         ),
+        //       ),
+        );
   }
 
-  static InputDecoration buildTextInputDecoration(String hintText, TextEditingController controller, {Widget? suffixIcon}) {
+  static InputDecoration buildTextInputDecoration(
+      String hintText, TextEditingController controller,
+      {Widget? suffixIcon}) {
     return InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
@@ -46,21 +51,49 @@ class CommonDecoration {
               color: kPrimaryColor, width: 1.0, style: BorderStyle.solid),
         ),
         suffixIcon: suffixIcon
-      // controller.text.isEmpty
-      //     ? const SizedBox()
-      //     : IconButton(
-      //         onPressed: () {
-      //           controller.clear();
-      //         },
-      //         icon: const Icon(
-      //           Icons.close,
-      //           color: kPrimaryColor,
-      //         ),
-      //       ),
-    );
+        // controller.text.isEmpty
+        //     ? const SizedBox()
+        //     : IconButton(
+        //         onPressed: () {
+        //           controller.clear();
+        //         },
+        //         icon: const Icon(
+        //           Icons.close,
+        //           color: kPrimaryColor,
+        //         ),
+        //       ),
+        );
   }
 }
 
+AppBar dashboardAppBar() {
+  return AppBar(
+    automaticallyImplyLeading: false,
+    centerTitle: false,
+    elevation: 0,
+    backgroundColor: gWhiteColor,
+    title: SizedBox(
+      height: 5.h,
+      child: const Image(
+        image: AssetImage("assets/images/Gut wellness logo.png"),
+      ),
+    ),
+    actions: [
+      Padding(
+        padding: EdgeInsets.only(right: 3.w),
+        child: InkWell(
+          child: const Icon(
+            Icons.notifications_none_sharp,
+            color: gBlackColor,
+          ),
+          onTap: () {
+            Get.to(() => const NotificationScreen());
+          },
+        ),
+      )
+    ],
+  );
+}
 
 Center buildLoadingBar() {
   return Center(
@@ -122,26 +155,41 @@ SnackbarController buildSnackBar(String title, String subTitle) {
   );
 }
 
-Row buildAppBar(VoidCallback func) {
-  return Row(
-    children: [
-      SizedBox(
-        height: 2.h,
-        child: InkWell(
+AppBar buildAppBar(VoidCallback func) {
+  return AppBar(
+    backgroundColor: gWhiteColor,
+    centerTitle: false,
+    automaticallyImplyLeading: false,
+    elevation: 0,
+    title: Row(
+      children: [
+        GestureDetector(
           onTap: func,
-          child: const Image(
-            image: AssetImage("assets/images/Icon ionic-ios-arrow-back.png"),
+          child: Icon(
+            Icons.arrow_back_ios_new_sharp,
+            color: gMainColor,
+            size: 2.h,
           ),
         ),
-      ),
-      SizedBox(width:2.w),
-      SizedBox(
-        height: 5.h,
-        child: const Image(
-          image: AssetImage("assets/images/Gut wellness logo.png"),
+        SizedBox(width: 2.w),
+        SizedBox(
+          height: 5.h,
+          child: const Image(
+            image: AssetImage("assets/images/Gut wellness logo.png"),
+          ),
         ),
-      ),
-    ],
+      ],
+    ),
+  );
+}
+
+Padding buildNoData() {
+  return Padding(
+    padding: EdgeInsets.symmetric(vertical: 15.h),
+    child: Image(
+      image: const AssetImage("assets/images/Group 5294.png"),
+      height: 25.h,
+    ),
   );
 }
 
@@ -156,7 +204,7 @@ Center buildCircularIndicator() {
   );
 }
 
-buildLabelTextField(String name){
+buildLabelTextField(String name) {
   return RichText(
       text: TextSpan(
           text: name,
@@ -166,17 +214,15 @@ buildLabelTextField(String name){
             fontFamily: "GothamBook",
           ),
           children: [
-            TextSpan(
-              text: ' *',
-              style: TextStyle(
-                fontSize: 9.sp,
-                color: gSecondaryColor,
-                fontFamily: "GothamBook",
-              ),
-            )
-          ]
-      )
-  );
+        TextSpan(
+          text: ' *',
+          style: TextStyle(
+            fontSize: 9.sp,
+            color: gSecondaryColor,
+            fontFamily: "GothamBook",
+          ),
+        )
+      ]));
   return Text(
     'Full Name:*',
     style: TextStyle(
@@ -243,12 +289,10 @@ void dialog(BuildContext context) {
             Row(
               children: [
                 GestureDetector(
-                  onTap: () async {
-
-                  },
+                  onTap: () async {},
                   child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 9.w, vertical: 1.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
                       decoration: BoxDecoration(
                         color: gPrimaryColor,
                         borderRadius: BorderRadius.circular(8),
@@ -264,8 +308,8 @@ void dialog(BuildContext context) {
                 GestureDetector(
                   onTap: () => Navigator.of(context).pop(false),
                   child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 9.w, vertical: 1.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
                       decoration: BoxDecoration(
                         color: gWhiteColor,
                         borderRadius: BorderRadius.circular(8),
@@ -279,7 +323,6 @@ void dialog(BuildContext context) {
                           ))),
                 ),
                 SizedBox(width: 3.w),
-
               ],
             ),
           ],
@@ -337,7 +380,7 @@ void callDialog(BuildContext context) {
                   },
                   child: Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
+                          EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
                       decoration: BoxDecoration(
                         color: gPrimaryColor,
                         borderRadius: BorderRadius.circular(8),
@@ -355,7 +398,7 @@ void callDialog(BuildContext context) {
                   onTap: () => Navigator.of(context).pop(false),
                   child: Container(
                       padding:
-                      EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
+                          EdgeInsets.symmetric(horizontal: 9.w, vertical: 1.h),
                       decoration: BoxDecoration(
                         color: gWhiteColor,
                         borderRadius: BorderRadius.circular(8),
@@ -378,13 +421,12 @@ void callDialog(BuildContext context) {
 }
 
 class CommonButton {
-
   static ElevatedButton submitButton(func, String title) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: gPrimaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-        padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 5.w),
+        padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
       ),
       onPressed: func,
       child: Text(
@@ -416,4 +458,3 @@ List<String> dailyProgress = [
   "14",
   "15",
 ];
-

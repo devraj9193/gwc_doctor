@@ -48,6 +48,11 @@ class _PostProgramProgressState extends State<PostProgramProgress> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: buildAppBar(() {
+          SystemChrome.setPreferredOrientations(
+              [DeviceOrientation.portraitUp]);
+          Navigator.pop(context);
+        }),
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
           child: Column(
@@ -56,11 +61,6 @@ class _PostProgramProgressState extends State<PostProgramProgress> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildAppBar(() {
-                    SystemChrome.setPreferredOrientations(
-                        [DeviceOrientation.portraitUp]);
-                    Navigator.pop(context);
-                  }),
                   PopupMenuButton(
                     offset: const Offset(0, 40),
                     shape: RoundedRectangleBorder(

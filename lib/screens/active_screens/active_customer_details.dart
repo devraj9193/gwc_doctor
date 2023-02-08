@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
 import '../../widgets/widgets.dart';
-import '../customer_screens/case_study_details.dart';
-import '../customer_screens/evaluation_form_screens/evaluation_details.dart';
-import '../customer_screens/evaluation_get_details.dart';
-import '../customer_screens/medical_report_details.dart';
-import '../customer_screens/user_reports_details.dart';
-import '../daily_progress_screens/progress_details.dart';
-import '../meal_plans_screens/day_plan_details.dart';
+import '../customer_screens/customer_meal_plans/preparatory_meal_plans.dart';
+import '../customer_screens/customer_meal_plans/transition_meal_plan.dart';
+import '../customer_screens/customers_details/case_study_details.dart';
+import '../customer_screens/customers_details/evaluation_get_details.dart';
+import '../customer_screens/customers_details/medical_report_details.dart';
+import '../customer_screens/customers_details/user_reports_details.dart';
+import '../customer_screens/customers_details/daily_progress_screens/progress_details.dart';
+import '../customer_screens/customer_meal_plans/day_plan_details.dart';
 
 class ActiveCustomerDetails extends StatefulWidget {
   final String userName;
@@ -18,6 +19,8 @@ class ActiveCustomerDetails extends StatefulWidget {
   final String startDate;
   final String presentDay;
   final String finalDiagnosis;
+  final String preparatoryCurrentDay;
+  final String transitionCurrentDay;
   const ActiveCustomerDetails(
       {Key? key,
       required this.userName,
@@ -26,7 +29,9 @@ class ActiveCustomerDetails extends StatefulWidget {
       required this.status,
       required this.startDate,
       required this.presentDay,
-      required this.finalDiagnosis})
+      required this.finalDiagnosis,
+      required this.preparatoryCurrentDay,
+      required this.transitionCurrentDay})
       : super(key: key);
 
   @override
@@ -37,19 +42,19 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 8,
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: gWhiteColor,
+          appBar: buildAppBar(() {
+            Navigator.pop(context);
+          }),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 3.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 1.h),
-                buildAppBar(() {
-                  Navigator.pop(context);
-                }),
-                //  SizedBox(height: 1.h),
                 Text(
                   widget.userName,
                   style: TextStyle(
@@ -134,6 +139,7 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                 ),
                 SizedBox(height: 0.5.h),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Final Diagnosis : ",
@@ -142,16 +148,18 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                           color: gBlackColor,
                           fontSize: 8.sp),
                     ),
-                    Text(
-                      widget.finalDiagnosis,
-                      style: TextStyle(
-                          fontFamily: "GothamMedium",
-                          color: gPrimaryColor,
-                          fontSize: 8.sp),
+                    Expanded(
+                      child: Text(
+                        widget.finalDiagnosis,
+                        style: TextStyle(
+                            fontFamily: "GothamMedium",
+                            color: gPrimaryColor,
+                            fontSize: 8.sp),
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 1.h),
+                // SizedBox(height: 1.h),
                 TabBar(
                     // padding: EdgeInsets.symmetric(horizontal: 3.w),
                     labelColor: gPrimaryColor,
@@ -170,23 +178,32 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                         color: gPrimaryColor,
                         fontSize: 10.sp),
                     tabs: const [
+                      Text('Preparatory'),
                       Text('Daily Progress'),
                       Text("Meal & Yoga Plan"),
+                      Text('Transition'),
                       Text('Evaluation'),
                       Text('User Reports'),
                       Text('Medical Report'),
                       Text('Case Study'),
                     ]),
-                const Expanded(
+                Expanded(
                   child: TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        ProgressDetails(),
-                        DayPlanDetails(),
-                        EvaluationGetDetails(),
-                        UserReportsDetails(),
-                        MedicalReportDetails(),
-                        CaseStudyDetails(),
+                        PreparatoryMealPlan(
+                          preparatoryCurrentDay: widget.preparatoryCurrentDay,
+                        ),
+                        const ProgressDetails(),
+                        const DayPlanDetails(),
+                        TransitionMealPlan(
+                          transitionCurrentDay: widget.transitionCurrentDay,
+                          isTransition: true,
+                        ),
+                        const EvaluationGetDetails(),
+                        const UserReportsDetails(),
+                        const MedicalReportDetails(),
+                        const CaseStudyDetails(),
                       ]),
                 ),
               ],

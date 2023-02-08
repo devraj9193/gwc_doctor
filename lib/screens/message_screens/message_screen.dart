@@ -236,6 +236,10 @@ class _MessageScreenState extends State<MessageScreen>
         onWillPop: _onWillPop,
         child: SafeArea(
           child: Scaffold(
+            appBar: buildAppBar(() async {
+              await _quickBloxService!.disconnect();
+              Navigator.pop(context);
+            }),
             key: _scaffoldKey,
             body: Container(
               color: gSecondaryColor,
@@ -249,10 +253,6 @@ class _MessageScreenState extends State<MessageScreen>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            buildAppBar(()async{
-                              await _quickBloxService!.disconnect();
-                              Navigator.pop(context);
-                            }),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

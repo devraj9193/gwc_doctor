@@ -1,4 +1,4 @@
-import 'package:doctor_app_new/login_screens/doctor_login.dart';
+import 'package:doctor_app_new/screens/login_screens/doctor_login.dart';
 import 'package:doctor_app_new/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,19 +24,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: gWhiteColor,
+        appBar:dashboardAppBar(),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 5.h,
-                  child: const Image(
-                    image: AssetImage("assets/images/Gut wellness logo.png"),
-                  ),
-                ),
-                SizedBox(height: 1.h),
+                // SizedBox(
+                //   height: 5.h,
+                //   child: const Image(
+                //     image: AssetImage("assets/images/Gut wellness logo.png"),
+                //   ),
+                // ),
+               // SizedBox(height: 1.h),
                 Text(
                   "My Profile",
                   textAlign: TextAlign.center,
@@ -46,17 +48,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontSize: 11.sp),
                 ),
                 SizedBox(height: 2.h),
-                // profileTile("assets/images/Group 2753.png", "My Profile", () {
-                //   Navigator.of(context).push(
-                //     MaterialPageRoute(
-                //       builder: (context) => const MyProfileDetails(),
-                //     ),
-                //   );
-                // }),
-                // Container(
-                //   height: 1,
-                //   color: Colors.grey.withOpacity(0.3),
-                // ),
+                profileTile("assets/images/Group 2753.png", "My Profile", () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const MyProfileDetails(),
+                    ),
+                  );
+                }),
+                Container(
+                  height: 1,
+                  color: Colors.grey.withOpacity(0.3),
+                ),
                 profileTile("assets/images/Group 2744.png", "Logout", () {
                   dialog(context);
                 }),
@@ -73,9 +75,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             //           mainAxisAlignment: MainAxisAlignment.start,
             //           crossAxisAlignment: CrossAxisAlignment.start,
             //           children: [
-            //             buildAppBar(() {
-            //               Navigator.pop(context);
-            //             }),
             //             Text(
             //               "My Profile",
             //               textAlign: TextAlign.center,

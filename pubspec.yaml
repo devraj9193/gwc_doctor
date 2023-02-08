@@ -64,6 +64,7 @@ dependencies:
   photo_view: any
   catcher: ^0.7.0
   cached_network_image: any
+  shimmer: any
 
   # Firebase
   firebase_core: ^2.4.1

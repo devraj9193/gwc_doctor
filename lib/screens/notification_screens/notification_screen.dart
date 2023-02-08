@@ -19,26 +19,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: gWhiteColor,
+        appBar: buildAppBar(() {
+          Navigator.pop(context);
+        }),
           body: Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 3.w),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+            padding: EdgeInsets.symmetric(horizontal: 3.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 1.h),
-                SizedBox(
-                  height: 5.h,
-                  child: const Image(
-                    image: AssetImage("assets/images/Gut wellness logo.png"),
-                  ),
-                ),
-                SizedBox(height: 1.h),
                 Text(
                   "Notification",
                   style: TextStyle(
-                      fontFamily: "GothamMedium",
+                      fontFamily: "GothamBold",
                       color: gPrimaryColor,
-                      fontSize: 11.sp),
-                ),
+                      fontSize: 10.sp),
+                ),SizedBox(height: 2.h),
                 Expanded(
                   child: buildNotificationList(),
                 ),
@@ -94,10 +90,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.h),
-              child: Image(
-                image: const AssetImage("assets/images/Group 5294.png"),
-                height: 25.h,
+              padding: EdgeInsets.symmetric(vertical: 25.h),
+              child: Center(
+                child: Image(
+                  image: const AssetImage("assets/images/Group 5294.png"),
+                  height: 25.h,
+                ),
               ),
             );
           }
@@ -117,29 +115,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       //     builder: (context) => const Activities(),
                       //   ),
                       // );
-                    } else if (data[index].notificationType ==
-                        "enquiry") {
+                    } else if (data[index].notificationType == "enquiry") {
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(
                       //     builder: (context) => const TaskList(),
                       //   ),
                       // );
-                    } else if (data[index].notificationType ==
-                        "report") {
+                    } else if (data[index].notificationType == "report") {
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(
                       //     builder: (context) => const Messages(),
                       //   ),
                       // );
-                    } else if (data[index].notificationType ==
-                        "appointment") {
+                    } else if (data[index].notificationType == "appointment") {
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(
                       //     builder: (context) => const NoticeBoard(),
                       //   ),
                       // );
-                    } else if (data[index].notificationType ==
-                        "shopping") {
+                    } else if (data[index].notificationType == "shopping") {
                       // Navigator.of(context).push(
                       //   MaterialPageRoute(
                       //     builder: (context) => const NoticeBoard(),
@@ -165,7 +159,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     data[index].subject ?? "",
                                     style: TextStyle(
                                       fontFamily: "GothamMedium",
-                                      fontSize: 11.sp,
+                                      fontSize: 10.sp,
                                       color: gPrimaryColor,
                                     ),
                                   ),
@@ -175,7 +169,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     style: TextStyle(
                                       fontFamily: "GothamBook",
                                       height: 1.3,
-                                      fontSize: 10.sp,
+                                      fontSize: 9.sp,
                                       color: gBlackColor,
                                     ),
                                   ),
@@ -184,7 +178,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     data[index].createdAt ?? "",
                                     style: TextStyle(
                                       fontFamily: "GothamBook",
-                                      fontSize: 10.sp,
+                                      fontSize: 8.sp,
                                       color: gBlackColor,
                                     ),
                                   ),
@@ -218,11 +212,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
     if (type == "meal_plan") {
       return buildContainer(image: 'assets/images/Group 5042.png');
     } else if (type == "enquiry") {
-      return buildContainer(image: 'assets/images/noun-successful-payment-4652687.png');
+      return buildContainer(
+          image: 'assets/images/noun-successful-payment-4652687.png');
     } else if (type == "report") {
       return buildContainer(image: 'assets/images/Group 4926.png');
     } else if (type == "appointment") {
-      return buildContainer(image: "assets/images/noun-appointment-4878328.png");
+      return buildContainer(
+          image: "assets/images/noun-appointment-4878328.png");
     } else if (type == "shopping") {
       return buildContainer(image: "assets/images/Group 5058.png");
     } else {
@@ -232,8 +228,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   buildContainer({required String image}) {
     return Container(
-      height: 4.7.h,
-      width: 11.w,
+      height: 4.5.h,
+      width: 10.w,
       padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 0.3.h),
       decoration: BoxDecoration(
         color: gMainColor,

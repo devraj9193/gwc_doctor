@@ -7,8 +7,8 @@ class LoginWithOtpService extends ChangeNotifier{
 
   LoginWithOtpService({required this.repository});
 
-  Future loginWithOtpService(String phone, String otp) async{
-    return await repository.loginWithOtpRepo(phone, otp);
+  Future loginWithOtpService(String phone, String otp,String deviceToken) async{
+    return await repository.loginWithOtpRepo(phone, otp,deviceToken);
   }
 
   Future getOtpService(String phone) async{

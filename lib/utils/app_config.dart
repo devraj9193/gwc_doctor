@@ -15,6 +15,8 @@ class AppConfig{
 
   final String BEARER_TOKEN = "Bearer";
 
+  String DEVICE_TOKEN = "deviceToken";
+
   // ****** QuickBlox Credentials ****************
 
   static const String QB_APP_ID = "98585";

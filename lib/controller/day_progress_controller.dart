@@ -27,7 +27,8 @@ class DayProgressController extends GetxController {
     if (response.statusCode == 200) {
       DayProgressModel jsonData = dayProgressModelFromJson(response.body);
       List<double>? arrData = jsonData.data;
-      //print("status: ${arrData?[0]}");
+      print("status: ${arrData?[0]}");
+      print("status: ${arrData?[1]}");
       return arrData;
     } else {
       throw Exception();

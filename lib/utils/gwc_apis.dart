@@ -9,21 +9,25 @@ class GwcApi {
 
   static String getOtpUrl = "${AppConfig().baseUrl}/api/sendOTP";
 
-  static String consultationUrl = "${AppConfig().baseUrl}/api/listData/consultation";
+  static String consultationUrl =
+      "${AppConfig().baseUrl}/api/listData/consultation";
 
   static String evaluationUrl =
       "${AppConfig().baseUrl}/api/listData/customer_evaluation_form";
 
   static String calendarUrl = "${AppConfig().baseUrl}/api/listData/calendar";
 
-  static String customerMRReport = "${AppConfig().baseUrl}/api/listData/customer_profile";
+  static String customerMRReport =
+      "${AppConfig().baseUrl}/api/listData/customer_profile";
 
-  static String mealPlanListUrl = "${AppConfig().baseUrl}/api/listData/meal_plan_list";
+  static String mealPlanListUrl =
+      "${AppConfig().baseUrl}/api/listData/meal_plan_list";
 
   static String dayMealListUrl =
       "${AppConfig().baseUrl}/api/getDataList/user_day_meal_plan";
 
-  static String dayProgressListUrl = "${AppConfig().baseUrl}/api/listData/progress";
+  static String dayProgressListUrl =
+      "${AppConfig().baseUrl}/api/listData/progress";
 
   static String maintenanceGuideUrl =
       "${AppConfig().baseUrl}/api/listData/post_program_list";
@@ -37,42 +41,57 @@ class GwcApi {
   static String notificationListUrl =
       "${AppConfig().baseUrl}/api/getData/notification_list";
 
-  static String chatGroupIdUrl = "${AppConfig().baseUrl}/api/getData/get_chat_team_group";
+  static String chatGroupIdUrl =
+      "${AppConfig().baseUrl}/api/getData/get_chat_team_group";
 
-  static String successChatGroupIdUrl = "${AppConfig().baseUrl}/api/getData/get_doctor_success_chat_group";
+  static String successChatGroupIdUrl =
+      "${AppConfig().baseUrl}/api/getData/get_doctor_success_chat_group";
 
- // static String successChatGroupIdUrl = "${AppConfig().baseUrl}/api/getData/get_chat_messages_list/success_team_chat";
+  // static String successChatGroupIdUrl = "${AppConfig().baseUrl}/api/getData/get_chat_messages_list/success_team_chat";
 
   static String customerChatListApiUrl =
       "${AppConfig().baseUrl}/api/getData/get_chat_messages_group";
 
-  static String directUsersListApiUrl= "${AppConfig().baseUrl}/api/getDataList/users_list";
+  static String directUsersListApiUrl =
+      "${AppConfig().baseUrl}/api/getDataList/users_list";
 
   static String callApiUrl = "${AppConfig().baseUrl}/api/listData/call_user";
 
-  static String dayTrackerApiUrl = "${AppConfig().baseUrl}/api/getDataList/patient_meal_tracking_data";
+  static String dayTrackerApiUrl =
+      "${AppConfig().baseUrl}/api/getDataList/patient_meal_tracking_data";
 
-  static String startPostProgramUrl = "${AppConfig().baseUrl}/api/submitForm/post_program";
+  static String startPostProgramUrl =
+      "${AppConfig().baseUrl}/api/submitForm/post_program";
 
-  static String getPPEarlyMorningUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/early_morning";
+  static String getPPEarlyMorningUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/early_morning";
 
-  static String getPPBreakfastUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/breakfast";
+  static String getPPBreakfastUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/breakfast";
 
-  static String getPPMidDayUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/mid_day";
+  static String getPPMidDayUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/mid_day";
 
-  static String getPPLunchUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/lunch";
+  static String getPPLunchUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/lunch";
 
-  static String getPPEveningUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/evening";
+  static String getPPEveningUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/evening";
 
-  static String getPPDinnerUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/dinner";
+  static String getPPDinnerUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/dinner";
 
-  static String getPPPostDinnerUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/post_dinner";
+  static String getPPPostDinnerUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_meal_plan/post_dinner";
 
-  static String getProtocolDayDetailsUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_guide_day_score";
+  static String getProtocolDayDetailsUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_guide_day_score";
 
-  static String daySummaryUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_summary";
+  static String daySummaryUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_summary";
 
-  static String ppCalendarUrl = "${AppConfig().baseUrl}/api/getDataList/protocol_meal_tracking_calendar";
+  static String ppCalendarUrl =
+      "${AppConfig().baseUrl}/api/getDataList/protocol_meal_tracking_calendar";
 
   static String getUserProfileApiUrl = "${AppConfig().baseUrl}/api/user";
 
@@ -90,8 +109,32 @@ class GwcApi {
   static const String qbUsername = 'qb_username';
 
   static SharedPreferences? preferences;
+
   static Future<String?> getDeviceId() async {
     String? deviceId = await PlatformDeviceId.getDeviceId;
     return deviceId;
   }
+
+// === NEW API === //
+
+  static String newConsultationDocumentApiUrl =
+      "${AppConfig().baseUrl}/api/listData/all_consultation";
+
+  static String newMealActiveListApiUrl =
+      "${AppConfig().baseUrl}/api/listData/all_meal_plan_list";
+
+  static String newPostProgramApiUrl =
+      "${AppConfig().baseUrl}/api/listData/all_post_program_list";
+
+  static String preparatoryApiUrl =
+      "${AppConfig().baseUrl}/api/getDataList/user_prep_meal_plan";
+
+  static String transitionApiUrl =
+      "${AppConfig().baseUrl}/api/getDataList/user_trans_meal_plan";
+
+  static String preparatoryAnswerApiUrl =
+      "${AppConfig().baseUrl}/api/getDataList/tracking_prep_meal";
+
+  static String transitionAnswerApiUrl =
+      "${AppConfig().baseUrl}/api/submitForm/post_program";
 }

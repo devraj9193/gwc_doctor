@@ -55,6 +55,7 @@ class GutMaintenanceGuide {
     this.manifestUrl,
     this.labelUrl,
     this.patient,
+    this.team,
     this.appointments,
   });
 
@@ -75,6 +76,7 @@ class GutMaintenanceGuide {
   String? manifestUrl;
   String? labelUrl;
   Patient? patient;
+  Team? team;
   List<dynamic>? appointments;
 
   factory GutMaintenanceGuide.fromJson(Map<String, dynamic> json) => GutMaintenanceGuide(
@@ -95,6 +97,7 @@ class GutMaintenanceGuide {
     manifestUrl: json["manifest_url"],
     labelUrl: json["label_url"],
     patient: Patient.fromJson(json["patient"]),
+    team: Team.fromJson(json["team"]),
     appointments: List<dynamic>.from(json["appointments"].map((x) => x)),
   );
 
@@ -116,6 +119,7 @@ class GutMaintenanceGuide {
     "manifest_url": manifestUrl,
     "label_url": labelUrl,
     "patient": patient?.toJson(),
+    "team": team?.toJson(),
     "appointments": List<dynamic>.from(appointments!.map((x) => x.toJson())),
   };
 }
@@ -365,5 +369,85 @@ class User {
     "created_at": createdAt,
     "updated_at": updatedAt,
     "signup_date": signupDate,
+  };
+}
+
+class Team {
+  Team({
+    required this.id,
+    required this.teamName,
+    required this.shiftId,
+    required this.slotsPerDay,
+    required this.isArchieved,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.teamMember,
+  });
+
+  int id;
+  String teamName;
+  String shiftId;
+  String slotsPerDay;
+  String isArchieved;
+  DateTime createdAt;
+  DateTime updatedAt;
+  List<TeamMember> teamMember;
+
+  factory Team.fromJson(Map<String, dynamic> json) => Team(
+    id: json["id"],
+    teamName: json["team_name"],
+    shiftId: json["shift_id"],
+    slotsPerDay: json["slots_per_day"],
+    isArchieved: json["is_archieved"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    teamMember: List<TeamMember>.from(json["team_member"].map((x) => TeamMember.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "team_name": teamName,
+    "shift_id": shiftId,
+    "slots_per_day": slotsPerDay,
+    "is_archieved": isArchieved,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "team_member": List<dynamic>.from(teamMember.map((x) => x.toJson())),
+  };
+}
+
+class TeamMember {
+  TeamMember({
+    required this.id,
+    required this.teamId,
+    required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.user,
+  });
+
+  int id;
+  String teamId;
+  String userId;
+  DateTime createdAt;
+  DateTime updatedAt;
+  User user;
+
+  factory TeamMember.fromJson(Map<String, dynamic> json) => TeamMember(
+    id: json["id"],
+    teamId: json["team_id"],
+    userId: json["user_id"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    user: User.fromJson(json["user"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "team_id": teamId,
+    "user_id": userId,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "user": user.toJson(),
   };
 }

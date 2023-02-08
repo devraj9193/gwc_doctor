@@ -1,7 +1,5 @@
-import 'package:doctor_app_new/screens/post_programs_screens/new_post_program/pp_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'dart:math' as math;
 import 'package:http/http.dart' as http;
 import '../../../controller/repository/api_service.dart';
 import '../../../model/error_model.dart';
@@ -50,9 +48,9 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
       protocolData.clear();
       protocolData = model.protocolCalendar!;
       print(protocolData.length);
-      protocolData.forEach((element) {
+      for (var element in protocolData) {
         print(element.toJson());
-      });
+      }
 
       setState(() {
         isLoading = false;
@@ -72,43 +70,34 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color(0xffFAFAFA),
+        backgroundColor: gWhiteColor,
+        appBar: buildAppBar(() {
+          Navigator.pop(context);
+        }),
         body: SizedBox(
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 3.w),
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       Navigator.of(context).push(
+              //         MaterialPageRoute(
+              //           builder: (context) => const PPCalendar(),
+              //         ),
+              //       );
+              //     },
+              //     child: Image(
+              //       image: const AssetImage(
+              //           "assets/images/noun-calendar-5347015.png"),
+              //       height: 2.7.h,
+              //     ),
+              //   ),
+              // ),
               Padding(
-                padding: EdgeInsets.only(right: 3.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    buildAppBar(() {
-                      Navigator.pop(context);
-                    }),
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const PPCalendar(),
-                              ),
-                            );
-                          },
-                          child: Image(
-                            image: const AssetImage(
-                                "assets/images/noun-calendar-5347015.png"),
-                            height: 2.7.h,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 3.w),
+                padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
                 child: Text(
                   "Gut Maintenance  Indicator",
                   textAlign: TextAlign.center,
@@ -118,7 +107,7 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
                       fontSize: 10.sp),
                 ),
               ),
-              SizedBox(height: 1.5.h),
+              // SizedBox(height: 1.5.h),
               Expanded(
                 child: (protocolData.isEmpty)
                     ? (isError)
@@ -128,7 +117,7 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
                         : Center(
                             child: buildCircularIndicator(),
                           )
-                    : Container(
+                    : SizedBox(
                         height: 100.h,
                         width: 100.w,
                         child: Column(
@@ -162,7 +151,7 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
         ),
       ),
     );
-    return Flexible(child: remainingDays(protocolData[0]));
+    //return Flexible(child: remainingDays(protocolData[0]));
   }
 
   newLevels1() {
@@ -186,7 +175,7 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
     return Container(
       height: 9.h,
       // height: (no == 0) ? 70 : 9.h,
-      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
       child: smallCircle(calender),
     );
   }
@@ -216,9 +205,7 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
                     color: gSecondaryColor,
                     fontSize: 22.sp),
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 0.5.h),
               Text("Present Day",
                   style: TextStyle(
                       fontFamily: 'GothamBook',
@@ -327,9 +314,9 @@ class _PPLevelsDemoState extends State<PPLevelsDemo> {
     return presentDayColor;
   }
 
-  final greenColor = Color(0xff4E7215);
-  final yellowColor = Color(0xffC7A102);
-  final redColor = Color(0xffD10034);
-  final skipColor = Color(0xff707070);
-  final presentDayColor = Color(0xffB3B3B3);
+  final greenColor = const Color(0xff4E7215);
+  final yellowColor = const Color(0xffC7A102);
+  final redColor = const Color(0xffD10034);
+  final skipColor = const Color(0xff707070);
+  final presentDayColor = const Color(0xffB3B3B3);
 }

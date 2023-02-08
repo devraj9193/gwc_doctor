@@ -7,6 +7,7 @@ class LoginOtpModel {
   String? chatId;
   String? loginUsername;
   String? userEvaluationStatus;
+  String? isDoctorAdmin;
 
   LoginOtpModel({this.status, this.accessToken, this.tokenType,this.chatId,this.loginUsername, this.userEvaluationStatus});
 
@@ -17,6 +18,7 @@ class LoginOtpModel {
     chatId = json["chat_id"].toString();
     loginUsername = json["login_username"].toString();
     userEvaluationStatus = json['user_status'].toString();
+    isDoctorAdmin = json["is_doctor_admin"].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -27,6 +29,7 @@ class LoginOtpModel {
     data["chat_id"] = chatId;
     data["login_username"] = loginUsername;
     data['user_status'] = userEvaluationStatus;
+    data["is_doctor_admin"] = isDoctorAdmin;
     return data;
   }
 }

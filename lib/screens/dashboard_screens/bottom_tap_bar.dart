@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../utils/constants.dart';
@@ -17,36 +18,74 @@ class BottomTapBar extends StatefulWidget {
 }
 
 class _BottomTapBarState extends State<BottomTapBar> {
+  String? isAdmin = "";
+
+  @override
+  void initState() {
+    super.initState();
+    isDoctorAdmin();
+  }
+
+  void isDoctorAdmin() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    isAdmin = preferences.getString("isDoctorAdmin");
+    setState(() {});
+    print("isAdminnnn: $isAdmin");
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
       color: Colors.white,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          buildTabView1(
-            index: 0,
-            image: 'assets/images/Icon material-dashboard.png',
-          ),
-          buildTabView(
-            index: 1,
-            image: 'assets/images/Group 4877.png',
-          ),
-          buildTabView(
-            index: 2,
-            image: 'assets/images/Group 4876.png',
-          ),
-          buildTabView2(
-            index: 3,
-          ),
-          buildTabView1(
-            index: 4,
-            image: 'assets/images/Group 3041.png',
-          ),
-
-        ],
-      ),
+      child: (isAdmin == "1")
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildTabView1(
+                  index: 0,
+                  image: 'assets/images/Icon material-dashboard.png',
+                ),
+                buildTabView(
+                  index: 1,
+                  image: 'assets/images/Group 4877.png',
+                ),
+                buildTabView(
+                  index: 2,
+                  image: 'assets/images/Group 4876.png',
+                ),
+                buildTabView1(
+                  index: 3,
+                  image: 'assets/images/Icon material-message.png',
+                ),
+                buildTabView1(
+                  index: 4,
+                  image: 'assets/images/Group 3041.png',
+                ),
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildTabView1(
+                  index: 0,
+                  image: 'assets/images/Icon material-dashboard.png',
+                ),
+                buildTabView(
+                  index: 1,
+                  image: 'assets/images/Group 4877.png',
+                ),
+                buildTabView(
+                  index: 2,
+                  image: 'assets/images/Group 4876.png',
+                ),
+                buildTabView1(
+                  index: 4,
+                  image: 'assets/images/Group 3041.png',
+                ),
+              ],
+            ),
     );
   }
 
@@ -79,7 +118,7 @@ class _BottomTapBarState extends State<BottomTapBar> {
       padding: EdgeInsets.all(1.h),
       child: InkWell(
         child: Image(
-            height:isSelected ? 2.5.h : 2.h,
+            height: isSelected ? 2.5.h : 2.h,
             image: AssetImage(image),
             color: isSelected ? gPrimaryColor : gBlackColor,
             fit: BoxFit.contain),
@@ -107,21 +146,4 @@ class _BottomTapBarState extends State<BottomTapBar> {
       ),
     );
   }
-
-// buildCustomBadge({required Widget child}) {
-//   return Stack(
-//     clipBehavior: Clip.none,
-//     children: [
-//       child,
-//       const Positioned(
-//         top: 0,
-//         right: 5,
-//         child: CircleAvatar(
-//           radius: 5,
-//           backgroundColor: Colors.red,
-//         ),
-//       ),
-//     ],
-//   );
-// }
 }

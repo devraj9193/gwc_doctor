@@ -296,19 +296,13 @@ class _PPCalendarState extends State<PPCalendar> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: buildAppBar(() {
+          Navigator.pop(context);
+        }),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 1.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3.w),
-              child: buildAppBar(
-                    () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
             (isLoading) ? Center(child: buildCircularIndicator(),)
                 : (isError) ? Expanded(child: showErrorUI()) : Expanded(child: showUI())
           ],

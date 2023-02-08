@@ -2,7 +2,7 @@ import 'package:doctor_app_new/utils/app_config.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../model/meal_active_model.dart';
+import '../model/customers_list_models/meal_active_model.dart';
 import '../utils/gwc_apis.dart';
 
 class MealActiveListController extends GetxController {
