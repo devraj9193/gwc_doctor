@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 import '../../controller/notification_list_controller.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -20,21 +21,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return SafeArea(
       child: Scaffold(
           backgroundColor: gWhiteColor,
-        appBar: buildAppBar(() {
-          Navigator.pop(context);
-        }),
+          appBar: buildAppBar(() {
+            Navigator.pop(context);
+          }),
           body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3.w),
+            padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Notification",
-                  style: TextStyle(
-                      fontFamily: "GothamBold",
-                      color: gPrimaryColor,
-                      fontSize: 10.sp),
-                ),SizedBox(height: 2.h),
+                  style: ProfileScreenText().headingText(),
+                ),
+                SizedBox(height: 2.h),
                 Expanded(
                   child: buildNotificationList(),
                 ),
@@ -155,33 +154,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    data[index].subject ?? "",
-                                    style: TextStyle(
-                                      fontFamily: "GothamMedium",
-                                      fontSize: 10.sp,
-                                      color: gPrimaryColor,
-                                    ),
+                                  Text(data[index].subject ?? "",
+                                      style: AllListText().headingText()),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: Text(data[index].message ?? "",
+                                        style: AllListText()
+                                            .notificationSubHeadingText()),
                                   ),
                                   SizedBox(height: 0.5.h),
-                                  Text(
-                                    data[index].message ?? "",
-                                    style: TextStyle(
-                                      fontFamily: "GothamBook",
-                                      height: 1.3,
-                                      fontSize: 9.sp,
-                                      color: gBlackColor,
-                                    ),
-                                  ),
-                                  SizedBox(height: 0.5.h),
-                                  Text(
-                                    data[index].createdAt ?? "",
-                                    style: TextStyle(
-                                      fontFamily: "GothamBook",
-                                      fontSize: 8.sp,
-                                      color: gBlackColor,
-                                    ),
-                                  ),
+                                  Text(data[index].createdAt ?? "",
+                                      style: AllListText()
+                                          .notificationOtherText()),
                                 ],
                               ),
                             ),
@@ -190,7 +174,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ),
                       Container(
                         height: 1,
-                        margin: EdgeInsets.symmetric(vertical: 2.h),
+                        margin: EdgeInsets.symmetric(vertical: 2.5.h),
                         color: Colors.grey.withOpacity(0.3),
                       ),
                     ],
@@ -207,7 +191,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
     );
   }
-
+  
   buildNotificationType(String type) {
     if (type == "meal_plan") {
       return buildContainer(image: 'assets/images/Group 5042.png');
@@ -221,8 +205,37 @@ class _NotificationScreenState extends State<NotificationScreen> {
           image: "assets/images/noun-appointment-4878328.png");
     } else if (type == "shopping") {
       return buildContainer(image: "assets/images/Group 5058.png");
-    } else {
+    } else if (type == "preparatory_started") {
+      return buildContainer(
+          image: 'assets/images/noun-successful-payment-4652687.png');
+    } else if (type == "new_appointment") {
+      return buildContainer(image: 'assets/images/Group 4926.png');
+    } else if (type == "program_completed") {
+      return buildContainer(
+          image: "assets/images/noun-appointment-4878328.png");
+    } else if (type == "transition_completed") {
       return buildContainer(image: "assets/images/Group 5058.png");
+    } else if (type == "preparatory_completed") {
+      return buildContainer(
+          image: 'assets/images/noun-successful-payment-4652687.png');
+    } else if (type == "transition_started") {
+      return buildContainer(image: 'assets/images/Group 4926.png');
+    } else if (type == "start_program") {
+      return buildContainer(
+          image: "assets/images/noun-appointment-4878328.png");
+    } else if (type == "order") {
+      return buildContainer(image: "assets/images/Group 5058.png");
+    } else if (type == "consultation_rejected") {
+      return buildContainer(
+          image: 'assets/images/noun-successful-payment-4652687.png');
+    } else if (type == "reminder_appointment") {
+      return buildContainer(image: 'assets/images/Group 4926.png');
+    } else {
+      return Container(
+        height: 4.5.h,
+        width: 10.w,
+        color: gSecondaryColor,
+      );
     }
   }
 
@@ -230,19 +243,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Container(
       height: 4.5.h,
       width: 10.w,
-      padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 0.3.h),
-      decoration: BoxDecoration(
-        color: gMainColor,
-        borderRadius: BorderRadius.circular(5),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            blurRadius: 3,
-            offset: const Offset(2, 3),
-          ),
-        ],
+      padding: const EdgeInsets.all(5),
+      decoration:const BoxDecoration(
+        color: gWhiteColor,
+        // borderRadius: BorderRadius.circular(5),
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.grey.withOpacity(0.3),
+        //     blurRadius: 3,
+        //     offset: const Offset(2, 3),
+        //   ),
+        // ],
       ),
-      child: Image(
+      child:
+      Image(
+        color: gBlackColor,
         image: AssetImage(image),
       ),
     );

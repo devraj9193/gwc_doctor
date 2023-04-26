@@ -2,8 +2,6 @@ import 'app_config.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'constants.dart';
-
 class GwcApi {
   static String loginWithOtpUrl = "${AppConfig().baseUrl}/api/otp_login";
 
@@ -108,6 +106,12 @@ class GwcApi {
   static const String isQBLogin = 'is_qb_login';
   static const String qbUsername = 'qb_username';
 
+  static String oopsMessage = "OOps ! Something went wrong.";
+
+  static String successMemberName = "successMemberName";
+  static String successMemberProfile = "successMemberProfile";
+  static String successMemberAddress = "successMemberAddress";
+
   static SharedPreferences? preferences;
 
   static Future<String?> getDeviceId() async {
@@ -136,5 +140,13 @@ class GwcApi {
       "${AppConfig().baseUrl}/api/getDataList/tracking_prep_meal";
 
   static String transitionAnswerApiUrl =
-      "${AppConfig().baseUrl}/api/submitForm/post_program";
+      "${AppConfig().baseUrl}/api/getDataList/trans_meal_tracking_data";
+
+  static String medicalFeedbackAnswerApiUrl =
+      "${AppConfig().baseUrl}/api/getData/medical_feedback";
+
+  static const String apiKey = "ak_live_d2ad6702fe931fbeb2fa9cb4";
+  static const String appId = "mAppId_a4908f3e2fa60c828daff5e875b0af422545696fa0bffa76d614489aae8d";
+  static const String kaleyraAccessToken = "kaleyra_access_token";
+
 }

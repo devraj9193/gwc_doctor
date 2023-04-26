@@ -2,6 +2,7 @@ import 'package:doctor_app_new/screens/customer_screens/customers_details/user_r
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import '../customer_screens/customers_details/case_study_details.dart';
 import '../customer_screens/customers_details/evaluation_get_details.dart';
@@ -43,68 +44,47 @@ class _CustomerDetailsScreenState extends State<CustomerDetailsScreen> {
                 SizedBox(height: 1.h),
                 Text(
                   widget.userName,
-                  style: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gTextColor,
-                      fontSize: 10.sp),
+                  style: AllListText().headingText(),
                 ),
-                SizedBox(height: 0.5.h),
+
                 Text(
                   widget.age,
-                  style: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gTextColor,
-                      fontSize: 8.sp),
+                  style: AllListText().subHeadingText(),
                 ),
-                SizedBox(height: 0.5.h),
+
                 Text(
                   widget.appointmentDetails,
-                  style: TextStyle(
-                      fontFamily: "GothamBook",
-                      color: gTextColor,
-                      fontSize: 8.sp),
+                  style: AllListText().otherText(),
                 ),
-                SizedBox(height: 0.5.h),
+
                 Row(
                   children: [
                     Text(
                       "Status : ",
-                      style: TextStyle(
-                          fontFamily: "GothamBook",
-                          color: gBlackColor,
-                          fontSize: 8.sp),
+                      style: AllListText().otherText(),
                     ),
                     Text(
                       widget.status,
-                      style: TextStyle(
-                          fontFamily: "GothamMedium",
-                          color: gPrimaryColor,
-                          fontSize: 8.sp),
+                      style: AllListText().subHeadingText(),
                     ),
                   ],
                 ),
                 SizedBox(height: 1.h),
                 TabBar(
-                    labelColor: gPrimaryColor,
-                    unselectedLabelColor: gTextColor,
+                    labelColor: tapSelectedColor,
+                    unselectedLabelColor: tapUnSelectedColor,
                     isScrollable: true,
-                    indicatorColor: gPrimaryColor,
-                    unselectedLabelStyle: TextStyle(
-                        fontFamily: "GothamBook",
-                        color: gGreyColor,
-                        fontSize: 9.sp),
+                    indicatorColor: tapIndicatorColor,
+                    labelStyle:TabBarText().selectedText(),
+                    unselectedLabelStyle: TabBarText().unSelectedText(),
                     labelPadding:
-                        EdgeInsets.only(right: 6.w, top: 1.h, bottom: 1.h),
+                        EdgeInsets.only(right: 6.w,left: 2.w, top: 1.h, bottom: 1.h),
                     indicatorPadding: EdgeInsets.only(right: 5.w),
-                    labelStyle: TextStyle(
-                        fontFamily: "GothamMedium",
-                        color: gPrimaryColor,
-                        fontSize: 10.sp),
                     tabs: const [
                       Text('Evaluation'),
                       Text('User Reports'),
                       Text('Medical Report'),
-                      Text('Case Study'),
+                      Text('Case Sheet'),
                     ]),
                 const Expanded(
                   child: TabBarView(

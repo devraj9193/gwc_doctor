@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../controller/meal_active_list_controller.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 import '../../active_screens/active_customer_details.dart';
 
@@ -18,7 +19,7 @@ class CustomersActiveList extends StatefulWidget {
 class _CustomersActiveListState extends State<CustomersActiveList> {
   String statusText = "";
   MealActiveListController mealActiveListController =
-  Get.put(MealActiveListController());
+      Get.put(MealActiveListController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
                   SizedBox(height: 2.h),
                   ListView.builder(
                     scrollDirection: Axis.vertical,
-                   // padding: EdgeInsets.symmetric(horizontal: 3.w),
+                    // padding: EdgeInsets.symmetric(horizontal: 3.w),
                     physics: const ScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: data.length,
@@ -60,33 +61,45 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
                             MaterialPageRoute(
                               builder: (ct) => ActiveCustomerDetails(
                                 userName:
-                                data[index].userDetails.patient.user.name ??
-                                    "",
+                                    data[index].userDetails.patient.user.name ??
+                                        "",
                                 age:
-                                "${data[index].userDetails.patient.user.age ?? ""} ${data[index].userDetails.patient.user.gender ?? ""}",
+                                    "${data[index].userDetails.patient.user.age ?? ""} ${data[index].userDetails.patient.user.gender ?? ""}",
                                 appointmentDetails:
-                                "${data[index].userDetails.appointmentDate ?? ""} / ${data[index].userDetails.appointmentTime ?? ""}",
+                                    "${data[index].userDetails.appointmentDate ?? ""} / ${data[index].userDetails.appointmentTime ?? ""}",
                                 status: buildStatusText(
                                     data[index].userDetails.status),
-                                startDate: data[index]
-                                    .userProgramStartDate ?? "",
-                                presentDay: data[index]
-                                    .userPresentDay ?? '',
-                                finalDiagnosis: data[index]
-                                    .userFinalDiagnosis ?? '',
+                                startDate:
+                                    data[index].userProgramStartDate ?? "",
+                                presentDay: data[index].userPresentDay ?? '',
+                                finalDiagnosis:
+                                    data[index].userFinalDiagnosis ?? '',
                                 preparatoryCurrentDay: data[index]
-                                    .userDetails
-                                    .patient
-                                    .user
-                                    .userProgram
-                                    .ppCurrentDay ??
+                                        .userDetails
+                                        .patient
+                                        .user
+                                        .userProgram
+                                        .ppCurrentDay ??
                                     "",
                                 transitionCurrentDay: data[index]
                                     .userDetails
                                     .patient
                                     .user
                                     .userProgram
-                                    .tpCurrentDay ??
+                                    .tpCurrentDay,
+                                transitionDays: data[index]
+                                        .userDetails
+                                        .patient
+                                        .user
+                                        .userProgram
+                                        .transDays ??
+                                    "",
+                                prepDays: data[index]
+                                        .userDetails
+                                        .patient
+                                        .user
+                                        .userProgram
+                                        .prepDays ??
                                     "",
                               ),
                             ),
@@ -95,10 +108,10 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
                         child: Column(
                           children: [
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
-                                  radius: 2.h,
+                                  radius: 3.h,
                                   backgroundImage: NetworkImage(data[index]
                                       .userDetails
                                       .patient
@@ -110,7 +123,7 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data[index]
@@ -119,100 +132,78 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
                                             .user
                                             .name
                                             .toString(),
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 10.sp),
+                                        style: AllListText().headingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+
                                       Text(
                                         "${data[index].userDetails.patient.user.age.toString()} ${data[index].userDetails.patient.user.gender.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().subHeadingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+
                                       Text(
                                         "${data[index].userDetails.appointmentDate.toString()} / ${data[index].userDetails.appointmentTime.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamBook",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().otherText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+
                                       Row(
                                         children: [
                                           Text(
                                             "Status : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Text(
                                             buildStatusText(data[index]
                                                 .userDetails
                                                 .status
                                                 .toString()),
-                                            style: TextStyle(
-                                                fontFamily: "GothamMedium",
-                                                color: gPrimaryColor,
-                                                fontSize: 8.sp),
+                                            style:
+                                                AllListText().subHeadingText(),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 0.5.h),
+
                                       Row(
                                         children: [
                                           Text(
                                             "Start Date : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Text(
                                             data[index]
                                                 .userProgramStartDate
                                                 .toString(),
-                                            style: TextStyle(
-                                                fontFamily: "GothamMedium",
-                                                color: gPrimaryColor,
-                                                fontSize: 8.sp),
+                                            style:
+                                                AllListText().subHeadingText(),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 0.5.h),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "Present Day : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
-                                          ),
-                                          Text(
-                                            data[index]
-                                                .userPresentDay
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontFamily: "GothamMedium",
-                                                color: gPrimaryColor,
-                                                fontSize: 8.sp),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 0.5.h),
+                                      // SizedBox(height: 0.5.h),
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //       "Present Day : ",
+                                      //       style: TextStyle(
+                                      //           fontFamily: "GothamBook",
+                                      //           color: gBlackColor,
+                                      //           fontSize: 8.sp),
+                                      //     ),
+                                      //     Text(
+                                      //       data[index]
+                                      //           .userPresentDay
+                                      //           .toString(),
+                                      //       style: TextStyle(
+                                      //           fontFamily: "GothamMedium",
+                                      //           color: gPrimaryColor,
+                                      //           fontSize: 8.sp),
+                                      //     ),
+                                      //   ],
+                                      // ),
+
                                       Row(
                                         children: [
                                           Text(
                                             "Final Diagnosis : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Expanded(
                                             child: Text(
@@ -221,22 +212,18 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
                                                   .toString(),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontFamily: "GothamMedium",
-                                                  color: gPrimaryColor,
-                                                  fontSize: 8.sp),
-                                            ),
-                                          ),
-                                          Text(
-                                            "See more",
-                                            style: TextStyle(
-                                              fontSize: 8.sp,
-                                              color: gPrimaryColor,
-                                              fontFamily: "GothamBook",
+                                              style: AllListText()
+                                                  .subHeadingText(),
                                             ),
                                           ),
                                         ],
                                       ),
+                                      buildPreparatoryStatus(data[index]
+                                          .userDetails
+                                          .patient
+                                          .user
+                                          .userProgram
+                                          .isPrepCompleted),
                                     ],
                                   ),
                                 ),
@@ -328,6 +315,11 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
                                 //     color: gGreyColor.withOpacity(0.5),
                                 //   ),
                                 // ),
+                                Text(
+                                  "See more",
+                                  style: AllListText().otherText(),
+                                ),
+                                SizedBox(width: 2.w),
                               ],
                             ),
                             Container(
@@ -363,5 +355,18 @@ class _CustomersActiveListState extends State<CustomersActiveList> {
       return "Started Program";
     }
     return statusText;
+  }
+
+  buildPreparatoryStatus(String isPrepCompleted) {
+    return (isPrepCompleted == "1") && (isPrepCompleted != "null")
+        ? Text(
+            "Preparatory Plan Completed by user",
+            style: TextStyle(
+                height: 1.3,
+                fontFamily: fontMedium,
+                color: gSecondaryColor,
+                fontSize: fontSize08),
+          )
+        : const SizedBox();
   }
 }

@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../controller/direct_list_controller.dart';
 import '../../controller/linked_customers_controller.dart';
-import '../../controller/repository/api_service.dart';
-import '../../controller/services/chat_service.dart';
-import '../../controller/services/quick_blox_service.dart';
-import '../../model/error_model.dart';
-import '../../model/message_model/get_chat_groupid_model.dart';
-import '../../model/quick_blox_repository/message_repo.dart';
-import '../../utils/app_config.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/pop_up_menu_widget.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-
 import '../../widgets/widgets.dart';
 import '../active_screens/active_customer_details.dart';
 import '../meal_plans_screens/meal_plan_data.dart';
-import '../message_screens/message_screen.dart';
 
 class DirectBridgedScreen extends StatefulWidget {
   const DirectBridgedScreen({Key? key}) : super(key: key);
@@ -30,7 +20,6 @@ class DirectBridgedScreen extends StatefulWidget {
 
 class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
   String statusText = "";
-  final SharedPreferences _pref = AppConfig().preferences!;
 
   DirectListController directListController = Get.put(DirectListController());
 
@@ -59,22 +48,16 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
               //   ),
               // ),
               TabBar(
-                  labelColor: gPrimaryColor,
-                  unselectedLabelColor: gTextColor,
+                  labelColor: tapSelectedColor,
+                  unselectedLabelColor: tapUnSelectedColor,
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
                   isScrollable: true,
-                  indicatorColor: gPrimaryColor,
-                  unselectedLabelStyle: TextStyle(
-                      fontFamily: "GothamBook",
-                      color: gBlackColor,
-                      fontSize: 9.sp),
-                  labelPadding:
-                      EdgeInsets.only(right: 10.w, top: 1.h, bottom: 1.h),
+                  indicatorColor: tapIndicatorColor,
+                  labelStyle: TabBarText().selectedText(),
+                  unselectedLabelStyle: TabBarText().unSelectedText(),
+                  labelPadding: EdgeInsets.only(
+                      right: 10.w, left: 2.w, top: 1.h, bottom: 1.h),
                   indicatorPadding: EdgeInsets.only(right: 7.w),
-                  labelStyle: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gPrimaryColor,
-                      fontSize: 10.sp),
                   tabs: const [
                     Text('Direct'),
                     // Text('Bridged'),
@@ -128,10 +111,10 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                           child: Column(
                             children: [
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CircleAvatar(
-                                    radius: 2.h,
+                                    radius: 3.h,
                                     backgroundImage: NetworkImage(
                                         data[index].patient.user.profile ?? ""),
                                   ),
@@ -143,26 +126,17 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                       children: [
                                         Text(
                                           data[index].patient.user.name ?? "",
-                                          style: TextStyle(
-                                              fontFamily: "GothamMedium",
-                                              color: gTextColor,
-                                              fontSize: 10.sp),
+                                          style: AllListText().headingText(),
                                         ),
-                                        SizedBox(height: 0.5.h),
+                        
                                         Text(
                                           "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
-                                          style: TextStyle(
-                                              fontFamily: "GothamMedium",
-                                              color: gTextColor,
-                                              fontSize: 8.sp),
+                                          style: AllListText().subHeadingText(),
                                         ),
-                                        SizedBox(height: 0.5.h),
+                        
                                         Text(
                                           "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
-                                          style: TextStyle(
-                                              fontFamily: "GothamBook",
-                                              color: gTextColor,
-                                              fontSize: 8.sp),
+                                          style: AllListText().otherText(),
                                         ),
                                       ],
                                     ),
@@ -206,6 +180,8 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                                     .userProgram
                                                     .tpCurrentDay ??
                                                 "",
+                                            transitionDays: '',
+                                            prepDays: '',
                                           ),
                                         ),
                                       );
@@ -222,11 +198,11 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                       callDialog(context);
                                     },
                                     onMessage: () {
-                                      getChatGroupId(
-                                        data[index].patient.user.name ?? "",
-                                        "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
-                                        data[index].patient.user.id.toString(),
-                                      );
+                                      // getChatGroupId(
+                                      //   data[index].patient.user.name ?? "",
+                                      //   "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
+                                      //   data[index].patient.user.id.toString(),
+                                      //);
                                       saveUserId(
                                           data[index].patientId.toString(),
                                           data[index].id.toString(),
@@ -295,10 +271,10 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                           child: Column(
                             children: [
                               Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CircleAvatar(
-                                    radius: 2.h,
+                                    radius: 3.h,
                                     backgroundImage: NetworkImage(
                                         data[index].profile.toString()),
                                   ),
@@ -310,18 +286,12 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                       children: [
                                         Text(
                                           "${data[index].fname.toString()} ${data[index].lname.toString()}",
-                                          style: TextStyle(
-                                              fontFamily: "GothamMedium",
-                                              color: gTextColor,
-                                              fontSize: 10.sp),
+                                          style: AllListText().headingText(),
                                         ),
-                                        SizedBox(height: 0.5.h),
+                        
                                         Text(
                                           "${data[index].date.toString()} / ${data[index].time.toString()}",
-                                          style: TextStyle(
-                                              fontFamily: "GothamBook",
-                                              color: gTextColor,
-                                              fontSize: 8.sp),
+                                          style: AllListText().subHeadingText(),
                                         ),
                                       ],
                                     ),
@@ -357,6 +327,8 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                                     .userProgram
                                                     .tpCurrentDay ??
                                                 "",
+                                            transitionDays: '',
+                                            prepDays: '',
                                           ),
                                         ),
                                       );
@@ -365,10 +337,10 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                       callDialog(context);
                                     },
                                     onMessage: () {
-                                      getChatGroupId(
-                                          "${data[index].fname.toString()} ${data[index].lname.toString()}",
-                                          data[index].profile.toString(),
-                                          data[index].id.toString());
+                                      // getChatGroupId(
+                                      //     "${data[index].fname.toString()} ${data[index].lname.toString()}",
+                                      //     data[index].profile.toString(),
+                                      //     data[index].id.toString());
                                     },
                                   ),
                                 ],
@@ -447,7 +419,7 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                 color: gPrimaryColor,
                                 fontSize: 11.sp),
                           ),
-                          SizedBox(height: 0.5.h),
+          
                           Text(
                             "Signup Date : 12th April",
                             style: TextStyle(
@@ -488,55 +460,55 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
     return statusText;
   }
 
-  final MessageRepository chatRepository = MessageRepository(
-    apiClient: ApiClient(
-      httpClient: http.Client(),
-    ),
-  );
-
-  getChatGroupId(String userName, String profileImage, String userId) async {
-    print(_pref.getInt(AppConfig.GET_QB_SESSION));
-    print(_pref.getBool(AppConfig.IS_QB_LOGIN));
-
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    var chatUserName = preferences.getString("chatUserName")!;
-    print("UserName: $chatUserName");
-
-    print(_pref.getInt(AppConfig.GET_QB_SESSION) == null ||
-        _pref.getBool(AppConfig.IS_QB_LOGIN) == null ||
-        _pref.getBool(AppConfig.IS_QB_LOGIN) == false);
-    final _qbService = Provider.of<QuickBloxService>(context, listen: false);
-    print(await _qbService.getSession());
-    if (_pref.getInt(AppConfig.GET_QB_SESSION) == null ||
-        await _qbService.getSession() == true ||
-        _pref.getBool(AppConfig.IS_QB_LOGIN) == null ||
-        _pref.getBool(AppConfig.IS_QB_LOGIN) == false) {
-      _qbService.login(chatUserName);
-    } else {
-      if (await _qbService.isConnected() == false) {
-        _qbService.connect(_pref.getInt(AppConfig.QB_CURRENT_USERID)!);
-      }
-    }
-    final res = await ChatService(repository: chatRepository)
-        .getChatGroupIdService(userId);
-
-    if (res.runtimeType == GetChatGroupIdModel) {
-      GetChatGroupIdModel model = res as GetChatGroupIdModel;
-      // QuickBloxRepository().init(AppConfig.QB_APP_ID, AppConfig.QB_AUTH_KEY, AppConfig.QB_AUTH_SECRET, AppConfig.QB_ACCOUNT_KEY);
-      _pref.setString(AppConfig.GROUP_ID, model.group ?? '');
-      print('model.group: ${model.group}');
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (c) => MessageScreen(
-                    isGroupId: true,
-                    userName: userName,
-                    profileImage: profileImage,
-                  )));
-    } else {
-      ErrorModel model = res as ErrorModel;
-      AppConfig()
-          .showSnackBar(context, model.message.toString(), isError: true);
-    }
-  }
+  // final MessageRepository chatRepository = MessageRepository(
+  //   apiClient: ApiClient(
+  //     httpClient: http.Client(),
+  //   ),
+  // );
+  //
+  // getChatGroupId(String userName, String profileImage, String userId) async {
+  //   print(_pref.getInt(AppConfig.GET_QB_SESSION));
+  //   print(_pref.getBool(AppConfig.IS_QB_LOGIN));
+  //
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   var chatUserName = preferences.getString("chatUserName")!;
+  //   print("UserName: $chatUserName");
+  //
+  //   print(_pref.getInt(AppConfig.GET_QB_SESSION) == null ||
+  //       _pref.getBool(AppConfig.IS_QB_LOGIN) == null ||
+  //       _pref.getBool(AppConfig.IS_QB_LOGIN) == false);
+  //   final _qbService = Provider.of<QuickBloxService>(context, listen: false);
+  //   print(await _qbService.getSession());
+  //   if (_pref.getInt(AppConfig.GET_QB_SESSION) == null ||
+  //       await _qbService.getSession() == true ||
+  //       _pref.getBool(AppConfig.IS_QB_LOGIN) == null ||
+  //       _pref.getBool(AppConfig.IS_QB_LOGIN) == false) {
+  //     _qbService.login(chatUserName);
+  //   } else {
+  //     if (await _qbService.isConnected() == false) {
+  //       _qbService.connect(_pref.getInt(AppConfig.QB_CURRENT_USERID)!);
+  //     }
+  //   }
+  //   final res = await ChatService(repository: chatRepository)
+  //       .getChatGroupIdService(userId);
+  //
+  //   if (res.runtimeType == GetChatGroupIdModel) {
+  //     GetChatGroupIdModel model = res as GetChatGroupIdModel;
+  //     // QuickBloxRepository().init(AppConfig.QB_APP_ID, AppConfig.QB_AUTH_KEY, AppConfig.QB_AUTH_SECRET, AppConfig.QB_ACCOUNT_KEY);
+  //     _pref.setString(AppConfig.GROUP_ID, model.group ?? '');
+  //     print('model.group: ${model.group}');
+  //     Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //             builder: (c) => MessageScreen(
+  //                   isGroupId: true,
+  //                   userName: userName,
+  //                   profileImage: profileImage,
+  //                 )));
+  //   } else {
+  //     ErrorModel model = res as ErrorModel;
+  //     AppConfig()
+  //         .showSnackBar(context, model.message.toString(), isError: true);
+  //   }
+  // }
 }

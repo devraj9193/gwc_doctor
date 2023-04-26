@@ -8,8 +8,8 @@ import '../../../model/evaluation_details_model.dart';
 import '../../../utils/check_box_settings.dart';
 import 'package:get/get.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
-import 'evaluation_form_screens/personal_details.dart';
 
 class EvaluationGetDetails extends StatefulWidget {
   const EvaluationGetDetails({Key? key}) : super(key: key);
@@ -169,7 +169,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
 
   final urinColorList = [
     CheckBoxSettings(title: "Clear"),
-    CheckBoxSettings(title: "Pale Yello"),
+    CheckBoxSettings(title: "Pale Yellow"),
     CheckBoxSettings(title: "Red"),
     CheckBoxSettings(title: "Black"),
     CheckBoxSettings(title: "Yellow"),
@@ -263,7 +263,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             fit: StackFit.expand,
             children: [
               const Opacity(
-                opacity: 0.2,
+                opacity: 0.075,
                 child: Image(
                   image: AssetImage("assets/images/Group 10082.png"),
                   fit: BoxFit.fill,
@@ -280,7 +280,10 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                             snapshot.data as EvaluationDetailsModel;
                         EvaluationDetailsModel? model1 = snapshot.data;
                         getDetails(model1);
-                        return buildEvaluationForm(model: model1);
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 1.w),
+                          child: buildEvaluationForm(model: model1),
+                        );
                       } else {
                         ErrorModel model = snapshot.data as ErrorModel;
                         print(model.message);
@@ -322,26 +325,43 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
   }
 
   buildContainer(String title) {
-    return Container(
-      // padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
-      margin: EdgeInsets.symmetric(vertical: 1.h),
-      // width: double.maxFinite,
-      // decoration: BoxDecoration(
-      //   border: Border.all(
-      //     color: gGreyColor.withOpacity(0.5),
-      //     width: 1,
-      //   ),
-      //   borderRadius: BorderRadius.circular(8),
-      //   color: gWhiteColor,
-      // ),
-      child: Text(
-        title,
-        textAlign: TextAlign.start,
-        style: TextStyle(
-            fontFamily: "GothamBook", color: gBlackColor, fontSize: 9.sp),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          // padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
+          margin: EdgeInsets.symmetric(vertical: 1.h),
+          // width: double.maxFinite,
+          // decoration: BoxDecoration(
+          //   border: Border.all(
+          //     color: gGreyColor.withOpacity(0.5),
+          //     width: 1,
+          //   ),
+          //   borderRadius: BorderRadius.circular(8),
+          //   color: gWhiteColor,
+          // ),
+          child: Text(
+            title,
+            textAlign: TextAlign.start,
+            style: EvaluationText().answerText(),
+          ),
+        ),
+        Container(
+          height: 1,
+          margin: EdgeInsets.only(bottom: 1.h),
+          color: newLightGreyColor,
+        ),
+      ],
     );
   }
+
+  // buildLine() {
+  //   return Container(
+  //     height: 1,
+  //     margin: EdgeInsets.only(bottom: 1.h),
+  //     color: newLightGreyColor,
+  //   );
+  // }
 
   buildHealthDetails(EvaluationDetailsModel? model) {
     return Column(
@@ -356,10 +376,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Text(
                   "Health",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontFamily: "PoppinsBold",
-                      color: kPrimaryColor,
-                      fontSize: 15.sp),
+                  style: EvaluationText().headingText(),
                 ),
                 SizedBox(
                   width: 2.w,
@@ -367,7 +384,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Expanded(
                   child: Container(
                     height: 1,
-                    color: kPrimaryColor,
+                    color: newLightGreyColor,
                   ),
                 ),
               ],
@@ -375,10 +392,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Text(
               "Important For Your Doctors To Know What You Have Been Through Or Are Going Through At The Moment",
               textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontFamily: "PoppinsRegular",
-                  color: gMainColor,
-                  fontSize: 9.sp),
+              style: EvaluationText().subHeadingText(),
             ),
           ],
         ),
@@ -392,6 +406,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
         buildLabelTextField(
             'Brief Paragraph About Your Current Complaints Are & What You Are Looking To Heal Here'),
         buildContainer(model?.data?.healthProblem ?? ""),
+
         SizedBox(height: 1.h),
         buildLabelTextField('Please Check All That Apply To You'),
         SizedBox(height: 1.h),
@@ -404,18 +419,36 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
         SizedBox(height: 1.h),
         buildLabelTextField('Tongue Coating'),
         SizedBox(height: 1.h),
+        // Row(
+        //   children: [
+        //     const Icon(
+        //       Icons.radio_button_checked,
+        //       color: gSecondaryColor,
+        //     ),
+        //     SizedBox(
+        //       width: 2.w,
+        //     ),
+        //     Text(
+        //       "${model?.data?.tongueCoating}",
+        //       style: EvaluationText().answerText(),
+        //     ),
+        //   ],
+        // ),
         Column(
           children: [
             Row(
               children: [
                 Radio(
-                    value: "Clear",
+                    value: "clear",
                     groupValue: model?.data?.tongueCoating,
+                    visualDensity: const VisualDensity(
+                        horizontal: VisualDensity.minimumDensity,
+                        vertical: VisualDensity.minimumDensity),
                     activeColor: kPrimaryColor,
                     onChanged: (value) {}),
                 Text(
                   "Clear",
-                  style: buildTextStyle(),
+                  style: EvaluationText().answerText(),
                 ),
               ],
             ),
@@ -424,11 +457,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Radio(
                     value: "Coated with white layer",
                     groupValue: model?.data?.tongueCoating,
+                    visualDensity: const VisualDensity(
+                        horizontal: VisualDensity.minimumDensity,
+                        vertical: VisualDensity.minimumDensity),
                     activeColor: kPrimaryColor,
                     onChanged: (value) {}),
                 Text(
                   "Coated with white layer",
-                  style: buildTextStyle(),
+                  style: EvaluationText().answerText(),
                 ),
               ],
             ),
@@ -438,11 +474,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Radio(
                     value: "Coated with yellow layer",
                     groupValue: model?.data?.tongueCoating,
+                    visualDensity: const VisualDensity(
+                        horizontal: VisualDensity.minimumDensity,
+                        vertical: VisualDensity.minimumDensity),
                     activeColor: kPrimaryColor,
                     onChanged: (value) {}),
                 Text(
                   "Coated with yellow layer",
-                  style: buildTextStyle(),
+                  style: EvaluationText().answerText(),
                 ),
               ],
             ),
@@ -452,11 +491,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Radio(
                     value: "Coated with black layer",
                     groupValue: model?.data?.tongueCoating,
+                    visualDensity: const VisualDensity(
+                        horizontal: VisualDensity.minimumDensity,
+                        vertical: VisualDensity.minimumDensity),
                     activeColor: kPrimaryColor,
                     onChanged: (value) {}),
                 Text(
                   "Coated with black layer",
-                  style: buildTextStyle(),
+                  style: EvaluationText().answerText(),
                 ),
               ],
             ),
@@ -464,13 +506,16 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Radio(
-                    value: "Other",
+                    value: "other",
                     groupValue: model?.data?.tongueCoating,
+                    visualDensity: const VisualDensity(
+                        horizontal: VisualDensity.minimumDensity,
+                        vertical: VisualDensity.minimumDensity),
                     activeColor: kPrimaryColor,
                     onChanged: (value) {}),
                 Text(
-                  "Other:",
-                  style: buildTextStyle(),
+                  "Other",
+                  style: EvaluationText().answerText(),
                 ),
               ],
             ),
@@ -482,6 +527,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             "Has Frequency Of Urination Increased Or Decreased In The Recent Past"),
         SizedBox(height: 1.h),
         buildUrination("${model?.data?.anyUrinationIssue}"),
+        SizedBox(height: 1.h),
         buildLabelTextField("Urin Color"),
         SizedBox(height: 1.h),
         buildUrineColorRadioButton("${model?.data?.urineColor}"),
@@ -518,11 +564,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                     Radio(
                         value: "Seperate hard lumps",
                         groupValue: model?.data?.closestStoolType,
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: kPrimaryColor,
                         onChanged: (value) {}),
                     Text(
                       "Seperate hard lumps",
-                      style: buildTextStyle(),
+                      style: EvaluationText().answerText(),
                     ),
                   ],
                 ),
@@ -531,11 +580,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                     Radio(
                         value: "Lumpy & sausage like",
                         groupValue: model?.data?.closestStoolType,
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: kPrimaryColor,
                         onChanged: (value) {}),
                     Text(
                       "Lumpy & sausage like",
-                      style: buildTextStyle(),
+                      style: EvaluationText().answerText(),
                     ),
                   ],
                 ),
@@ -544,11 +596,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                     Radio(
                         value: "Sausage shape with cracks on the surface",
                         groupValue: model?.data?.closestStoolType,
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: kPrimaryColor,
                         onChanged: (value) {}),
                     Text(
                       "Sausage shape with cracks on the surface",
-                      style: buildTextStyle(),
+                      style: EvaluationText().answerText(),
                     ),
                   ],
                 ),
@@ -557,11 +612,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                     Radio(
                         value: "Smooth, soft sausage or snake",
                         groupValue: model?.data?.closestStoolType,
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: kPrimaryColor,
                         onChanged: (value) {}),
                     Text(
                       "Smooth, soft sausage or snake",
-                      style: buildTextStyle(),
+                      style: EvaluationText().answerText(),
                     ),
                   ],
                 ),
@@ -570,11 +628,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                     Radio(
                         value: "Soft blobs with clear cut edges",
                         groupValue: model?.data?.closestStoolType,
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: kPrimaryColor,
                         onChanged: (value) {}),
                     Text(
                       "Soft blobs with clear cut edges",
-                      style: buildTextStyle(),
+                      style: EvaluationText().answerText(),
                     ),
                   ],
                 ),
@@ -583,11 +644,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                     Radio(
                         value: "liquid consistency with no solid pieces",
                         groupValue: model?.data?.closestStoolType,
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: kPrimaryColor,
                         onChanged: (value) {}),
                     Text(
                       "liquid consistency with no solid pieces",
-                      style: buildTextStyle(),
+                      style: EvaluationText().answerText(),
                     ),
                   ],
                 ),
@@ -610,8 +674,8 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
         SizedBox(height: 1.h),
         buildContainer(model?.data?.anyTherapiesHaveDoneBefore ?? ""),
         SizedBox(height: 1.h),
-        buildLabelTextField("Uploaded Files"),
-        SizedBox(height: 2.h),
+        // buildLabelTextField("Uploaded Files"),
+        // SizedBox(height: 2.h),
       ],
     );
   }
@@ -629,10 +693,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Text(
                   "Food Habits",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontFamily: "PoppinsBold",
-                      color: kPrimaryColor,
-                      fontSize: 15.sp),
+                  style: EvaluationText().headingText(),
                 ),
                 SizedBox(
                   width: 2.w,
@@ -640,7 +701,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Expanded(
                   child: Container(
                     height: 1,
-                    color: kPrimaryColor,
+                    color: lightTextColor,
                   ),
                 ),
               ],
@@ -648,10 +709,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Text(
               "To Make Your Meal Plans As Simple & Easy For You To Follow As Possible",
               textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontFamily: "PoppinsRegular",
-                  color: gMainColor,
-                  fontSize: 9.sp),
+              style: EvaluationText().subHeadingText(),
             ),
           ],
         ),
@@ -694,42 +752,54 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
               value: "1-2",
               activeColor: kPrimaryColor,
               groupValue: model?.data?.noGalssesDay,
+              visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity),
               onChanged: (value) {},
             ),
             Text(
               '1-2',
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
             SizedBox(width: 3.w),
             Radio(
               value: "3-4",
               activeColor: kPrimaryColor,
               groupValue: model?.data?.noGalssesDay,
+              visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity),
               onChanged: (value) {},
             ),
             Text(
               '3-4',
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
             SizedBox(width: 3.w),
             Radio(
                 value: "6-8",
                 groupValue: model?.data?.noGalssesDay,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
                 activeColor: kPrimaryColor,
                 onChanged: (value) {}),
             Text(
               "6-8",
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
             SizedBox(width: 3.w),
             Radio(
                 value: "9+",
                 groupValue: model?.data?.noGalssesDay,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
                 activeColor: kPrimaryColor,
                 onChanged: (value) {}),
             Text(
               "9+",
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
           ],
         ),
@@ -751,10 +821,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Text(
                   "Life Style",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontFamily: "PoppinsBold",
-                      color: kPrimaryColor,
-                      fontSize: 15.sp),
+                  style: EvaluationText().headingText(),
                 ),
                 SizedBox(
                   width: 2.w,
@@ -762,7 +829,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Expanded(
                   child: Container(
                     height: 1,
-                    color: kPrimaryColor,
+                    color: lightTextColor,
                   ),
                 ),
               ],
@@ -770,10 +837,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Text(
               "This Tells Us How Your Gut Is & Has Been Treated",
               textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontFamily: "PoppinsRegular",
-                  color: gMainColor,
-                  fontSize: 9.sp),
+              style: EvaluationText().subHeadingText(),
             ),
           ],
         ),
@@ -800,10 +864,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Text(
                   "Bowel Type",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                      fontFamily: "PoppinsBold",
-                      color: kPrimaryColor,
-                      fontSize: 15.sp),
+                  style: EvaluationText().headingText(),
                 ),
                 SizedBox(
                   width: 2.w,
@@ -811,7 +872,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Expanded(
                   child: Container(
                     height: 1,
-                    color: kPrimaryColor,
+                    color: lightTextColor,
                   ),
                 ),
               ],
@@ -819,10 +880,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Text(
               "Is a Barometer For Your Gut Health",
               textAlign: TextAlign.start,
-              style: TextStyle(
-                  fontFamily: "PoppinsRegular",
-                  color: gMainColor,
-                  fontSize: 9.sp),
+              style: EvaluationText().subHeadingText(),
             ),
           ],
         ),
@@ -839,43 +897,54 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                   value: mealPreferenceList[0],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.afterMealPreference,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     mealPreferenceList[0],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: mealPreferenceList[1],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.afterMealPreference,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     mealPreferenceList[1],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: mealPreferenceList[2],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.afterMealPreference,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Text(
                   mealPreferenceList[2],
-                  style: buildTextStyle(),
+                  style: EvaluationText().answerText(),
                 ),
               ],
             ),
@@ -895,60 +964,75 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                   value: hungerPatternList[0],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.hungerPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     hungerPatternList[0],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: hungerPatternList[1],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.hungerPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     hungerPatternList[1],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: hungerPatternList[2],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.hungerPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     hungerPatternList[2],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: hungerPatternList[3],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.hungerPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     hungerPatternList[3],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
@@ -969,60 +1053,75 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                   value: bowelPatternList[0],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.bowelPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     bowelPatternList[0],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: bowelPatternList[1],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.bowelPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     bowelPatternList[1],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: bowelPatternList[2],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.bowelPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     bowelPatternList[2],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
             ),
+            SizedBox(height: 1.h),
             Row(
               children: [
                 Radio(
                   value: bowelPatternList[3],
                   activeColor: kPrimaryColor,
                   groupValue: model?.data?.bowelPattern,
+                  visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity),
                   onChanged: (value) {},
                 ),
                 Expanded(
                   child: Text(
                     bowelPatternList[3],
-                    style: buildTextStyle(),
+                    style: EvaluationText().answerText(),
                   ),
                 ),
               ],
@@ -1039,18 +1138,15 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
     return RichText(
       text: TextSpan(
         text: name,
-        style: TextStyle(
-          fontSize: 11.sp,
-          color: gBlackColor,
-          fontFamily: "GothamMedium",
-        ),
+        style: EvaluationText().questionText(),
         children: [
           TextSpan(
             text: ' *',
             style: TextStyle(
-              fontSize: 9.sp,
-              color: gGreyColor,
-              fontFamily: "PoppinsSemiBold",
+              height: 1.5,
+              fontSize: fontSize09,
+              color: newSecondaryColor,
+              fontFamily: fontMedium,
             ),
           ),
         ],
@@ -1073,6 +1169,9 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
         Radio(
           value: "Increased",
           activeColor: kPrimaryColor,
+          visualDensity: const VisualDensity(
+              horizontal: VisualDensity.minimumDensity,
+              vertical: VisualDensity.minimumDensity),
           groupValue: urinationValue,
           onChanged: (value) {
             setState(() {
@@ -1080,13 +1179,19 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             });
           },
         ),
-        Text('Increased', style: buildTextStyle()),
+        Text(
+          'Increased',
+          style: EvaluationText().answerText(),
+        ),
         SizedBox(
-          width: 3.w,
+          width: 2.w,
         ),
         Radio(
           value: "Decreased",
           activeColor: kPrimaryColor,
+          visualDensity: const VisualDensity(
+              horizontal: VisualDensity.minimumDensity,
+              vertical: VisualDensity.minimumDensity),
           groupValue: urinationValue,
           onChanged: (value) {
             setState(() {
@@ -1096,7 +1201,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
         ),
         Text(
           'Decreased',
-          style: buildTextStyle(),
+          style: EvaluationText().answerText(),
         ),
         SizedBox(
           width: 3.w,
@@ -1105,6 +1210,9 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             value: "No Change",
             groupValue: urinationValue,
             activeColor: kPrimaryColor,
+            visualDensity: const VisualDensity(
+                horizontal: VisualDensity.minimumDensity,
+                vertical: VisualDensity.minimumDensity),
             onChanged: (value) {
               setState(() {
                 urinationValue = value as String;
@@ -1112,7 +1220,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             }),
         Text(
           "No Change",
-          style: buildTextStyle(),
+          style: EvaluationText().answerText(),
         ),
       ],
     );
@@ -1133,21 +1241,30 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
               value: "Clear",
               activeColor: kPrimaryColor,
               groupValue: urineColorValue,
+              visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity),
               onChanged: (value) {},
             ),
-            Text('Clear', style: buildTextStyle()),
+            Text(
+              'Clear',
+              style: EvaluationText().answerText(),
+            ),
             SizedBox(
               width: 3.w,
             ),
             Radio(
-              value: "Pale Yello",
+              value: "Pale Yellow",
               activeColor: kPrimaryColor,
               groupValue: urineColorValue,
+              visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity),
               onChanged: (value) {},
             ),
             Text(
-              'Pale Yello',
-              style: buildTextStyle(),
+              'Pale Yellow',
+              style: EvaluationText().answerText(),
             ),
             SizedBox(
               width: 3.w,
@@ -1155,11 +1272,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Radio(
                 value: "Red",
                 groupValue: urineColorValue,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
                 activeColor: kPrimaryColor,
                 onChanged: (value) {}),
             Text(
               "Red",
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
           ],
         ),
@@ -1169,9 +1289,15 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
               value: "Black",
               activeColor: kPrimaryColor,
               groupValue: urineColorValue,
+              visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity),
               onChanged: (value) {},
             ),
-            Text('Black', style: buildTextStyle()),
+            Text(
+              'Black',
+              style: EvaluationText().answerText(),
+            ),
             SizedBox(
               width: 3.w,
             ),
@@ -1179,11 +1305,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
               value: "Yellow",
               activeColor: kPrimaryColor,
               groupValue: urineColorValue,
+              visualDensity: const VisualDensity(
+                  horizontal: VisualDensity.minimumDensity,
+                  vertical: VisualDensity.minimumDensity),
               onChanged: (value) {},
             ),
             Text(
               'Yellow',
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
             SizedBox(
               width: 3.w,
@@ -1191,11 +1320,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Radio(
                 value: "Other",
                 groupValue: urineColorValue,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
                 activeColor: kPrimaryColor,
                 onChanged: (value) {}),
             Text(
               "Other",
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
           ],
         ),
@@ -1217,11 +1349,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Radio(
                 value: "Clear/Transparent",
                 groupValue: urineLookLikeValue,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
                 activeColor: kPrimaryColor,
                 onChanged: (value) {}),
             Text(
               "Clear/Transparent",
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
           ],
         ),
@@ -1230,11 +1365,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Radio(
                 value: "Foggy/cloudy",
                 groupValue: urineLookLikeValue,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
                 activeColor: kPrimaryColor,
                 onChanged: (value) {}),
             Text(
               "Foggy/cloudy",
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
           ],
         ),
@@ -1243,11 +1381,14 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
             Radio(
                 value: "Other",
                 groupValue: urineLookLikeValue,
+                visualDensity: const VisualDensity(
+                    horizontal: VisualDensity.minimumDensity,
+                    vertical: VisualDensity.minimumDensity),
                 activeColor: kPrimaryColor,
                 onChanged: (value) {}),
             Text(
               "Other",
-              style: buildTextStyle(),
+              style: EvaluationText().answerText(),
             ),
           ],
         ),
@@ -1262,21 +1403,46 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedHealthCheckBox1.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.check_box_outlined,
-            color: gSecondaryColor,
-          ),
-          title: Text(
-            selectedHealthCheckBox1[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              height: 1.3,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedHealthCheckBox1[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
+        //   ListTile(
+        //   visualDensity:
+        //   const VisualDensity(
+        //       vertical: VisualDensity
+        //           .minimumDensity,
+        //       horizontal: VisualDensity.minimumDensity
+        //   ),
+        //   leading: const Icon(
+        //     Icons.check_box_outlined,
+        //     color: gSecondaryColor,
+        //   ),
+        //   title: Text(
+        //     selectedHealthCheckBox1[index] ?? "",
+        //     style: TextStyle(
+        //       fontFamily: fontMedium,
+        //       color: newGreyColor,
+        //       fontSize: fontSize10,
+        //       height: 1.3,
+        //     ),
+        //   ),
+        // );
       },
     );
   }
@@ -1288,21 +1454,35 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedHealthCheckBox2.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.check_box_outlined,
-            color: gSecondaryColor,
-          ),
-          title: Text(
-            selectedHealthCheckBox2[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              height: 1.3,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedHealthCheckBox2[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
+        //   ListTile(
+        //   leading: const Icon(
+        //     Icons.check_box_outlined,
+        //     color: gSecondaryColor,
+        //   ),
+        //   title: Text(
+        //     selectedHealthCheckBox2[index] ?? "",
+        //     style: EvaluationText().answerText(),
+        //   ),
+        // );
       },
     );
   }
@@ -1313,21 +1493,35 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedUrinSmellList.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.check_box_outlined,
-            color: gSecondaryColor,
-          ),
-          title: Text(
-            selectedUrinSmellList[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              height: 1.3,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedUrinSmellList[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
+        //   ListTile(
+        //   leading: const Icon(
+        //     Icons.check_box_outlined,
+        //     color: gSecondaryColor,
+        //   ),
+        //   title: Text(
+        //     selectedUrinSmellList[index] ?? "",
+        //     style:EvaluationText().answerText(),
+        //   ),
+        // );
       },
     );
   }
@@ -1338,21 +1532,35 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedmedicalInterventionsDoneBeforeList.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.check_box_outlined,
-            color: gSecondaryColor,
-          ),
-          title: Text(
-            selectedmedicalInterventionsDoneBeforeList[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              height: 1.3,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedmedicalInterventionsDoneBeforeList[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
+        //   ListTile(
+        //   leading: const Icon(
+        //     Icons.check_box_outlined,
+        //     color: gSecondaryColor,
+        //   ),
+        //   title: Text(
+        //     selectedmedicalInterventionsDoneBeforeList[index] ?? "",
+        //     style: EvaluationText().answerText(),
+        //   ),
+        // );
       },
     );
   }
@@ -1363,21 +1571,35 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedHabitCheckBoxList.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.check_box_outlined,
-            color: gSecondaryColor,
-          ),
-          title: Text(
-            selectedHabitCheckBoxList[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              height: 1.3,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedHabitCheckBoxList[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
+        //   ListTile(
+        //   leading: const Icon(
+        //     Icons.check_box_outlined,
+        //     color: gSecondaryColor,
+        //   ),
+        //   title: Text(
+        //     selectedHabitCheckBoxList[index] ?? "",
+        //     style: EvaluationText().answerText(),
+        //   ),
+        // );
       },
     );
   }

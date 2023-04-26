@@ -47,7 +47,7 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
         width: 29.w,
         padding: EdgeInsets.symmetric(vertical: 1.h),
         decoration: BoxDecoration(
-          color: gPrimaryColor,
+          color: gSecondaryColor,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -55,6 +55,7 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
           children: [
             Image(
               height: 5.h,
+              color: whiteTextColor,
               image: AssetImage(
                 image,
               ),
@@ -63,17 +64,17 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
             Text(
               title,
               style: TextStyle(
-                  fontFamily: "GothamMedium",
-                  color: gMainColor,
-                  fontSize: 13.sp),
+                  fontFamily: fontBold,
+                  color: whiteTextColor,
+                  fontSize: fontSize13),
             ),
             SizedBox(height: 1.h),
             Text(
               subTitle,
               style: TextStyle(
-                  fontFamily: "GothamMedium",
-                  color: gMainColor,
-                  fontSize: 10.sp),
+                  fontFamily: fontBook,
+                  color: whiteTextColor,
+                  fontSize: fontSize08),
             ),
           ],
         ),

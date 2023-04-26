@@ -27,21 +27,23 @@ class _WillPopWidgetState extends State<WillPopWidget> {
 
   Future<bool> _onWillPop() async {
     // ignore: avoid_print
-    print('back pressed');
+    print('back pressed splash');
     return await showDialog(
             context: context,
             builder: (context) => AlertDialog(
-                  backgroundColor: kPrimaryColor,
+                  backgroundColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15.0.sp))),
                   contentPadding: EdgeInsets.only(top: 1.h),
                   content: Container(
+                    // margin: EdgeInsets.symmetric(horizontal: 5.w),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 3.w, vertical: 2.h),
+                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
                     decoration: BoxDecoration(
-                        color: gWhiteColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    width: 50.h,
+                      color: gWhiteColor,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: lightTextColor, width: 1),
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,22 +53,22 @@ class _WillPopWidgetState extends State<WillPopWidget> {
                           'Are you sure?',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: "GothamRoundedBold_21016",
-                              color: gPrimaryColor,
-                              fontSize: 13.sp),
+                              fontFamily: fontBold,
+                              color: newBlackColor,
+                              fontSize: fontSize11),
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 2.h),
                           height: 1,
-                          color: Colors.grey.withOpacity(0.3),
+                          color: lightTextColor,
                         ),
                         Text(
                           'Do you want to exit an App?',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontFamily: "GothamMedium",
-                              color: gSecondaryColor,
-                              fontSize: 11.sp),
+                              fontFamily: fontBook,
+                              color: newBlackColor,
+                              fontSize: fontSize10),
                         ),
                         SizedBox(height: 3.h),
                         Row(
@@ -75,40 +77,41 @@ class _WillPopWidgetState extends State<WillPopWidget> {
                             GestureDetector(
                               onTap: () => Navigator.of(context).pop(false),
                               child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 1.h, horizontal: 5.w),
-                                decoration: BoxDecoration(
-                                    color: gMainColor,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Text(
-                                  "NO",
-                                  style: TextStyle(
-                                    fontFamily: "GothamRoundedBold_21016",
-                                    color: gPrimaryColor,
-                                    fontSize: 11.sp,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.w, vertical: 1.h),
+                                  decoration: BoxDecoration(
+                                    color: gWhiteColor,
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: lightTextColor),
                                   ),
-                                ),
-                              ),
+                                  child: Text("No",
+                                      style: TextStyle(
+                                        color: newBlackColor,
+                                        fontFamily: fontMedium,
+                                        fontSize: fontSize09,
+                                      ))),
                             ),
                             SizedBox(width: 5.w),
                             GestureDetector(
                               onTap: () => SystemNavigator.pop(),
                               child: Container(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 1.h, horizontal: 5.w),
+                                    horizontal: 6.w, vertical: 1.h),
                                 decoration: BoxDecoration(
-                                    color: gPrimaryColor,
-                                    borderRadius: BorderRadius.circular(5)),
+                                  color: gSecondaryColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                  // border: Border.all(color: gMainColor),
+                                ),
                                 child: Text(
-                                  "YES",
+                                  "Yes",
                                   style: TextStyle(
-                                    fontFamily: "GothamRoundedBold_21016",
-                                    color: gMainColor,
-                                    fontSize: 11.sp,
+                                    color: whiteTextColor,
+                                    fontFamily: fontMedium,
+                                    fontSize: fontSize09,
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                         SizedBox(height: 1.h)

@@ -97,7 +97,7 @@ class GutMaintenanceGuide {
     manifestUrl: json["manifest_url"],
     labelUrl: json["label_url"],
     patient: Patient.fromJson(json["patient"]),
-    team: Team.fromJson(json["team"]),
+    team: (json["team"] == null) ? null : Team.fromJson(json["team"]),
     appointments: List<dynamic>.from(json["appointments"].map((x) => x)),
   );
 

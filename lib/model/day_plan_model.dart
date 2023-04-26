@@ -55,6 +55,10 @@ class DayPlan {
     this.weightType,
     this.url,
     this.status,
+    this.itemPhoto,
+    this.subTitle,
+    this.benefits,
+    this.note,
   });
 
   int? id;
@@ -66,6 +70,10 @@ class DayPlan {
   String? weightType;
   String? url;
   String? status;
+  String? itemPhoto;
+  String? subTitle;
+  String? benefits;
+  String? note;
 
   factory DayPlan.fromJson(Map<String, dynamic> json) => DayPlan(
     id: json["id"],
@@ -77,6 +85,10 @@ class DayPlan {
     weightType: json["weight_type"],
     url: json["url"],
     status: json["status"],
+    itemPhoto: json["item_photo"],
+    subTitle: json['sub_title'],
+    benefits: json['benefits'],
+    note: json['note'],
   );
 
   Map<String, dynamic> toJson() => {
@@ -89,5 +101,9 @@ class DayPlan {
     "weight_type": weightType,
     "url": url,
     "status": status,
+    "item_photo": itemPhoto,
+    "sub_title": subTitle,
+    "benefits": benefits,
+    "note": note,
   };
 }

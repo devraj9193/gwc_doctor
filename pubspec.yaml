@@ -40,11 +40,11 @@ dependencies:
   sizer: ^2.0.15
   get: ^4.6.1
   syncfusion_flutter_calendar: ^20.2.49
-  flutter_svg: ^1.0.3
+  country_code_picker_mp: ^1.0.3
+  flutter_svg: ^2.0.4
   grouped_list: ^5.1.2
   intl: ^0.17.0
   syncfusion_flutter_pdfviewer: ^20.2.50-beta
-  country_code_picker: any
   percent_indicator: ^4.2.2
   numberpicker: ^2.1.1
   http: any
@@ -56,7 +56,7 @@ dependencies:
   url_launcher: ^6.1.2
   syncfusion_localizations: ^20.3.48
   lottie: ^2.1.0
-  quickblox_sdk: ^0.11.0
+#  quickblox_sdk: ^0.12.4
   provider: any
   image_picker: any
   flutter_sim_country_code: ^0.1.2

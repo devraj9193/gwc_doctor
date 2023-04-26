@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import '../customer_screens/customers_lists/consultation_list.dart';
 import '../../doctor_status_screen.dart';
@@ -36,17 +37,15 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
                 const CustomerStatusScreen(),
                 SizedBox(height: 2.h),
                 TabBar(
-                    labelColor: gPrimaryColor,
-                    unselectedLabelColor: gTextColor,
+                    labelColor: tapSelectedColor,
+                    unselectedLabelColor: tapUnSelectedColor,
                     isScrollable: true,
-                    indicatorColor: gPrimaryColor,
+                    indicatorColor: tapIndicatorColor,
                     labelPadding:
-                        EdgeInsets.only(right: 10.w, top: 1.h, bottom: 1.h),
+                        EdgeInsets.only(right: 12.w,left: 2.w, top: 1.h, bottom: 1.h),
                     indicatorPadding: EdgeInsets.only(right: 7.w),
-                    labelStyle: TextStyle(
-                        fontFamily: "GothamMedium",
-                        color: gPrimaryColor,
-                        fontSize: 10.sp),
+                    labelStyle:TabBarText().selectedText(),
+                    unselectedLabelStyle: TabBarText().unSelectedText(),
                     tabs: const [
                       Text('Consultation'),
                       Text('Documents'),

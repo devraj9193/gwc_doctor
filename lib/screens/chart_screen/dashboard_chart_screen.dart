@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../active_screens/active_screen.dart';
 import '../notification_screens/notification_screen.dart';
 import 'calender_screen.dart';
@@ -43,7 +44,17 @@ class GanttChartScreenState extends State<GanttChartScreen>
     ]);
     projectsInChart = projects;
     usersInChart = users;
+    //  quickbloxLoginSession();
   }
+
+  // quickbloxLoginSession() async {
+  //   print(_pref?.getInt(AppConfig.GET_QB_SESSION) == null || _pref?.getBool(AppConfig.IS_QB_LOGIN) == null || _pref?.getBool(AppConfig.IS_QB_LOGIN) == false);
+  //   final _qbService = Provider.of<QuickBloxService>(context, listen:  false);
+  //   print(await _qbService.getSession());
+  //   if(_pref?.getInt(AppConfig.GET_QB_SESSION) == null || await _qbService.getSession() == true || _pref?.getBool(AppConfig.IS_QB_LOGIN) == null || _pref?.getBool(AppConfig.IS_QB_LOGIN) == false){
+  //     _qbService.login("${_pref?.getString(AppConfig.QB_USERNAME)!}");
+  //   }
+  // }
 
   List doctorDetails = [
     {
@@ -127,7 +138,7 @@ class GanttChartScreenState extends State<GanttChartScreen>
               ),
             ),
             buildDetails(),
-       //     SizedBox(height: 1.h),
+            //     SizedBox(height: 1.h),
           ],
         ),
       ),
@@ -246,8 +257,8 @@ class GanttChartScreenState extends State<GanttChartScreen>
                   padding: EdgeInsets.symmetric(vertical: 1.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: gPrimaryColor,
-                    border: Border.all(color: gMainColor, width: 1),
+                    color: gSecondaryColor,
+                    //border: Border.all(color: gMainColor, width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
@@ -262,16 +273,12 @@ class GanttChartScreenState extends State<GanttChartScreen>
                       Image(
                         height: 3.h,
                         image: AssetImage(doctorDetails[index]["image"]),
-                        color: gMainColor,
+                        color: whiteTextColor,
                       ),
                       SizedBox(width: 2.w),
                       Text(
                         doctorDetails[index]["title"],
-                        style: TextStyle(
-                          fontFamily: "GothamMedium",
-                          color: gMainColor,
-                          fontSize: 10.sp,
-                        ),
+                        style: DashBoardScreen().gridTextField(),
                       ),
                     ],
                   )),

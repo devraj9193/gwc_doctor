@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import '../../controller/user_profile_controller.dart';
+import '../../controller/repository/api_service.dart';
+import '../../model/doctor_profile_service/doctor_profile_repo.dart';
+import '../../model/doctor_profile_service/doctor_profile_service.dart';
+import '../../utils/app_config.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
-import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class MyProfileDetails extends StatefulWidget {
   const MyProfileDetails({Key? key}) : super(key: key);
@@ -13,8 +18,24 @@ class MyProfileDetails extends StatefulWidget {
 }
 
 class _MyProfileDetailsState extends State<MyProfileDetails> {
-  UserProfileController userProfileController =
-      Get.put(UserProfileController());
+  final SharedPreferences _pref = AppConfig().preferences!;
+
+  String accessToken = "";
+  Future? getProfileDetails;
+
+  @override
+  void initState() {
+    super.initState();
+    getProfileData();
+  }
+
+  getProfileData() {
+    accessToken = _pref.getString(AppConfig().bearerToken)!;
+    setState(() {});
+    print("accessToken: $accessToken");
+    getProfileDetails = DoctorMemberProfileService(repository: userRepository)
+        .getDoctorMemberProfileService(accessToken);
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,14 +48,12 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 3.w,top: 1.h),
+              padding: EdgeInsets.only(left: 3.w,top: 1.h,bottom: 2.h),
               child: Text(
                 "My Profile",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: "GothamBold",
-                    color: gPrimaryColor,
-                    fontSize: 11.sp),
+                style: ProfileScreenText().headingText(),
+
               ),
             ),
             Expanded(
@@ -48,7 +67,7 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
 
   buildUserDetails() {
     return FutureBuilder(
-        future: userProfileController.fetchUserProfile(),
+        future: getProfileDetails,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
             return buildNoData();
@@ -63,14 +82,11 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
                     left: 0,
                     right: 0,
                     child: Container(
-                      height: 35.h,
+                      height: 40.h,
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 2,
-                              color: Colors.grey.withOpacity(0.5))
-                        ],
+                        color: whiteTextColor,
+
+                        border: Border.all(width: 1, color: lightTextColor.withOpacity(0.3)),
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(15),
                           topRight: Radius.circular(15),
@@ -82,7 +98,7 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
                     ),
                   ),
                   Positioned(
-                    top: 33.h,
+                    top: 38.h,
                     left: 0,
                     right: 0,
                     child: Container(
@@ -93,7 +109,7 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
                           borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(12),
                               topRight: Radius.circular(12)),
-                          border: Border.all(width: 1, color: gMainColor)),
+                          border: Border.all(width: 1, color: lightTextColor.withOpacity(0.3))),
                       child: Column(
                         children: [
                           SizedBox(height: 3.h),
@@ -126,20 +142,14 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
           children: [
             Text(
               heading,
-              style: TextStyle(
-                color: gBlackColor,
-                fontFamily: 'GothamMedium',
-                fontSize: 10.sp,
-              ),
+                style: ProfileScreenText().nameText()
+
             ),
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
-                  color: gBlackColor,
-                  fontFamily: 'GothamBook',
-                  fontSize: 9.sp,
-                ),
+                  style: ProfileScreenText().otherText()
+
               ),
             ),
           ],
@@ -147,9 +157,16 @@ class _MyProfileDetailsState extends State<MyProfileDetails> {
         Container(
           height: 1,
           margin: EdgeInsets.symmetric(vertical: 2.h),
-          color: Colors.grey.withOpacity(0.2),
+          color: lightTextColor.withOpacity(0.3),
         ),
       ],
     );
   }
+
+  final DoctorMemberProfileRepository userRepository =
+  DoctorMemberProfileRepository(
+    apiClient: ApiClient(
+      httpClient: http.Client(),
+    ),
+  );
 }

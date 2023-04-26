@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../../controller/all_customer_consultation_controller.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 import '../../consultation_screen/customer_details_screen.dart';
 
@@ -87,131 +88,108 @@ class _AllCustomerConsultationListState extends State<AllCustomerConsultationLis
             itemBuilder: ((context, index) {
               return Column(
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 2.h,
-                        backgroundImage: NetworkImage(data[index]
-                            .teamPatients
-                            .patient
-                            .user
-                            .profile
-                            .toString()),
-                      ),
-                      SizedBox(width: 2.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data[index]
-                                  .teamPatients
-                                  .patient
-                                  .user
-                                  .name
-                                  .toString(),
-                              style: TextStyle(
-                                  fontFamily: "GothamMedium",
-                                  color: gTextColor,
-                                  fontSize: 10.sp),
-                            ),
-                            SizedBox(height: 0.5.h),
-                            Text(
-                              "${data[index].teamPatients.patient.user.age.toString()} ${data[index].teamPatients.patient.user.gender.toString()}",
-                              style: TextStyle(
-                                  fontFamily: "GothamMedium",
-                                  color: gTextColor,
-                                  fontSize: 8.sp),
-                            ),
-                            SizedBox(height: 0.5.h),
-                            Text(
-                              "${data[index].teamPatients.appointmentDate.toString()} / ${data[index].teamPatients.appointmentTime.toString()}",
-                              style: TextStyle(
-                                  fontFamily: "GothamBook",
-                                  color: gTextColor,
-                                  fontSize: 8.sp),
-                            ),
-                            SizedBox(height: 0.5.h),
-                            Row(
-                              children: [
-                                Text(
-                                  "Status : ",
-                                  style: TextStyle(
-                                      fontFamily: "GothamBook",
-                                      color: gBlackColor,
-                                      fontSize: 8.sp),
-                                ),
-                                Text(
-                                  buildStatusText(
-                                      data[index].status.toString()),
-                                  style: TextStyle(
-                                      fontFamily: "GothamMedium",
-                                      color: gPrimaryColor,
-                                      fontSize: 8.sp),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 0.5.h),
-                            Row(
-                              children: [
-                                Text(
-                                  "Associated Doctor : ",
-                                  style: TextStyle(
-                                      fontFamily: "GothamBook",
-                                      color: gBlackColor,
-                                      fontSize: 8.sp),
-                                ),
-                                Text(
-                                  data[index]
-                                      .teamPatients
-                                      .team
-                                      .teamMember[0]
-                                      .user
-                                      .fname
-                                      .toString(),
-                                  style: TextStyle(
-                                      fontFamily: "GothamMedium",
-                                      color: gPrimaryColor,
-                                      fontSize: 8.sp),
-                                ),
-                              ],
-                            ),
-                          ],
+                  GestureDetector(
+                    onTap: () {
+                      saveUserId(
+                          data[index]
+                              .teamPatients
+                              .patientId
+                              .toString(),
+                          data[index].teamPatientId.toString());
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ct) => CustomerDetailsScreen(
+                            userName: data[index]
+                                .teamPatients
+                                .patient
+                                .user
+                                .name ??
+                                '',
+                            age:
+                            "${data[index].teamPatients.patient.user.age ?? ""} ${data[index].teamPatients.patient.user.gender ?? ""}",
+                            appointmentDetails:
+                            "${data[index].teamPatients.appointmentDate ?? ""} / ${data[index].teamPatients.appointmentTime ?? ""}",
+                            status: buildStatusText(
+                                data[index].status),
+                          ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          saveUserId(
-                              data[index]
-                                  .teamPatients
-                                  .patientId
-                                  .toString(),
-                              data[index].teamPatientId.toString());
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (ct) => CustomerDetailsScreen(
-                                userName: data[index]
+                      );
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          radius: 3.h,
+                          backgroundImage: NetworkImage(data[index]
+                              .teamPatients
+                              .patient
+                              .user
+                              .profile
+                              .toString()),
+                        ),
+                        SizedBox(width: 2.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data[index]
                                     .teamPatients
                                     .patient
                                     .user
-                                    .name ??
-                                    '',
-                                age:
-                                "${data[index].teamPatients.patient.user.age ?? ""} ${data[index].teamPatients.patient.user.gender ?? ""}",
-                                appointmentDetails:
-                                "${data[index].teamPatients.appointmentDate ?? ""} / ${data[index].teamPatients.appointmentTime ?? ""}",
-                                status: buildStatusText(
-                                    data[index].status),
+                                    .name
+                                    .toString(),
+                                style: AllListText().headingText(),
                               ),
-                            ),
-                          );
-                        },
-                        child: SvgPicture.asset(
-                            "assets/images/noun-view-1041859.svg"),
-                      ),
-                    ],
+              
+                              Text(
+                                "${data[index].teamPatients.patient.user.age.toString()} ${data[index].teamPatients.patient.user.gender.toString()}",
+                                style: AllListText().subHeadingText(),
+                              ),
+              
+                              Text(
+                                "${data[index].teamPatients.appointmentDate.toString()} / ${data[index].teamPatients.appointmentTime.toString()}",
+                                style: AllListText().otherText(),
+                              ),
+              
+                              Row(
+                                children: [
+                                  Text(
+                                    "Status : ",
+                                    style: AllListText().otherText(),
+                                  ),
+                                  Text(
+                                    buildStatusText(
+                                        data[index].status.toString()),
+                                    style: AllListText().subHeadingText(),
+                                  ),
+                                ],
+                              ),
+              
+                              Row(
+                                children: [
+                                  Text(
+                                    "Associated Doctor : ",
+                                    style: AllListText().otherText(),
+                                  ),
+                                  Text(
+                                    data[index]
+                                        .teamPatients
+                                        .team
+                                        .teamMember[0]
+                                        .user
+                                        .fname
+                                        .toString(),
+                                    style: AllListText().subHeadingText(),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
                     height: 1,

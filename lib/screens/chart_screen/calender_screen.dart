@@ -2,15 +2,17 @@ import 'package:doctor_app_new/screens/active_screens/active_screen.dart';
 import 'package:doctor_app_new/screens/consultation_screen/consultation_screen.dart';
 import 'package:doctor_app_new/screens/post_programs_screens/post_programs_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import '../../controller/calendar_details_controller.dart';
+import '../../controller/user_profile_controller.dart';
 import '../../model/calendar_model.dart';
 import 'package:get/get.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import '../meal_plans_screens/meal_plans_screen.dart';
-import '../notification_screens/notification_screen.dart';
 
 class CalenderScreen extends StatefulWidget {
   const CalenderScreen({Key? key}) : super(key: key);
@@ -20,6 +22,14 @@ class CalenderScreen extends StatefulWidget {
 }
 
 class _CalenderScreenState extends State<CalenderScreen> {
+  //String? doctorName = "";
+
+  String? _subjectText = '',
+      _startTimeText = '',
+      _endTimeText = '',
+      _dateText = '',
+      _timeDetails = '';
+
   List doctorDetails = [
     {
       "title": "Consultations",
@@ -46,11 +56,27 @@ class _CalenderScreenState extends State<CalenderScreen> {
   CalendarDetailsController calendarDetailsController =
       Get.put(CalendarDetailsController());
 
+  UserProfileController userProfileController =
+      Get.put(UserProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+   // doctorData();
+  }
+
+  // doctorData() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   doctorName = preferences.getString("doctor_name");
+  //   print(doctorName);
+  //   setState(() {});
+  // }
+
   @override
   Widget build(BuildContext context) {
     return
-    //  buildCalender();
-      SafeArea(
+        //  buildCalender();
+        SafeArea(
       child: Scaffold(
         backgroundColor: chartBackGroundColor,
         body: Column(
@@ -66,29 +92,44 @@ class _CalenderScreenState extends State<CalenderScreen> {
             //     ),
             //   ),
             // ),
-            Padding(
-              padding: EdgeInsets.only(left: 3.w),
-              child: Text(
-                "Hi, Welcome back Dr.Lorem Ipsum",
-                style: TextStyle(
-                    fontFamily: "GothamMedium",
-                    color: gBlackColor,
-                    fontSize: 10.sp),
-              ),
-            ),
+            buildDoctor(),
+
             Expanded(child: buildCalender()),
-           // buildDetails(),
+            // buildDetails(),
           ],
         ),
       ),
     );
   }
 
+  buildDoctor() {
+    return FutureBuilder(
+        future: userProfileController.fetchUserProfile(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text(""),
+              //Text(snapshot.error.toString()),
+            );
+          } else if (snapshot.hasData) {
+            var data = snapshot.data;
+            return Padding(
+              padding: EdgeInsets.only(left: 3.w),
+              child: Text(
+                "Hi,Welcome back Dr. ${ data.data.name ?? ""}",
+                style: DashBoardScreen().headingTextField(),
+              ),
+            );
+          }
+          return Container();
+        });
+  }
+
   buildCalender() {
-    return  Container(
+    return Container(
       height: double.maxFinite,
       width: double.maxFinite,
-      margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+      margin: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
       decoration: BoxDecoration(
         color: gWhiteColor,
@@ -108,8 +149,9 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 view: CalendarView.week,
                 showDatePickerButton: true,
                 cellBorderColor: chartBackGroundColor,
-                headerHeight: 30,
-             //   headerDateFormat: "yMMMMEEEEd",
+                headerHeight: 30, firstDayOfWeek: 7,
+                //   headerDateFormat: "yMMMMEEEEd",
+                onTap: calendarTapped,
                 timeSlotViewSettings: const TimeSlotViewSettings(
                   startHour: 8,
                   endHour: 22,
@@ -120,25 +162,31 @@ class _CalenderScreenState extends State<CalenderScreen> {
                 showCurrentTimeIndicator: true,
                 allowViewNavigation: true,
                 allowDragAndDrop: false,
+                appointmentTextStyle: TextStyle(
+                  fontFamily: fontMedium,
+                  height: 1.2,
+                  color: gWhiteColor,
+                  fontSize: fontSize07,
+                ),
                 dataSource: MeetingDataSource(_getDataSource(data)),
                 headerStyle: CalendarHeaderStyle(
                   textAlign: TextAlign.center,
                   textStyle: TextStyle(
-                    fontFamily: "GothamMedium",
-                    color: gTextColor,
-                    fontSize: 10.sp,
+                    fontFamily: fontMedium,
+                    color: newBlackColor,
+                    fontSize: fontSize10,
                   ),
                 ),
                 viewHeaderStyle: ViewHeaderStyle(
                   dayTextStyle: TextStyle(
-                    fontFamily: "GothamBold",
-                    color: gTextColor,
-                    fontSize: 9.sp,
+                    fontFamily: fontBold,
+                    color: newBlackColor,
+                    fontSize: fontSize09,
                   ),
                   dateTextStyle: TextStyle(
-                    fontFamily: "GothamBook",
-                    color: gTextColor,
-                    fontSize: 9.sp,
+                    fontFamily: fontBook,
+                    color: newBlackColor,
+                    fontSize: fontSize09,
                   ),
                 ),
                 todayHighlightColor: gSecondaryColor,
@@ -160,6 +208,87 @@ class _CalenderScreenState extends State<CalenderScreen> {
     // // meetings.add(Meeting(title: data., date: null, start: null, end: null, color: null, allDay: null));
     return data;
   }
+
+  void calendarTapped(CalendarTapDetails details) {
+    if (details.targetElement == CalendarElement.appointment ||
+        details.targetElement == CalendarElement.agenda) {
+      final Meeting appointmentDetails = details.appointments![0];
+      _subjectText = appointmentDetails.title;
+      _dateText = DateFormat('MMMM dd, yyyy')
+          .format(appointmentDetails.start)
+          .toString();
+      _startTimeText =
+          DateFormat('hh:mm a').format(appointmentDetails.start).toString();
+      _endTimeText =
+          DateFormat('hh:mm a').format(appointmentDetails.end).toString();
+      if (appointmentDetails.allDay) {
+        _timeDetails = 'All day';
+      } else {
+        _timeDetails = '$_startTimeText - $_endTimeText';
+      }
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(
+                '$_subjectText',
+                style: TextStyle(
+                  fontFamily: fontBold,
+                  color: newBlackColor,
+                  fontSize: fontSize13,
+                ),
+              ),
+              content: Container(
+                height: 80,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: gWhiteColor),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '$_dateText',
+                      style: TextStyle(
+                        fontFamily: fontMedium,
+                        color: newBlackColor,
+                        fontSize: fontSize12,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
+                      _timeDetails!,
+                      style: TextStyle(
+                        fontFamily: fontBook,
+                        color: newBlackColor,
+                        fontSize: fontSize11,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding:
+                    EdgeInsets.symmetric(vertical: 1.h, horizontal: 3.w),
+                    decoration: BoxDecoration(
+                      color: gSecondaryColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      'close',
+                      style: LoginScreen().buttonText(whiteTextColor),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          });
+    }
+  }
+
 
   buildDetails() {
     return GridView.builder(
@@ -208,8 +337,8 @@ class _CalenderScreenState extends State<CalenderScreen> {
                   padding: EdgeInsets.symmetric(vertical: 1.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: gPrimaryColor,
-                    border: Border.all(color: gMainColor, width: 1),
+                    color: gSecondaryColor,
+                    //border: Border.all(color: gMainColor, width: 1),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
@@ -224,16 +353,12 @@ class _CalenderScreenState extends State<CalenderScreen> {
                       Image(
                         height: 3.h,
                         image: AssetImage(doctorDetails[index]["image"]),
-                        color: gMainColor,
+                        color: whiteTextColor,
                       ),
                       SizedBox(width: 2.w),
                       Text(
                         doctorDetails[index]["title"],
-                        style: TextStyle(
-                          fontFamily: "GothamMedium",
-                          color: gMainColor,
-                          fontSize: 10.sp,
-                        ),
+                        style: DashBoardScreen().gridTextField(),
                       ),
                     ],
                   )),

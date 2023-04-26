@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../../controller/consultation_controller.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 import '../../consultation_screen/customer_details_screen.dart';
 
@@ -68,10 +69,10 @@ class _DocumentUploadListState extends State<DocumentUploadList> {
                                 children: [
                                   Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       CircleAvatar(
-                                        radius: 2.h,
+                                        radius: 3.h,
                                         backgroundImage: NetworkImage(
                                             data[index]
                                                 .patient
@@ -91,73 +92,47 @@ class _DocumentUploadListState extends State<DocumentUploadList> {
                                                   .user
                                                   .name
                                                   .toString(),
-                                              style: TextStyle(
-                                                  fontFamily: "GothamMedium",
-                                                  color: gTextColor,
-                                                  fontSize: 10.sp),
+                                              style: AllListText().headingText(),
                                             ),
-                                            SizedBox(height: 0.5.h),
+                            
                                             Text(
                                               "${data[index].patient.user.age.toString()} ${data[index].patient.user.gender.toString()}",
-                                              style: TextStyle(
-                                                  fontFamily: "GothamMedium",
-                                                  color: gTextColor,
-                                                  fontSize: 8.sp),
+                                              style: AllListText().subHeadingText(),
                                             ),
-                                            SizedBox(height: 0.5.h),
+                            
                                             Text(
                                               "${data[index].appointmentDate.toString()} / ${data[index].appointmentTime.toString()}",
-                                              style: TextStyle(
-                                                  fontFamily: "GothamBook",
-                                                  color: gTextColor,
-                                                  fontSize: 8.sp),
+                                              style:AllListText().otherText(),
                                             ),
-                                            SizedBox(height: 0.5.h),
+                            
                                             Row(
                                               children: [
                                                 Text(
                                                   "Status : ",
-                                                  style: TextStyle(
-                                                      fontFamily: "GothamBook",
-                                                      color: gBlackColor,
-                                                      fontSize: 8.sp),
+                                                  style: AllListText().otherText(),
                                                 ),
                                                 Text(
                                                   buildStatusText(data[index]
                                                       .status
                                                       .toString()),
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          "GothamMedium",
-                                                      color: gPrimaryColor,
-                                                      fontSize: 8.sp),
+                                                  style: AllListText().subHeadingText(),
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(height: 0.5.h),
+                            
                                             RichText(
                                               text: TextSpan(
                                                 children: <TextSpan>[
                                                   TextSpan(
                                                     text:
                                                         "Time left for MR Upload : ",
-                                                    style: TextStyle(
-                                                      fontSize: 8.sp,
-                                                      fontFamily:
-                                                          "GothamMedium",
-                                                      color: gBlackColor,
-                                                    ),
+                                                    style: AllListText().otherText(),
                                                   ),
                                                   TextSpan(
                                                     text: data[index]
                                                         .uploadTime
                                                         .toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 8.sp,
-                                                      fontFamily:
-                                                          "GothamMedium",
-                                                      color: gSecondaryColor,
-                                                    ),
+                                                    style: AllListText().subHeadingText(),
                                                   ),
                                                 ],
                                               ),
@@ -274,6 +249,8 @@ class _DocumentUploadListState extends State<DocumentUploadList> {
   }
 
   String buildStatusText(String status) {
+    print("status status: $status");
+
     if (status == "consultation_done") {
       return "Consultation Done";
     } else if (status == "consultation_accepted") {
@@ -282,6 +259,20 @@ class _DocumentUploadListState extends State<DocumentUploadList> {
       return "Consultation Rejected";
     } else if (status == "consultation_waiting") {
       return "Consultation Waiting";
+    } else if (status == "pending") {
+      return "Consultation Pending";
+    } else if (status == "wait") {
+      return "Requested for Reports";
+    } else if (status == "accepted") {
+      return "Consultation Accepted";
+    } else if (status == "rejected") {
+      return "Consultation Rejected";
+    } else if (status == "evaluation_done") {
+      return "Evaluation Done";
+    } else if (status == "declined") {
+      return "Declined";
+    } else if (status == "check_user_reports") {
+      return "Check User Reports";
     }
     return statusText;
   }

@@ -1,16 +1,19 @@
 import 'dart:async';
 import 'package:doctor_app_new/screens/login_screens/doctor_login.dart';
-import 'package:doctor_app_new/model/quick_blox_repository/quick_blox_repository.dart';
 import 'package:doctor_app_new/screens/dashboard_screens/dashboard_screen.dart';
 import 'package:doctor_app_new/screens/notification_screens/notification_screen.dart';
 import 'package:doctor_app_new/utils/app_config.dart';
+import 'package:doctor_app_new/utils/gwc_apis.dart';
 import 'package:doctor_app_new/widgets/background_widget.dart';
 import 'package:doctor_app_new/utils/constants.dart';
 import 'package:doctor_app_new/widgets/will_pop_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'controller/services/quick_blox_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -109,6 +112,38 @@ class _SplashScreenState extends State<SplashScreen> {
           message.notification?.body, platformChannelSpecifics,
           payload: message.data['title']);
     });
+
+    FirebaseMessaging.onMessageOpenedApp.listen(
+          (message) async {
+        print("FirebaseMessaging.onMessageOpenedApp.listen");
+        if (message.notification != null) {
+          print(
+              "message.notification!.title : ${message.data["title"].toString()}");
+          print(message.notification!.body);
+          print(message.toMap());
+          print("message.data22 ${message.data['notification_type']}");
+          if (message.data != null) {
+            if (message.data['notification_type'] == 'new_chat') {
+              final accessToken = _pref.getString(GwcApi.kaleyraAccessToken);
+              final uId = _pref.getString("kaleyraUserId");
+
+              final qbService =
+              Provider.of<QuickBloxService>(context, listen: false);
+              await qbService.openKaleyraChat(
+                  "$uId", message.data["title"].toString(), "$accessToken");
+            }
+          } else {
+            await Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (context) => const NotificationScreen(),
+              ),
+            );
+          }
+        }
+      },
+    );
+
   }
 
   void onDidReceiveNotificationResponse(
@@ -155,9 +190,9 @@ class _SplashScreenState extends State<SplashScreen> {
         print("Device Token is : $deviceToken");
       });
 
-      QuickBloxRepository().init(AppConfig.QB_APP_ID, AppConfig.QB_AUTH_KEY, AppConfig.QB_AUTH_SECRET, AppConfig.QB_ACCOUNT_KEY);
+      // QuickBloxRepository().init(AppConfig.QB_APP_ID, AppConfig.QB_AUTH_KEY, AppConfig.QB_AUTH_SECRET, AppConfig.QB_ACCOUNT_KEY);
+      // QuickBloxRepository().initSubscription(deviceToken);
 
-      QuickBloxRepository().initSubscription(deviceToken);
       _pref.setString("device_token", deviceToken);
     });
   }

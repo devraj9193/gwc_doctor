@@ -1,9 +1,9 @@
+import 'package:country_code_picker_mp/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
 import '../../../utils/app_config.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 
 import '../../controller/repository/api_service.dart';
 import '../../controller/repository/login_otp_repository.dart';

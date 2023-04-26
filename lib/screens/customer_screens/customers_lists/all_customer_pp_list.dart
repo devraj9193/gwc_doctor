@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../controller/all_customer_pp_controller.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 import '../../active_screens/active_customer_details.dart';
 
@@ -13,12 +14,14 @@ class AllCustomerPostProgramList extends StatefulWidget {
   const AllCustomerPostProgramList({Key? key}) : super(key: key);
 
   @override
-  State<AllCustomerPostProgramList> createState() => _AllCustomerPostProgramListState();
+  State<AllCustomerPostProgramList> createState() =>
+      _AllCustomerPostProgramListState();
 }
 
-class _AllCustomerPostProgramListState extends State<AllCustomerPostProgramList> {
+class _AllCustomerPostProgramListState
+    extends State<AllCustomerPostProgramList> {
   AllCustomerPPController allCustomerPPController =
-  Get.put(AllCustomerPPController());
+      Get.put(AllCustomerPPController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,26 +59,29 @@ class _AllCustomerPostProgramListState extends State<AllCustomerPostProgramList>
                               builder: (ct) => ActiveCustomerDetails(
                                 userName: data[index].patient.user.name ?? '',
                                 age:
-                                "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
+                                    "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
                                 appointmentDetails:
-                                "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
+                                    "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
                                 status: '',
                                 startDate: '',
                                 presentDay: '',
-                                finalDiagnosis: '', preparatoryCurrentDay: data[index]
-                                  .userDetails
-                                  .patient
-                                  .user
-                                  .userProgram
-                                  .ppCurrentDay ??
-                                  "",
-                                transitionCurrentDay: data[index]
-                                    .userDetails
-                                    .patient
-                                    .user
-                                    .userProgram
-                                    .tpCurrentDay ??
+                                finalDiagnosis: '',
+                                preparatoryCurrentDay: data[index]
+                                        .userDetails
+                                        .patient
+                                        .user
+                                        .userProgram
+                                        .ppCurrentDay ??
                                     "",
+                                transitionCurrentDay: data[index]
+                                        .userDetails
+                                        .patient
+                                        .user
+                                        .userProgram
+                                        .tpCurrentDay ??
+                                    "",
+                                transitionDays: '',
+                                prepDays: '',
                               ),
                             ),
                           );
@@ -83,10 +89,10 @@ class _AllCustomerPostProgramListState extends State<AllCustomerPostProgramList>
                         child: Column(
                           children: [
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
-                                  radius: 2.h,
+                                  radius: 3.h,
                                   backgroundImage: NetworkImage(data[index]
                                       .patient
                                       .user
@@ -97,7 +103,7 @@ class _AllCustomerPostProgramListState extends State<AllCustomerPostProgramList>
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data[index]
@@ -105,36 +111,24 @@ class _AllCustomerPostProgramListState extends State<AllCustomerPostProgramList>
                                             .user
                                             .name
                                             .toString(),
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 10.sp),
+                                        style: AllListText().headingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Text(
                                         "${data[index].patient.user.age.toString()} ${data[index].patient.user.gender.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 9.sp),
+                                        style: AllListText().subHeadingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Text(
                                         "${data[index].appointmentDate.toString()} / ${data[index].appointmentTime.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamBook",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().otherText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Row(
                                         children: [
                                           Text(
                                             "Associated Doctor : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Text(
                                             data[index]
@@ -143,10 +137,8 @@ class _AllCustomerPostProgramListState extends State<AllCustomerPostProgramList>
                                                 .user
                                                 .fname
                                                 .toString(),
-                                            style: TextStyle(
-                                                fontFamily: "GothamMedium",
-                                                color: gPrimaryColor,
-                                                fontSize: 8.sp),
+                                            style:
+                                                AllListText().subHeadingText(),
                                           ),
                                         ],
                                       ),
@@ -171,17 +163,6 @@ class _AllCustomerPostProgramListState extends State<AllCustomerPostProgramList>
                                       // ),
                                     ],
                                   ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (ct) => const PostCustomerDetails(),
-                                    //   ),
-                                    // );
-                                  },
-                                  child: SvgPicture.asset(
-                                      "assets/images/noun-view-1041859.svg"),
                                 ),
                               ],
                             ),

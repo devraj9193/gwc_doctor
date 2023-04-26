@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../model/doctor_profile_service/user_profile_model.dart';
 import '../../model/error_model.dart';
 import '../../model/login_model/login_otp_model.dart';
 import '../../model/login_model/resend_otp_model.dart';
@@ -39,12 +40,12 @@ class ApiClient {
     "Keep-Alive": "timeout=5, max=1"
   };
 
-  serverLoginWithOtpApi(String phone, String otp,String deviceToken) async {
+  serverLoginWithOtpApi(String phone, String otp, String deviceToken) async {
     var path = GwcApi.loginWithOtpUrl;
 
     dynamic result;
 
-    Map bodyParam = {'phone': phone, 'otp': otp,'device_token' : deviceToken};
+    Map bodyParam = {'phone': phone, 'otp': otp, 'device_token': deviceToken};
     print("Login Details : $bodyParam");
 
     try {
@@ -78,6 +79,7 @@ class ApiClient {
     dynamic result;
 
     Map bodyParam = {'phone': phone};
+    print("bodyParam: $bodyParam");
 
     try {
       final response = await httpClient
@@ -503,4 +505,42 @@ class ApiClient {
 
     return result;
   }
+
+  Future getDoctorMemberProfileApi(String accessToken) async {
+    final path = GwcApi.getUserProfileApiUrl;
+    var result;
+
+    print("token: $accessToken");
+    try {
+      final response = await httpClient.get(
+        Uri.parse(path),
+        headers: {
+          "Authorization": "Bearer $accessToken",
+        },
+      ).timeout(const Duration(seconds: 45));
+
+      print(
+          "getUserProfileApi response code:" + response.statusCode.toString());
+      print("getUserProfileApi response body:" + response.body);
+
+      final res = jsonDecode(response.body);
+      print('${res['status'].runtimeType} ${res['status']}');
+      if (res['status'].toString() == '200') {
+        result = GetUserModel.fromJson(res);
+        // preferences?.setString(
+        //     GwcApi.successMemberName, res['data']['name'] ?? '');
+        // preferences?.setString(GwcApi.successMemberProfile,res['data']['profile'] ?? '');
+        // preferences?.setString(GwcApi.successMemberAddress,res['data']['address'] ?? '');
+      } else if (response.statusCode == 500) {
+        result = ErrorModel(status: "0", message: GwcApi.oopsMessage);
+      } else {
+        result = ErrorModel.fromJson(res);
+      }
+    } catch (e) {
+      print("getUserProfileApi catch error ${e}");
+      result = ErrorModel(status: "0", message: e.toString());
+    }
+    return result;
+  }
+
 }

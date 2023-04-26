@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import '../customer_screens/customer_meal_plans/preparatory_meal_plans.dart';
 import '../customer_screens/customer_meal_plans/transition_meal_plan.dart';
@@ -21,6 +22,8 @@ class ActiveCustomerDetails extends StatefulWidget {
   final String finalDiagnosis;
   final String preparatoryCurrentDay;
   final String transitionCurrentDay;
+  final String transitionDays;
+  final String prepDays;
   const ActiveCustomerDetails(
       {Key? key,
       required this.userName,
@@ -31,7 +34,9 @@ class ActiveCustomerDetails extends StatefulWidget {
       required this.presentDay,
       required this.finalDiagnosis,
       required this.preparatoryCurrentDay,
-      required this.transitionCurrentDay})
+      required this.transitionCurrentDay,
+      required this.transitionDays,
+      required this.prepDays})
       : super(key: key);
 
   @override
@@ -39,6 +44,7 @@ class ActiveCustomerDetails extends StatefulWidget {
 }
 
 class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
+  String transitionCurrentDay = "";
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -57,104 +63,77 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                 SizedBox(height: 1.h),
                 Text(
                   widget.userName,
-                  style: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gTextColor,
-                      fontSize: 10.sp),
+                  style: AllListText().headingText(),
                 ),
-                SizedBox(height: 0.5.h),
                 Text(
                   widget.age,
-                  style: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gTextColor,
-                      fontSize: 8.sp),
+                  style: AllListText().subHeadingText(),
                 ),
-                SizedBox(height: 0.5.h),
                 Text(
                   widget.appointmentDetails,
-                  style: TextStyle(
-                      fontFamily: "GothamBook",
-                      color: gTextColor,
-                      fontSize: 8.sp),
+                  style: AllListText().otherText(),
                 ),
-                SizedBox(height: 0.5.h),
                 (widget.status.isEmpty)
                     ? Container()
                     : Row(
                         children: [
                           Text(
                             "Status : ",
-                            style: TextStyle(
-                                fontFamily: "GothamBook",
-                                color: gBlackColor,
-                                fontSize: 8.sp),
+                            style: AllListText().otherText(),
                           ),
                           Text(
                             widget.status,
-                            style: TextStyle(
-                                fontFamily: "GothamMedium",
-                                color: gPrimaryColor,
-                                fontSize: 8.sp),
+                            style: AllListText().subHeadingText(),
                           ),
                         ],
                       ),
-                SizedBox(height: 0.5.h),
                 Row(
                   children: [
                     Text(
                       "Start Date : ",
-                      style: TextStyle(
-                          fontFamily: "GothamBook",
-                          color: gBlackColor,
-                          fontSize: 8.sp),
+                      style: AllListText().otherText(),
                     ),
                     Text(
                       widget.startDate,
-                      style: TextStyle(
-                          fontFamily: "GothamMedium",
-                          color: gPrimaryColor,
-                          fontSize: 8.sp),
+                      style: AllListText().subHeadingText(),
                     ),
                   ],
                 ),
-                SizedBox(height: 0.5.h),
                 Row(
                   children: [
                     Text(
-                      "Present Day : ",
-                      style: TextStyle(
-                          fontFamily: "GothamBook",
-                          color: gBlackColor,
-                          fontSize: 8.sp),
+                      "Meal Plan Present Day : ",
+                      style: AllListText().otherText(),
                     ),
                     Text(
-                      widget.presentDay,
-                      style: TextStyle(
-                          fontFamily: "GothamMedium",
-                          color: gPrimaryColor,
-                          fontSize: 8.sp),
+                      "${widget.presentDay} / 7 Days",
+                      style: AllListText().subHeadingText(),
                     ),
                   ],
                 ),
-                SizedBox(height: 0.5.h),
+                Row(
+                  children: [
+                    Text(
+                      "Transition Present Day : ",
+                      style: AllListText().otherText(),
+                    ),
+                    Text(
+                     "${buildCurrentDay(widget.transitionCurrentDay)} / ${widget.transitionDays} Days",
+                      style: AllListText().subHeadingText(),
+                    ),
+                  ],
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Final Diagnosis : ",
-                      style: TextStyle(
-                          fontFamily: "GothamBook",
-                          color: gBlackColor,
-                          fontSize: 8.sp),
+                      style: AllListText().otherText(),
                     ),
                     Expanded(
                       child: Text(
                         widget.finalDiagnosis,
-                        style: TextStyle(
-                            fontFamily: "GothamMedium",
-                            color: gPrimaryColor,
-                            fontSize: 8.sp),
+                        style: AllListText().subHeadingText(),
                       ),
                     ),
                   ],
@@ -162,43 +141,39 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                 // SizedBox(height: 1.h),
                 TabBar(
                     // padding: EdgeInsets.symmetric(horizontal: 3.w),
-                    labelColor: gPrimaryColor,
-                    unselectedLabelColor: gTextColor,
+                    labelColor: tapSelectedColor,
+                    unselectedLabelColor: tapUnSelectedColor,
                     isScrollable: true,
-                    indicatorColor: gPrimaryColor,
-                    labelPadding:
-                        EdgeInsets.only(right: 6.w, top: 1.h, bottom: 1.h),
+                    indicatorColor: tapIndicatorColor,
+                    labelPadding: EdgeInsets.only(
+                        right: 6.w, left: 2.w, top: 1.h, bottom: 1.h),
                     indicatorPadding: EdgeInsets.only(right: 5.w),
-                    unselectedLabelStyle: TextStyle(
-                        fontFamily: "GothamBook",
-                        color: gGreyColor,
-                        fontSize: 9.sp),
-                    labelStyle: TextStyle(
-                        fontFamily: "GothamMedium",
-                        color: gPrimaryColor,
-                        fontSize: 10.sp),
+                    labelStyle: TabBarText().selectedText(),
+                    unselectedLabelStyle: TabBarText().unSelectedText(),
                     tabs: const [
-                      Text('Preparatory'),
                       Text('Daily Progress'),
                       Text("Meal & Yoga Plan"),
                       Text('Transition'),
+                      Text('Preparatory'),
                       Text('Evaluation'),
                       Text('User Reports'),
                       Text('Medical Report'),
-                      Text('Case Study'),
+                      Text('Case Sheet'),
                     ]),
                 Expanded(
                   child: TabBarView(
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        PreparatoryMealPlan(
-                          preparatoryCurrentDay: widget.preparatoryCurrentDay,
-                        ),
                         const ProgressDetails(),
                         const DayPlanDetails(),
                         TransitionMealPlan(
                           transitionCurrentDay: widget.transitionCurrentDay,
                           isTransition: true,
+                        ),
+                        PreparatoryMealPlan(
+                          preparatoryCurrentDay: widget.preparatoryCurrentDay,
+                          ppCurrentDay: widget.preparatoryCurrentDay,
+                          presDay: widget.prepDays,
                         ),
                         const EvaluationGetDetails(),
                         const UserReportsDetails(),
@@ -212,5 +187,15 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
         ),
       ),
     );
+  }
+
+  buildCurrentDay(String transition){
+    print("TTT : $transition");
+    if(transition == "null"){
+     return "0";
+
+    }else{
+      return transition;
+    }
   }
 }

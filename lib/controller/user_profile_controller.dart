@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../model/user_profile_model.dart';
+import '../model/doctor_profile_service/user_profile_model.dart';
 import '../utils/app_config.dart';
 import '../utils/gwc_apis.dart';
 
@@ -25,13 +25,21 @@ class UserProfileController extends GetxController {
         await http.get(Uri.parse(GwcApi.getUserProfileApiUrl), headers: {
       'Authorization': 'Bearer $token',
     });
+    print("doctorProfileUrl : ${GwcApi.getUserProfileApiUrl}");
+    print("doctorProfileResponse : ${response.body}");
     if (response.statusCode == 200) {
       res = jsonDecode(response.body);
       getUserModel = GetUserModel.fromJson(res);
       print(getUserModel!.data!.name);
+      storeBearerToken("${getUserModel!.data!.name}");
     } else {
       throw Exception();
     }
     return GetUserModel.fromJson(res);
+  }
+
+  void storeBearerToken(String doctorName) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("doctor_name", doctorName);
   }
 }

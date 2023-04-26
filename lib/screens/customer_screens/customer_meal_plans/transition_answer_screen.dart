@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 import '../../../controller/transition_answer_controller.dart';
-import '../../../model/day_tracker_model.dart';
+import '../../../model/transition_answer_model.dart';
 import '../../../utils/check_box_settings.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 
 class TransitionAnswerScreen extends StatefulWidget {
@@ -102,9 +103,25 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    int a = int.parse(
+      buildCurrentDay(widget.currentDay),
+    );
+    int b = a - 1;
+    String c = b.toString();
+    print("CDay : $c");
+    changedIndex(c);
     mealPlanMissedController.addListener(() {
       setState(() {});
     });
+  }
+
+  buildCurrentDay(String transition) {
+    print("TTT : $transition");
+    if (transition == "null") {
+      return "0";
+    } else {
+      return transition;
+    }
   }
 
   @override
@@ -114,9 +131,11 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
     mealPlanMissedController.removeListener(() {});
   }
 
-  TransitionAnswerController transitionAnswerController = Get.put(TransitionAnswerController());
+  TransitionAnswerController transitionAnswerController =
+      Get.put(TransitionAnswerController());
   @override
   Widget build(BuildContext context) {
+    // selectedDay = widget.currentDay;
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
@@ -142,10 +161,7 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                     child: Center(
                       child: Text(
                         '${widget.days} Days Transition',
-                        style: TextStyle(
-                            fontFamily: "GothamBold",
-                            color: gSecondaryColor,
-                            fontSize: 11.sp),
+                        style: TabBarText().bottomSheetHeadingText(),
                       ),
                     ),
                   ),
@@ -157,11 +173,11 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                       padding: const EdgeInsets.all(1),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: gMainColor, width: 1),
+                        border: Border.all(color: mediumTextColor, width: 1),
                       ),
                       child: Icon(
                         Icons.clear,
-                        color: gMainColor,
+                        color: mediumTextColor,
                         size: 1.6.h,
                       ),
                     ),
@@ -173,7 +189,7 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 10.w),
               height: 1,
-              color: Colors.grey.withOpacity(0.5),
+              color: newLightGreyColor,
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -185,17 +201,17 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                         TextSpan(
                           text: 'Day : ',
                           style: TextStyle(
-                            fontSize: 9.sp,
-                            fontFamily: "GothamBook",
-                            color: gPrimaryColor,
+                            fontSize: fontSize09,
+                            fontFamily: fontBook,
+                            color: newGreyColor,
                           ),
                         ),
                         TextSpan(
-                          text: widget.currentDay,
+                          text: selectedDay,
                           style: TextStyle(
-                            fontSize: 9.sp,
-                            fontFamily: "GothamMedium",
-                            color: gPrimaryColor,
+                            fontSize: fontSize09,
+                            fontFamily: fontMedium,
+                            color: newGreyColor,
                           ),
                         ),
                       ],
@@ -203,11 +219,11 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                   ),
                   Theme(
                     data: Theme.of(context).copyWith(
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                    ),
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                  ),
                     child: PopupMenuButton(
-                 //   onSelected: null,
+                      //   onSelected: null,
                       elevation: 2,
                       color: Colors.white,
                       padding: EdgeInsets.symmetric(vertical: 0.5.h),
@@ -216,10 +232,10 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                           borderRadius: BorderRadius.circular(10)),
                       itemBuilder: (context) => <PopupMenuEntry>[
                         PopupMenuItem(
-                          onTap: null,
+                          //   onTap: null,
                           child: SizedBox(
                             height: 15.h,
-                            width: 10.w,
+                            width: 13.w,
                             child: ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
@@ -228,18 +244,25 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                               itemBuilder: (context, index) => Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Day : ${index+1}",
-                                    style: TextStyle(
-                                      fontSize: 9.sp,
-                                      fontFamily: "PoppinsMedium",
-                                      color: gBlackColor,
+                                  GestureDetector(
+                                    onTap: () {
+                                      print(index + 1);
+                                      changedIndex("${index + 1}");
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      "Day : ${index + 1}",
+                                      style: TextStyle(
+                                        fontSize: fontSize08,
+                                        fontFamily: fontMedium,
+                                        color: newGreyColor,
+                                      ),
                                     ),
                                   ),
                                   Container(
                                     margin: EdgeInsets.symmetric(vertical: 1.h),
-                                    height: 1,
-                                    color: Colors.grey.withOpacity(0.3),
+                                    height: 1,width: double.maxFinite,
+                                    color: newLightGreyColor.withOpacity(0.3),
                                   ),
                                 ],
                               ),
@@ -249,7 +272,7 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                       ],
                       child: Icon(
                         Icons.expand_more,
-                        color: gPrimaryColor,
+                        color: newGreyColor,
                         size: 2.5.h,
                       ),
                     ),
@@ -261,7 +284,8 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: FutureBuilder(
-                    future: transitionAnswerController.fetchTransitionAnswer(widget.currentDay),
+                    future: transitionAnswerController
+                        .fetchTransitionAnswer(selectedDay),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
                       if (snapshot.hasError) {
@@ -282,139 +306,136 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 1.h),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Gut Detox Program Status Tracker",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontFamily: "GothamMedium",
-                                      color: gSecondaryColor,
-                                      fontSize: 10.sp),
-                                ),
-                                SizedBox(width: 2.w),
-                                Expanded(
-                                  child: Container(
-                                    height: 1,
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 1.5.h),
-                            buildLabelTextField(
-                                "Have You Missed Anything In Your Meal Or Yoga Plan Today?"),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            ...missedAnything.map(
-                              (e) => Row(
-                                children: [
-                                  Radio<String>(
-                                    value: e,
-                                    activeColor: kPrimaryColor,
-                                    groupValue: buildTrackSelection(
-                                        data.data.didUMiss.toString()),
-                                    onChanged: (value) {},
-                                  ),
-                                  Text(
-                                    e,
-                                    style: buildTextStyle(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Missed Items",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontFamily: "GothamMedium",
-                                      color: kPrimaryColor,
-                                      fontSize: 10.sp),
-                                ),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: 1,
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 2.h,
-                            ),
-                            buildLabelTextField(
-                                "What Did you Miss In Your Meal Plan Or Yoga Today?"),
-                            SizedBox(
-                              height: 1.h,
-                            ),
-                            Text(
-                              data.data.didUMissAnything ?? "",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontFamily: "GothamBook",
-                                  color: gBlackColor,
-                                  fontSize: 10.sp),
-                            ),
-                            SizedBox(
-                              height: 2.h,
-                            ),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                            //   children: [
+                            //     Text(
+                            //       "Gut Detox Program Status Tracker",
+                            //       textAlign: TextAlign.start,
+                            //       style: TextStyle(
+                            //           fontFamily: "GothamMedium",
+                            //           color: gSecondaryColor,
+                            //           fontSize: 10.sp),
+                            //     ),
+                            //     SizedBox(width: 2.w),
+                            //     Expanded(
+                            //       child: Container(
+                            //         height: 1,
+                            //         color: kPrimaryColor,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // SizedBox(height: 1.5.h),
+                            // buildLabelTextField(
+                            //     "Have You Missed Anything In Your Meal Or Yoga Plan Today?"),
+                            // SizedBox(
+                            //   height: 1.h,
+                            // ),
+                            // ...missedAnything.map(
+                            //   (e) => Row(
+                            //     children: [
+                            //       Radio<String>(
+                            //         value: e,
+                            //         activeColor: kPrimaryColor,
+                            //         groupValue: buildTrackSelection(
+                            //             data.data.didUMiss.toString()),
+                            //         onChanged: (value) {},
+                            //       ),
+                            //       Text(
+                            //         e,
+                            //         style: EvaluationText().answerText(),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            // Row(
+                            //   crossAxisAlignment: CrossAxisAlignment.center,
+                            //   children: [
+                            //     Text(
+                            //       "Missed Items",
+                            //       textAlign: TextAlign.start,
+                            //       style: TextStyle(
+                            //           fontFamily: "GothamMedium",
+                            //           color: kPrimaryColor,
+                            //           fontSize: 10.sp),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 2.w,
+                            //     ),
+                            //     Expanded(
+                            //       child: Container(
+                            //         height: 1,
+                            //         color: kPrimaryColor,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // SizedBox(
+                            //   height: 2.h,
+                            // ),
+                            // buildLabelTextField(
+                            //     "What Did you Miss In Your Meal Plan Or Yoga Today?"),
+                            // SizedBox(
+                            //   height: 1.h,
+                            // ),
+                            // Text(
+                            //   data.data.didUMissAnything ?? "",
+                            //   textAlign: TextAlign.start,
+                            //   style: TextStyle(
+                            //       fontFamily: "GothamBook",
+                            //       color: gBlackColor,
+                            //       fontSize: 10.sp),
+                            // ),
+                            // SizedBox(
+                            //   height: 2.h,
+                            // ),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   "Symptom Tracker",
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                      fontFamily: "GothamMedium",
-                                      color: kPrimaryColor,
-                                      fontSize: 10.sp),
+                                  style: EvaluationText().headingText(),
                                 ),
-                                SizedBox(
-                                  width: 2.w,
-                                ),
+                                SizedBox(width: 2.w),
                                 Expanded(
                                   child: Container(
                                     height: 1,
-                                    color: kPrimaryColor,
+                                    color: newLightGreyColor,
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 1.5.h,
-                            ),
+                            SizedBox(height: 1.5.h),
                             buildLabelTextField(
                                 'Did you deal with any of the following withdrawal symptoms from detox today? If "Yes," then choose all that apply. If no, choose none of the above.'),
-                            SizedBox(
-                              height: 1.h,
-                            ),
+                            SizedBox(height: 1.h),
                             getSymptom(),
                             // ...symptomsCheckBox1
                             //     .map((e) =>
                             //         buildHealthCheckBox(e, '1'))
                             //     .toList(),
+                            Container(
+                              height: 1,
+                              margin: EdgeInsets.symmetric(vertical: 1.h),
+                              color: newLightGreyColor,
+                            ),
                             SizedBox(height: 1.h),
                             buildLabelTextField(
                                 'Did any of the following (adequate) detoxification / healing signs and symptoms happen to you today? If "Yes," then choose all that apply. If no, choose none of the above.'),
-                            SizedBox(
-                              height: 2.h,
-                            ),
+                            SizedBox(height: 1.h),
                             getSymptom1(),
                             // ...symptomsCheckBox2
                             //     .map((e) =>
                             //         buildHealthCheckBox(e, '2'))
                             //     .toList(),
-                            SizedBox(
-                              height: 2.h,
+                            Container(
+                              height: 1,
+                              margin: EdgeInsets.symmetric(vertical: 1.h),
+                              color: newLightGreyColor,
                             ),
+                            SizedBox(height: 1.h),
                             buildLabelTextField(
                                 'Please let us know if you notice any other signs or have any other worries. If none, enter "No."'),
                             SizedBox(
@@ -423,10 +444,12 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                             Text(
                               data.data.haveAnyOtherWorries ?? "",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontFamily: "GothamBook",
-                                  color: gBlackColor,
-                                  fontSize: 10.sp),
+                              style: EvaluationText().answerText(),
+                            ),
+                            Container(
+                              height: 1,
+                              margin: EdgeInsets.symmetric(vertical: 1.h),
+                              color: newLightGreyColor,
                             ),
                             SizedBox(
                               height: 2.h,
@@ -439,10 +462,12 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                             Text(
                               data.data.eatSomethingOther ?? "",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontFamily: "GothamBook",
-                                  color: gBlackColor,
-                                  fontSize: 10.sp),
+                              style: EvaluationText().answerText(),
+                            ),
+                            Container(
+                              height: 1,
+                              margin: EdgeInsets.symmetric(vertical: 1.h),
+                              color: newLightGreyColor,
                             ),
                             SizedBox(
                               height: 2.h,
@@ -463,6 +488,11 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                                       child: Radio(
                                         value: "Yes",
                                         activeColor: kPrimaryColor,
+                                        visualDensity: const VisualDensity(
+                                            vertical:
+                                                VisualDensity.minimumDensity,
+                                            horizontal:
+                                                VisualDensity.minimumDensity),
                                         groupValue:
                                             data.data.completedCalmMoveModules,
                                         onChanged: (value) {},
@@ -470,12 +500,12 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                                     ),
                                     Text(
                                       'Yes',
-                                      style: buildTextStyle(),
+                                      style: EvaluationText().answerText(),
                                     ),
                                   ],
                                 ),
                                 SizedBox(
-                                  width: 10.w,
+                                  width: 5.w,
                                 ),
                                 Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -485,6 +515,11 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                                       child: Radio(
                                         value: "No",
                                         activeColor: kPrimaryColor,
+                                        visualDensity: const VisualDensity(
+                                            vertical:
+                                                VisualDensity.minimumDensity,
+                                            horizontal:
+                                                VisualDensity.minimumDensity),
                                         groupValue:
                                             data.data.completedCalmMoveModules,
                                         onChanged: (value) {},
@@ -492,27 +527,25 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
                                     ),
                                     Text(
                                       'No',
-                                      style: buildTextStyle(),
+                                      style: EvaluationText().answerText(),
                                     ),
                                   ],
                                 )
                               ],
                             ),
-                            SizedBox(
-                              height: 2.h,
+                            Container(
+                              height: 1,
+                              margin: EdgeInsets.symmetric(vertical: 1.h),
+                              color: newLightGreyColor,
                             ),
+                            SizedBox(height: 1.h),
                             buildLabelTextField(
                                 'Have you had a medical exam or taken any medications during the program? If "Yes", please give more information. Type "No" if not.'),
-                            SizedBox(
-                              height: 1.h,
-                            ),
+                            SizedBox(height: 1.h),
                             Text(
                               data.data.hadAMedicalExamMedications ?? "",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontFamily: "GothamBook",
-                                  color: gBlackColor,
-                                  fontSize: 10.sp),
+                              style: EvaluationText().answerText(),
                             ),
                             SizedBox(
                               height: 3.h,
@@ -532,6 +565,12 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
         ),
       ),
     );
+  }
+
+  void changedIndex(String index) {
+    setState(() {
+      selectedDay = index;
+    });
   }
 
   buildHealthCheckBox(CheckBoxSettings healthCheckBox, String from) {
@@ -630,7 +669,7 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
       ),
       title: Text(
         healthCheckBox.title.toString(),
-        style: buildTextStyle(),
+        style: EvaluationText().answerText(),
       ),
     );
   }
@@ -680,7 +719,7 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
   //   ),
   // );
 
-  getDetails1(DayTrackerModel model) {
+  getDetails1(TransitionAnswerModel model) {
     print(model.data?.withdrawalSymptoms);
     List lifeStyle = jsonDecode("${model.data?.withdrawalSymptoms}")
         .toString()
@@ -709,18 +748,23 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedSymptoms1.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.gamepad_sharp,
-            color: gBlackColor,
-          ),
-          title: Text(
-            selectedSymptoms1[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedSymptoms1[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -734,25 +778,44 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedSymptoms2.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.gamepad_sharp,
-            color: gBlackColor,
-          ),
-          title: Text(
-            selectedSymptoms2[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedSymptoms2[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
+        //   ListTile(
+        //   leading: const Icon(
+        //     Icons.gamepad_sharp,
+        //     color: gBlackColor,
+        //   ),
+        //   title: Text(
+        //     selectedSymptoms2[index] ?? "",
+        //     style: TextStyle(
+        //       fontSize: 10.sp,
+        //       color: gBlackColor,
+        //       fontFamily: "GothamBook",
+        //     ),
+        //   ),
+        // );
       },
     );
   }
 
-  void getDetails(DayTrackerModel model) {
+  void getDetails(TransitionAnswerModel model) {
     // --- Health Check -- //
     print(jsonDecode(model.data!.withdrawalSymptoms!));
     List lifeStyle = jsonDecode(model.data!.withdrawalSymptoms!)

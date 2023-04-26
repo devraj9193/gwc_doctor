@@ -4,13 +4,19 @@ import 'package:doctor_app_new/utils/app_config.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../model/preparatory_transition_model.dart';
+import '../model/transition_meal_plan_model.dart';
 import '../utils/gwc_apis.dart';
 
 class TransitionController extends GetxController {
-  PreparatoryTransitionModel? preparatoryTransitionModel;
+  TransitionMealPlanModel? transitionMealPlanModel;
 
-  Future<PreparatoryTransitionModel> fetchDayPlanList() async {
+  @override
+  void onInit() {
+    super.onInit();
+    fetchDayPlanList();
+  }
+
+  Future<TransitionMealPlanModel> fetchDayPlanList() async {
     dynamic res;
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -25,11 +31,12 @@ class TransitionController extends GetxController {
     if (response.statusCode == 200) {
       print("meal: ${response.body}");
       res = jsonDecode(response.body);
-      preparatoryTransitionModel = PreparatoryTransitionModel.fromJson(res);
-      //  print("object: ${dayPlanModel?.data}");
-    } else {
+      transitionMealPlanModel = TransitionMealPlanModel.fromJson(res);
+      print("object: ${transitionMealPlanModel?.data}");
+    }
+    else {
       throw Exception();
     }
-    return PreparatoryTransitionModel.fromJson(res);
+    return TransitionMealPlanModel.fromJson(res);
   }
 }

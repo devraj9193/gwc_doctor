@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../controller/customer_call_controller.dart';
 import '../screens/notification_screens/notification_screen.dart';
 import '../utils/constants.dart';
+import 'common_screen_widgets.dart';
 
 CustomerCallController callController = Get.put(CustomerCallController());
 
@@ -167,7 +168,7 @@ AppBar buildAppBar(VoidCallback func) {
           onTap: func,
           child: Icon(
             Icons.arrow_back_ios_new_sharp,
-            color: gMainColor,
+            color: gSecondaryColor,
             size: 2.h,
           ),
         ),
@@ -208,29 +209,26 @@ buildLabelTextField(String name) {
   return RichText(
       text: TextSpan(
           text: name,
-          style: TextStyle(
-            fontSize: 9.sp,
-            color: gPrimaryColor,
-            fontFamily: "GothamBook",
-          ),
+          style: EvaluationText().questionText(),
           children: [
         TextSpan(
           text: ' *',
           style: TextStyle(
-            fontSize: 9.sp,
-            color: gSecondaryColor,
-            fontFamily: "GothamBook",
+            height: 1.5,
+            fontSize: fontSize09,
+            color: newSecondaryColor,
+            fontFamily: fontMedium,
           ),
         )
       ]));
-  return Text(
-    'Full Name:*',
-    style: TextStyle(
-      fontSize: 9.sp,
-      color: kTextColor,
-      fontFamily: "PoppinsSemiBold",
-    ),
-  );
+  // return Text(
+  //   'Full Name:*',
+  //   style: TextStyle(
+  //     fontSize: 9.sp,
+  //     color: kTextColor,
+  //     fontFamily: "PoppinsSemiBold",
+  //   ),
+  // );
 }
 
 buildThreeBounceIndicator({Color? color}) {
@@ -424,7 +422,7 @@ class CommonButton {
   static ElevatedButton submitButton(func, String title) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: gPrimaryColor,
+        backgroundColor: gPrimaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
       ),
@@ -449,12 +447,12 @@ List<String> dailyProgress = [
   "5",
   "6",
   "7",
-  "8",
-  "9",
-  "10",
-  "11",
-  "12",
-  "13",
-  "14",
-  "15",
+  // "8",
+  // "9",
+  // "10",
+  // "11",
+  // "12",
+  // "13",
+  // "14",
+  // "15",
 ];

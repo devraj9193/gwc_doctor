@@ -25,7 +25,7 @@ class CalendarDetailsController extends GetxController {
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken);
-
+    print(token);
     final response = await http.get(Uri.parse("${GwcApi.calendarUrl}?start=$startDate&end=$endDate"), headers: {
       'Authorization': 'Bearer $token',
     });

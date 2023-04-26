@@ -42,12 +42,13 @@ class ConsultationController extends GetxController {
   Future<List<Appointment>?> fetchAppointmentList() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
+    print("TOKEN : $token");
 
     final response =
         await http.get(Uri.parse(GwcApi.consultationUrl), headers: {
       'Authorization': 'Bearer $token',
     });
-   // print("Result: ${response.body}");
+    print("Result: ${response.body}");
     if (response.statusCode == 200) {
       ConsultationModel jsonData = consultationModelFromJson(response.body);
       List<Appointment>? arrData = jsonData.appointmentList;

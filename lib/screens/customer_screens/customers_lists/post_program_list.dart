@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 
 import '../../../controller/maintenance_guide_controller.dart';
-import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
-import '../../active_screens/active_customer_details.dart';
+import '../../post_programs_screens/post_customer_details.dart';
 
 class PostProgramList extends StatefulWidget {
   const PostProgramList({Key? key}) : super(key: key);
@@ -53,41 +52,17 @@ class _PostProgramListState extends State<PostProgramList> {
                               data[index].patient.user.id.toString());
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ct) => ActiveCustomerDetails(
-                                userName: data[index].patient.user.name ?? '',
-                                age:
-                                    "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
-                                appointmentDetails:
-                                    "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
-                                status: '',
-                                startDate: '',
-                                presentDay: '',
-                                preparatoryCurrentDay: data[index]
-                                        .userDetails
-                                        .patient
-                                        .user
-                                        .userProgram
-                                        .ppCurrentDay ??
-                                    "",
-                                transitionCurrentDay: data[index]
-                                        .userDetails
-                                        .patient
-                                        .user
-                                        .userProgram
-                                        .tpCurrentDay ??
-                                    "",
-                                finalDiagnosis: '',
-                              ),
+                              builder: (ct) => const PostCustomerDetails(),
                             ),
                           );
                         },
                         child: Column(
                           children: [
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
-                                  radius: 2.h,
+                                  radius: 3.h,
                                   backgroundImage: NetworkImage(data[index]
                                       .patient
                                       .user
@@ -106,26 +81,17 @@ class _PostProgramListState extends State<PostProgramList> {
                                             .user
                                             .name
                                             .toString(),
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 10.sp),
+                                        style: AllListText().headingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Text(
                                         "${data[index].patient.user.age.toString()} ${data[index].patient.user.gender.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 9.sp),
+                                        style: AllListText().subHeadingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Text(
                                         "${data[index].appointmentDate.toString()} / ${data[index].appointmentTime.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamBook",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().otherText(),
                                       ),
                                       // SizedBox(height: 0.5.h),
                                       // Row(
@@ -149,17 +115,17 @@ class _PostProgramListState extends State<PostProgramList> {
                                     ],
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    // Navigator.of(context).push(
-                                    //   MaterialPageRoute(
-                                    //     builder: (ct) => const PostCustomerDetails(),
-                                    //   ),
-                                    // );
-                                  },
-                                  child: SvgPicture.asset(
-                                      "assets/images/noun-view-1041859.svg"),
-                                ),
+                                // GestureDetector(
+                                //   onTap: () {
+                                //     // Navigator.of(context).push(
+                                //     //   MaterialPageRoute(
+                                //     //     builder: (ct) => const PostCustomerDetails(),
+                                //     //   ),
+                                //     // );
+                                //   },
+                                //   child: SvgPicture.asset(
+                                //       "assets/images/noun-view-1041859.svg"),
+                                // ),
                               ],
                             ),
                             Container(

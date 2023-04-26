@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../controller/meal_active_list_controller.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 import '../../meal_plans_screens/meal_customer_details.dart';
 
@@ -91,10 +92,10 @@ class _CustomersMealPlanListState extends State<CustomersMealPlanList> {
                         child: Column(
                           children: [
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
-                                  radius: 2.h,
+                                  radius: 3.h,
                                   backgroundImage: NetworkImage(data[index]
                                       .userDetails
                                       .patient
@@ -115,58 +116,37 @@ class _CustomersMealPlanListState extends State<CustomersMealPlanList> {
                                             .user
                                             .name
                                             .toString(),
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 10.sp),
+                                        style: AllListText().headingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
                                       Text(
                                         "${data[index].userDetails.patient.user.age.toString()} ${data[index].userDetails.patient.user.gender.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().subHeadingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
                                       Text(
                                         "${data[index].userDetails.appointmentDate.toString()} / ${data[index].userDetails.appointmentTime.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamBook",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().otherText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
                                       Row(
                                         children: [
                                           Text(
                                             "Status : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Text(
                                             buildStatusText(data[index]
                                                 .userDetails
                                                 .status
                                                 .toString()),
-                                            style: TextStyle(
-                                                fontFamily: "GothamMedium",
-                                                color: gPrimaryColor,
-                                                fontSize: 8.sp),
+                                            style:
+                                                AllListText().subHeadingText(),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 0.5.h),
                                       Row(
                                         children: [
                                           Text(
                                             "Final Diagnosis : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Expanded(
                                             child: Text(
@@ -175,59 +155,25 @@ class _CustomersMealPlanListState extends State<CustomersMealPlanList> {
                                                   .toString(),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontFamily: "GothamMedium",
-                                                  color: gPrimaryColor,
-                                                  fontSize: 8.sp),
-                                            ),
-                                          ),
-                                          Text(
-                                            "See more",
-                                            style: TextStyle(
-                                              fontSize: 8.sp,
-                                              color: gPrimaryColor,
-                                              fontFamily: "GothamBook",
+                                              style: AllListText()
+                                                  .subHeadingText(),
                                             ),
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 0.5.h),
-                                      (data[index]
-                                                      .userDetails
-                                                      .patient
-                                                      .user
-                                                      .userProgram
-                                                      .prepDays ==
-                                                  data[index]
-                                                      .userDetails
-                                                      .patient
-                                                      .user
-                                                      .userProgram
-                                                      .ppCurrentDay) &&
-                                              (data[index]
-                                                      .userDetails
-                                                      .patient
-                                                      .user
-                                                      .userProgram
-                                                      .prepDays !=
-                                                  null) &&
-                                              (data[index]
-                                                      .userDetails
-                                                      .patient
-                                                      .user
-                                                      .userProgram
-                                                      .ppCurrentDay !=
-                                                  null)
-                                          ? Text(
-                                              "Preparatory Plan Completed by user",
-                                              style: TextStyle(
-                                                  fontFamily: "GothamMedium",
-                                                  color: gSecondaryColor,
-                                                  fontSize: 8.sp),
-                                            )
-                                          : const SizedBox(),
+                                      buildPreparatoryStatus(
+                                          data[index]
+                                              .userDetails
+                                              .patient
+                                              .user
+                                              .userProgram
+                                              .isPrepCompleted),
                                     ],
                                   ),
+                                ),
+                                Text(
+                                  "See more",
+                                  style: AllListText().otherText(),
                                 ),
                                 // PopupMenuButton(
                                 //   offset: const Offset(0, 30),
@@ -352,7 +298,23 @@ class _CustomersMealPlanListState extends State<CustomersMealPlanList> {
       return "Shipping Approved";
     } else if (status == "shipping_delivered") {
       return "Shipping Delivered";
+    } else if (status == "prep_meal_plan_completed") {
+      return "Preparatory Meal Plan Completed";
     }
     return statusText;
+  }
+
+  buildPreparatoryStatus(String isPrepCompleted) {
+    return (isPrepCompleted == "1") &&
+            (isPrepCompleted != "null")
+        ? Text(
+            "Preparatory Plan Completed by user",
+            style: TextStyle(
+                height: 1.3,
+                fontFamily: fontMedium,
+                color: gSecondaryColor,
+                fontSize: fontSize08),
+          )
+        : const SizedBox();
   }
 }

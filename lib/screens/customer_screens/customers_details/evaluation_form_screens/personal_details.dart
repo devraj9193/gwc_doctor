@@ -81,6 +81,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       value: "single",
                       activeColor: gSecondaryColor,
                       groupValue: data.data.patient.maritalStatus.toString(),
+                      visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity),
                       onChanged: (value) {},
                     ),
                     Text(
@@ -96,6 +99,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       value: "married",
                       activeColor: gSecondaryColor,
                       groupValue: data.data.patient.maritalStatus.toString(),
+                      visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity),
                       onChanged: (value) {},
                     ),
                     Text(
@@ -110,6 +116,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     Radio(
                         value: "separated",
                         groupValue: data.data.patient.maritalStatus.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gSecondaryColor,
                         onChanged: (value) {}),
                     Text(
@@ -122,7 +131,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     ),
                   ],
                 ),
-                SizedBox(height: 0.5.h),
+
                 buildTextStyle("Phone Number :"),
                 SizedBox(height: 1.5.h),
                 Text(
@@ -163,6 +172,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       value: "male",
                       activeColor: gSecondaryColor,
                       groupValue: data.data.patient.user.gender.toString(),
+                      visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity),
                       onChanged: (value) {},
                     ),
                     Text(
@@ -178,6 +190,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       value: "female",
                       activeColor: gSecondaryColor,
                       groupValue: data.data.patient.user.gender.toString(),
+                      visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity),
                       onChanged: (value) {},
                     ),
                     Text(
@@ -192,6 +207,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     Radio(
                         value: "other",
                         groupValue: data.data.patient.user.gender.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gSecondaryColor,
                         onChanged: (value) {}),
                     Text(
@@ -204,7 +222,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     ),
                   ],
                 ),
-                SizedBox(height: 0.5.h),
+
                 buildTextStyle('Address'),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

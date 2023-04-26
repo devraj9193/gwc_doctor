@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 import '../../controller/linked_customers_controller.dart';
 import '../../utils/constants.dart';
 import 'package:get/get.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import '../customer_screens/customers_lists/all_customer_active_list.dart';
 import '../customer_screens/customers_lists/all_customer_consultation_list.dart';
@@ -43,22 +44,16 @@ class _AllCustomersListState extends State<AllCustomersList> {
               //   ),
               // ),
               TabBar(
-                  labelColor: gPrimaryColor,
+                  labelColor: tapSelectedColor,
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
-                  unselectedLabelColor: gBlackColor,
-                  unselectedLabelStyle: TextStyle(
-                      fontFamily: "GothamBook",
-                      color: gBlackColor,
-                      fontSize: 9.sp),
+                  unselectedLabelColor: tapUnSelectedColor,
+                  labelStyle:TabBarText().selectedText(),
+                  unselectedLabelStyle: TabBarText().unSelectedText(),
                   isScrollable: true,
-                  indicatorColor: gPrimaryColor,
+                  indicatorColor: tapIndicatorColor,
                   labelPadding:
-                      EdgeInsets.only(right: 7.w, top: 1.h, bottom: 1.h),
+                      EdgeInsets.only(right: 7.w,left: 2.w, top: 1.h, bottom: 1.h),
                   indicatorPadding: EdgeInsets.only(right: 5.w),
-                  labelStyle: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gPrimaryColor,
-                      fontSize: 10.sp),
                   tabs: const [
                     Text('Consultation'),
                     Text('Meal Plans'),

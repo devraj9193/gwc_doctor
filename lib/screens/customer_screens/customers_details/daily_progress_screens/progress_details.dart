@@ -51,7 +51,7 @@ class _ProgressDetailsState extends State<ProgressDetails> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (ct) => MealYogaPlanDetails(
-                                    selectedDay: dailyProgress[index]),
+                                    selectedDay: "${index+1}"),
                               ),
                             );
                           },
@@ -59,9 +59,9 @@ class _ProgressDetailsState extends State<ProgressDetails> {
                             leading: Text(
                               "Day - ${index + 1}",
                               style: TextStyle(
-                                  fontSize: 9.sp,
-                                  fontFamily: "GothamMedium",
-                                  color: gPrimaryColor),
+                                  fontSize: fontSize09,
+                                  fontFamily: fontMedium,
+                                  color: newBlackColor),
                             ),
                             animation: true,
                             lineHeight: 3.h,

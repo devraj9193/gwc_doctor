@@ -23,14 +23,18 @@ class PreparatoryController extends GetxController {
         .get(Uri.parse("${GwcApi.preparatoryApiUrl}/$userId"), headers: {
       'Authorization': 'Bearer $token',
     });
+    try{
     if (response.statusCode == 200) {
       print("meal: ${response.body}");
       res = jsonDecode(response.body);
       preparatoryTransitionModel = PreparatoryTransitionModel.fromJson(res);
-      //  print("object: ${dayPlanModel?.data}");
+      print("object: ${preparatoryTransitionModel?.data}");
     } else {
       throw Exception();
+    }}catch(e){
+      print(e);
     }
+
     return PreparatoryTransitionModel.fromJson(res);
   }
 }

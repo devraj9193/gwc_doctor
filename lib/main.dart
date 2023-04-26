@@ -1,4 +1,3 @@
-import 'package:country_code_picker/country_localizations.dart';
 import 'package:doctor_app_new/splash_screen.dart';
 import 'package:doctor_app_new/utils/app_config.dart';
 import 'package:flutter/foundation.dart';
@@ -94,12 +93,6 @@ class _MyAppState extends State<MyApp> {
           ListenableProvider<QuickBloxService>.value(value: QuickBloxService()),
         ],
         child: const GetMaterialApp(
-          supportedLocales: [
-            Locale("en"),
-          ],
-          localizationsDelegates: [
-            CountryLocalizations.delegate,
-          ],
           debugShowCheckedModeBanner: false,
           home: SplashScreen(),
         ),

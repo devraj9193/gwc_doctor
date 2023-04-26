@@ -6,7 +6,8 @@ import '../../utils/constants.dart';
 
 class MealPdf extends StatelessWidget {
   final String pdfLink;
-  const MealPdf({Key? key, required this.pdfLink}) : super(key: key);
+  final String heading;
+  const MealPdf({Key? key, required this.pdfLink, required this.heading}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

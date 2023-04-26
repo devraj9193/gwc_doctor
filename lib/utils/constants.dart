@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 const gPrimaryColor = Color(0xff4E7215);
-const gSecondaryColor = Color(0xffD10034);
+const gSecondaryColor = Color(0xffEE1004);
+// const gSecondaryColor =Color(0xffD10034);
 //const gSecondaryColor = Color(0xffC10B02);
 const gBlackColor = Color(0xff000000);
 const gWhiteColor = Color(0xffFFFFFF);
 const gContentColor = Color(0xff346604);
 const gGreyColor = Color(0xff707070);
-const gMainColor = Color(0xffC7A102);
-const gTextColor = Color(0xff2D414B);
+const gMainColor = Color(0xffFFE889);
+
+const tabBarHintColor = Color(0xffBBBBBB);
+
+//const gMainColor = Color(0xffC7A102);
+const gTextColor = boldTextColor;
 const gTapColor = Color(0xffF8FAFF);
 const gBackgroundColor = Color(0xffFFE889);
 const gChatMeColor = Color(0xFFEEEEEE);
@@ -40,7 +45,6 @@ const String notificationChannelName = 'pushnotificationappchannel';
 
 const kDividerColor = Color(0xff000029);
 
-
 const String kFontMedium = 'GothamMedium';
 const String kFontBook = 'GothamBook';
 const String kFontLight = 'GothamLight';
@@ -50,10 +54,9 @@ const String kFontRBold2 = 'GothamRoundedBold_21016';
 const String kFontBlack = 'GothamBlack';
 const String kFontPoppinsRegular = 'PoppinsRegular';
 
-
 const kButtonColor = Color(0xffD10034);
 
-class eUser{
+class eUser {
   var kRadioButtonColor = gSecondaryColor;
   var threeBounceIndicatorColor = gWhiteColor;
 
@@ -61,7 +64,7 @@ class eUser{
   var mainHeadingFont = kFontRBold2;
   double mainHeadingFontSize = 13.sp;
 
-  var userFieldLabelColor =  Colors.black87.withOpacity(0.7);
+  var userFieldLabelColor = Colors.black87.withOpacity(0.7);
   var userFieldLabelFont = kFontBlack;
   double userFieldLabelFontSize = 11.sp;
   /*
@@ -69,11 +72,11 @@ class eUser{
   color: gGreyColor,
   fontSize: 11.sp
    */
-  var userTextFieldColor =  gGreyColor;
+  var userTextFieldColor = gGreyColor;
   var userTextFieldFont = kFontBook;
   double userTextFieldFontSize = 11.sp;
 
-  var userTextFieldHintColor =  Colors.grey.withOpacity(0.5);
+  var userTextFieldHintColor = Colors.grey.withOpacity(0.5);
   var userTextFieldHintFont = kFontPoppinsRegular;
   double userTextFieldHintFontSize = 10.sp;
 
@@ -83,7 +86,7 @@ class eUser{
   var fieldSuffixIconColor = gPrimaryColor;
   var fieldSuffixIconSize = 22;
 
-  var fieldSuffixTextColor =  gBlackColor.withOpacity(0.5);
+  var fieldSuffixTextColor = gBlackColor.withOpacity(0.5);
   var fieldSuffixTextFont = kFontMedium;
   double fieldSuffixTextFontSize = 8.sp;
 
@@ -99,25 +102,22 @@ class eUser{
   var buttonBorderColor = gMainColor;
   double buttonBorderWidth = 1;
 
-
-
   var buttonBorderRadius = 30.0;
 
-  var loginDummyTextColor =  Colors.black87;
+  var loginDummyTextColor = Colors.black87;
   var loginDummyTextFont = kFontBook;
   double loginDummyTextFontSize = 9.sp;
 
-  var anAccountTextColor =  gGreyColor;
+  var anAccountTextColor = gGreyColor;
   var anAccountTextFont = kFontMedium;
   double anAccountTextFontSize = 10.sp;
 
-  var loginSignupTextColor =  gSecondaryColor;
+  var loginSignupTextColor = gSecondaryColor;
   var loginSignupTextFont = kFontBold;
   double loginSignupTextFontSize = 10.5.sp;
-
 }
 
-class PPConstants{
+class PPConstants {
   final bgColor = Color(0xffFAFAFA).withOpacity(1);
 
   var kDayText = gBlackColor;
@@ -150,16 +150,17 @@ class PPConstants{
 
   /// this is for benefits answer
   var kBottomSheetBenefitsText = gBlackColor;
+
   /// this is for benefits answer
   double kBottomSheetBenefitsFontSize = 10.sp;
+
   /// this is for benefits answer
   var kBottomSheetBenefitsFont = kFontLight;
 
   var threeBounceIndicatorColor = gWhiteColor;
 }
 
-
-class MealPlanConstants{
+class MealPlanConstants {
   var dayBorderColor = Color(0xFFE2E2E2);
   var dayBorderDisableColor = gGreyColor;
   var dayTextColor = gBlackColor;
@@ -188,3 +189,40 @@ class MealPlanConstants{
   var benifitsFont = kFontLight;
   double benifitsFontSize = 8.sp;
 }
+
+// --- NEW COLORS --- //
+
+const newPrimaryColor = Color(0xff4E7215);
+const newSecondaryColor = Color(0xffD10034);
+const newBlackColor = Color(0xff000000);
+const newGreyColor = Color(0xff676363);
+const newLightGreyColor = Color(0xffB9B4B4);
+
+const newDashboardGreenButtonColor = Color(0xffA7CB52);
+const newDashboardLightGreyButtonColor = Color(0xffB9B4B4);
+
+// --- NEW FONT SIZE --- //
+
+double fontSize15 = 15.sp;
+double fontSize14 = 14.sp;
+double fontSize13 = 13.sp;
+double fontSize12 = 12.sp;
+double fontSize11 = 11.sp;
+double fontSize10 = 10.sp;
+double fontSize09 = 9.sp;
+double fontSize08 = 8.sp;
+double fontSize07 = 7.sp;
+
+// --- NEW FONT --- //
+
+const String fontBold = "GothamBold";
+const String fontMedium = "GothamMedium";
+const String fontBook = "GothamBook";
+
+// --- TEXT COLORs --- //
+
+const boldTextColor = Color(0xff000000);
+const mediumTextColor = Color(0xff676363);
+const lightTextColor = Color(0xffB9B4B4);
+const whiteTextColor = Color(0xffFFFFFF);
+const dashboardTextColor = Color(0xffC7A102);

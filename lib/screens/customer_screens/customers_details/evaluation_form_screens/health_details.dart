@@ -204,6 +204,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "clear",
                                   groupValue:
                                       data.data.tongueCoating.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -222,6 +225,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "Coated with white layer",
                                   groupValue:
                                       data.data.tongueCoating.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -241,6 +247,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "Coated with yellow layer",
                                   groupValue:
                                       data.data.tongueCoating.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -260,6 +269,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "Coated with black layer",
                                   groupValue:
                                       data.data.tongueCoating.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -279,6 +291,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "other",
                                   groupValue:
                                       data.data.tongueCoating.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -399,6 +414,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "Seperate hard lumps",
                                   groupValue:
                                       data.data.closestStoolType.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -417,6 +435,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "Lumpy & sausage like",
                                   groupValue:
                                       data.data.closestStoolType.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -436,6 +457,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                       "Sausage shape with cracks on the surface",
                                   groupValue:
                                       data.data.closestStoolType.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -454,6 +478,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "Smooth, soft sausage or snake",
                                   groupValue:
                                       data.data.closestStoolType.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -472,6 +499,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                   value: "Soft blobs with clear cut edges",
                                   groupValue:
                                       data.data.closestStoolType.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(
@@ -491,6 +521,9 @@ class _HealthDetailsState extends State<HealthDetails> {
                                       "liquid consistency with no solid pieces",
                                   groupValue:
                                       data.data.closestStoolType.toString(),
+                                  visualDensity: const VisualDensity(
+                                      horizontal: VisualDensity.minimumDensity,
+                                      vertical: VisualDensity.minimumDensity),
                                   activeColor: gPrimaryColor,
                                   onChanged: (value) {}),
                               Text(

@@ -4,6 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 import '../../../controller/all_customer_pp_controller.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 import '../../post_programs_screens/new_post_program/pp_levels_demo.dart';
 
@@ -56,10 +57,10 @@ class _AllCustomersMaintenanceGuideListState
                         child: Column(
                           children: [
                             Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CircleAvatar(
-                                  radius: 2.h,
+                                  radius: 3.h,
                                   backgroundImage: NetworkImage(data[index]
                                       .patient
                                       .user
@@ -78,36 +79,24 @@ class _AllCustomersMaintenanceGuideListState
                                             .user
                                             .name
                                             .toString(),
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 10.sp),
+                                        style: AllListText().headingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Text(
                                         "${data[index].patient.user.age.toString()} ${data[index].patient.user.gender.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 9.sp),
+                                        style: AllListText().subHeadingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Text(
                                         "${data[index].appointmentDate.toString()} / ${data[index].appointmentTime.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamBook",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().otherText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
+                      
                                       Row(
                                         children: [
                                           Text(
                                             "Associated Doctor : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Text(
                                             data[index]
@@ -116,10 +105,8 @@ class _AllCustomersMaintenanceGuideListState
                                                 .user
                                                 .fname
                                                 .toString(),
-                                            style: TextStyle(
-                                                fontFamily: "GothamMedium",
-                                                color: gPrimaryColor,
-                                                fontSize: 8.sp),
+                                            style:
+                                                AllListText().subHeadingText(),
                                           ),
                                         ],
                                       ),

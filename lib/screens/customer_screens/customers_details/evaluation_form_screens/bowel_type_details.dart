@@ -59,6 +59,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                         value: mealPreferenceList[0],
                         groupValue:
                             data.data.afterMealPreference.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -80,6 +83,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                         value: mealPreferenceList[1],
                         groupValue:
                             data.data.afterMealPreference.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -102,6 +108,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                         value: mealPreferenceList[2],
                         groupValue:
                             data.data.afterMealPreference.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -133,6 +142,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: hungerPatternList[0],
                         groupValue: data.data.hungerPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -153,6 +165,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: hungerPatternList[1],
                         groupValue: data.data.hungerPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -174,6 +189,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: hungerPatternList[2],
                         groupValue: data.data.hungerPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -195,6 +213,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: hungerPatternList[3],
                         groupValue: data.data.hungerPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -225,6 +246,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: bowelPatternList[0],
                         groupValue: data.data.bowelPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -245,6 +269,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: bowelPatternList[1],
                         groupValue: data.data.bowelPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -266,6 +293,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: bowelPatternList[2],
                         groupValue: data.data.bowelPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(
@@ -287,6 +317,9 @@ class _BowelTypeDetailsState extends State<BowelTypeDetails> {
                     Radio(
                         value: bowelPatternList[3],
                         groupValue: data.data.bowelPattern.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Expanded(

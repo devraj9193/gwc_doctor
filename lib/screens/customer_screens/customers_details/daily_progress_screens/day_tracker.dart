@@ -6,6 +6,7 @@ import '../../../../controller/day_tracker_controller.dart';
 import '../../../../model/day_tracker_model.dart';
 import '../../../../utils/check_box_settings.dart';
 import '../../../../utils/constants.dart';
+import '../../../../widgets/common_screen_widgets.dart';
 import '../../../../widgets/widgets.dart';
 import 'package:get/get.dart';
 
@@ -179,18 +180,15 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            SizedBox(height: 1.5.h),
+                            SizedBox(height: 1.h),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
                                   child: Center(
                                     child: Text(
-                                      'Day${widget.day} Tracker',
-                                      style: TextStyle(
-                                          fontFamily: "GothamMedium",
-                                          color: gBlackColor,
-                                          fontSize: 10.sp),
+                                      'Day ${widget.day} Tracker',
+                                      style:TabBarText().bottomSheetHeadingText(),
                                     ),
                                   ),
                                 ),
@@ -203,11 +201,11 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
                                       border: Border.all(
-                                          color: gMainColor, width: 1),
+                                          color: newLightGreyColor, width: 1),
                                     ),
                                     child: Icon(
                                       Icons.clear,
-                                      color: gMainColor,
+                                      color: newLightGreyColor,
                                       size: 1.6.h,
                                     ),
                                   ),
@@ -217,9 +215,9 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                             ),
                             Container(
                               margin: EdgeInsets.symmetric(
-                                  vertical: 1.h, horizontal: 25.w),
+                                  vertical: 1.h, horizontal: 15.w),
                               height: 1,
-                              color: gMainColor,
+                              color: newLightGreyColor,
                             ),
                             Expanded(
                               child: SingleChildScrollView(
@@ -256,17 +254,13 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                 Text(
                                                   "Gut Detox Program Status Tracker",
                                                   textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          "GothamMedium",
-                                                      color: gSecondaryColor,
-                                                      fontSize: 10.sp),
+                                                  style: EvaluationText().headingText()
                                                 ),
                                                 SizedBox(width: 2.w),
                                                 Expanded(
                                                   child: Container(
                                                     height: 1,
-                                                    color: kPrimaryColor,
+                                                    color: newLightGreyColor,
                                                   ),
                                                 ),
                                               ],
@@ -274,27 +268,32 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                             SizedBox(height: 1.5.h),
                                             buildLabelTextField(
                                                 "Have You Missed Anything In Your Meal Or Yoga Plan Today?"),
-                                            SizedBox(
-                                              height: 1.h,
-                                            ),
+                                            SizedBox(height: 1.h),
                                             ...missedAnything.map(
                                               (e) => Row(
                                                 children: [
                                                   Radio<String>(
                                                     value: e,
                                                     activeColor: kPrimaryColor,
+                                                    visualDensity:
+                                                        const VisualDensity(
+                                                      vertical: VisualDensity
+                                                          .minimumDensity,
+                                                          horizontal: VisualDensity.minimumDensity
+                                                    ),
                                                     groupValue:
-                                                        buildTrackSelection(
-                                                            data.data.didUMiss.toString()),
+                                                        buildTrackSelection(data
+                                                            .data.didUMiss
+                                                            .toString()),
                                                     onChanged: (value) {},
                                                   ),
                                                   Text(
                                                     e,
-                                                    style: buildTextStyle(),
-                                                  ),
+                                                    style: EvaluationText().answerText(),),
                                                 ],
                                               ),
                                             ),
+                                            SizedBox(height: 1.h),
                                             Row(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
@@ -302,11 +301,7 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                 Text(
                                                   "Missed Items",
                                                   textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          "GothamMedium",
-                                                      color: kPrimaryColor,
-                                                      fontSize: 10.sp),
+                                                  style: EvaluationText().headingText()
                                                 ),
                                                 SizedBox(
                                                   width: 2.w,
@@ -314,7 +309,7 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                 Expanded(
                                                   child: Container(
                                                     height: 1,
-                                                    color: kPrimaryColor,
+                                                    color: newLightGreyColor,
                                                   ),
                                                 ),
                                               ],
@@ -330,10 +325,7 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                             Text(
                                               data.data.didUMissAnything ?? "",
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: "GothamBook",
-                                                  color: gBlackColor,
-                                                  fontSize: 10.sp),
+                                              style: EvaluationText().answerText()
                                             ),
                                             SizedBox(
                                               height: 2.h,
@@ -345,19 +337,13 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                 Text(
                                                   "Symptom Tracker",
                                                   textAlign: TextAlign.start,
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          "GothamMedium",
-                                                      color: kPrimaryColor,
-                                                      fontSize: 10.sp),
+                                                  style: EvaluationText().headingText()
                                                 ),
-                                                SizedBox(
-                                                  width: 2.w,
-                                                ),
+                                                SizedBox(width: 2.w),
                                                 Expanded(
                                                   child: Container(
                                                     height: 1,
-                                                    color: kPrimaryColor,
+                                                    color: newLightGreyColor,
                                                   ),
                                                 ),
                                               ],
@@ -367,41 +353,48 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                             ),
                                             buildLabelTextField(
                                                 'Did you deal with any of the following withdrawal symptoms from detox today? If "Yes," then choose all that apply. If no, choose none of the above.'),
-                                            SizedBox(
-                                              height: 1.h,
-                                            ),
+                                            SizedBox(height: 1.h),
                                             getSymptom(),
                                             // ...symptomsCheckBox1
                                             //     .map((e) =>
                                             //         buildHealthCheckBox(e, '1'))
                                             //     .toList(),
+                                            Container(
+                                              height: 1,
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 1.h),
+                                              color: newLightGreyColor,
+                                            ),
                                             SizedBox(height: 1.h),
                                             buildLabelTextField(
                                                 'Did any of the following (adequate) detoxification / healing signs and symptoms happen to you today? If "Yes," then choose all that apply. If no, choose none of the above.'),
-                                            SizedBox(
-                                              height: 2.h,
-                                            ),
+                                            SizedBox(height: 1.h),
                                             getSymptom1(),
                                             // ...symptomsCheckBox2
                                             //     .map((e) =>
                                             //         buildHealthCheckBox(e, '2'))
                                             //     .toList(),
-                                            SizedBox(
-                                              height: 2.h,
+                                            Container(
+                                              height: 1,
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 1.h),
+                                              color: newLightGreyColor,
                                             ),
+                                            SizedBox(height: 1.h),
                                             buildLabelTextField(
                                                 'Please let us know if you notice any other signs or have any other worries. If none, enter "No."'),
-                                            SizedBox(
-                                              height: 1.h,
-                                            ),
+                                            SizedBox(height: 1.h),
                                             Text(
                                               data.data.haveAnyOtherWorries ??
                                                   "",
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: "GothamBook",
-                                                  color: gBlackColor,
-                                                  fontSize: 10.sp),
+                                              style: EvaluationText().answerText()
+                                            ),
+                                            Container(
+                                              height: 1,
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 1.h),
+                                              color: newLightGreyColor,
                                             ),
                                             SizedBox(
                                               height: 2.h,
@@ -414,10 +407,13 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                             Text(
                                               data.data.eatSomethingOther ?? "",
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: "GothamBook",
-                                                  color: gBlackColor,
-                                                  fontSize: 10.sp),
+                                              style: EvaluationText().answerText()
+                                            ),
+                                            Container(
+                                              height: 1,
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 1.h),
+                                              color: newLightGreyColor,
                                             ),
                                             SizedBox(
                                               height: 2.h,
@@ -440,7 +436,12 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                       child: Radio(
                                                         value: "Yes",
                                                         activeColor:
-                                                            kPrimaryColor,
+                                                            kPrimaryColor, visualDensity:
+                                                      const VisualDensity(
+                                                          vertical: VisualDensity
+                                                              .minimumDensity,
+                                                          horizontal: VisualDensity.minimumDensity
+                                                      ),
                                                         groupValue: data.data
                                                             .completedCalmMoveModules,
                                                         onChanged: (value) {},
@@ -448,12 +449,11 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                     ),
                                                     Text(
                                                       'Yes',
-                                                      style: buildTextStyle(),
-                                                    ),
+                                                      style: EvaluationText().answerText()                                                 ),
                                                   ],
                                                 ),
                                                 SizedBox(
-                                                  width: 10.w,
+                                                  width: 5.w,
                                                 ),
                                                 Row(
                                                   mainAxisSize:
@@ -462,7 +462,12 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                     SizedBox(
                                                       width: 25,
                                                       child: Radio(
-                                                        value: "No",
+                                                        value: "No", visualDensity:
+                                                      const VisualDensity(
+                                                          vertical: VisualDensity
+                                                              .minimumDensity,
+                                                          horizontal: VisualDensity.minimumDensity
+                                                      ),
                                                         activeColor:
                                                             kPrimaryColor,
                                                         groupValue: data.data
@@ -472,14 +477,16 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                     ),
                                                     Text(
                                                       'No',
-                                                      style: buildTextStyle(),
-                                                    ),
+                                                      style: EvaluationText().answerText()                                                    ),
                                                   ],
                                                 )
                                               ],
                                             ),
-                                            SizedBox(
-                                              height: 2.h,
+                                            Container(
+                                              height: 1,
+                                              margin: EdgeInsets.symmetric(
+                                                  vertical: 1.h),
+                                              color: newLightGreyColor,
                                             ),
                                             buildLabelTextField(
                                                 'Have you had a medical exam or taken any medications during the program? If "Yes", please give more information. Type "No" if not.'),
@@ -491,10 +498,7 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
                                                       .hadAMedicalExamMedications ??
                                                   "",
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                  fontFamily: "GothamBook",
-                                                  color: gBlackColor,
-                                                  fontSize: 10.sp),
+                                              style: EvaluationText().answerText()
                                             ),
                                             SizedBox(
                                               height: 3.h,
@@ -620,7 +624,7 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
       ),
       title: Text(
         healthCheckBox.title.toString(),
-        style: buildTextStyle(),
+        style: EvaluationText().answerText(),
       ),
     );
   }
@@ -699,20 +703,39 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedSymptoms1.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.gamepad_sharp,
-            color: gBlackColor,
-          ),
-          title: Text(
-            selectedSymptoms1[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedSymptoms1[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
+        //   ListTile(
+        //   leading: const Icon(
+        //     Icons.gamepad_sharp,
+        //     color: gBlackColor,
+        //   ),
+        //   title: Text(
+        //     selectedSymptoms1[index] ?? "",
+        //     style: TextStyle(
+        //       fontSize: 10.sp,
+        //       color: gBlackColor,
+        //       fontFamily: "GothamBook",
+        //     ),
+        //   ),
+        // );
       },
     );
   }
@@ -724,18 +747,23 @@ class _DayMealTracerUIState extends State<DayMealTracerUI> {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: selectedSymptoms2.length,
       itemBuilder: (context, index) {
-        return ListTile(
-          leading: const Icon(
-            Icons.gamepad_sharp,
-            color: gBlackColor,
-          ),
-          title: Text(
-            selectedSymptoms2[index] ?? "",
-            style: TextStyle(
-              fontSize: 10.sp,
-              color: gBlackColor,
-              fontFamily: "GothamBook",
-            ),
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.h),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.check_box_outlined,
+                color: gSecondaryColor,
+              ),
+              SizedBox(width: 3.w),
+              Expanded(
+                child: Text(
+                  selectedSymptoms2[index] ?? "",
+                  style: EvaluationText().answerText(),
+                ),
+              ),
+            ],
           ),
         );
       },

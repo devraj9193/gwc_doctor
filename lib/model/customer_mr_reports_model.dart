@@ -15,6 +15,7 @@ class MrReportsModel {
     this.errorCode,
     this.data,
     this.reports,
+    this.afterReports,
     this.mrReport,
     this.caseStudyReport,
   });
@@ -23,6 +24,7 @@ class MrReportsModel {
   int? errorCode;
   Data? data;
   List<Report>? reports;
+  List<Report>? afterReports;
   UserReport? mrReport;
   UserReport? caseStudyReport;
 
@@ -32,6 +34,8 @@ class MrReportsModel {
         data: Data.fromJson(json["data"]),
         reports:
             List<Report>.from(json["reports"].map((x) => Report.fromJson(x))),
+        afterReports: List<Report>.from(
+            json["after_reports"].map((x) => Report.fromJson(x))),
         mrReport: UserReport.fromJson(json["mr_report"] ?? {}),
         caseStudyReport: UserReport.fromJson(json["case_study_report"] ?? {}),
       );
@@ -41,6 +45,7 @@ class MrReportsModel {
         "errorCode": errorCode,
         "data": data?.toJson(),
         "reports": List<dynamic>.from(reports!.map((x) => x.toJson())),
+        "after_reports": List<dynamic>.from(reports!.map((x) => x.toJson())),
         "mr_report": mrReport?.toJson(),
         "case_study_report": caseStudyReport?.toJson(),
       };
@@ -54,6 +59,7 @@ class Report {
     this.appointmentId,
     this.report,
     this.reportType,
+    this.type,
     this.isArchieved,
     this.createdAt,
     this.updatedAt,
@@ -61,39 +67,41 @@ class Report {
 
   int? id;
   String? doctorId;
-  String?patientId;
+  String? patientId;
   String? appointmentId;
   String? report;
   String? reportType;
+  String? type;
   String? isArchieved;
   DateTime? createdAt;
   DateTime? updatedAt;
 
   factory Report.fromJson(Map<String, dynamic> json) => Report(
-    id: json["id"],
-    doctorId: json["doctor_id"].toString(),
-    patientId: json["patient_id"],
-    appointmentId: json["appointment_id"],
-    report: json["report"],
-    reportType: json["report_type"],
-    isArchieved: json["is_archieved"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-  );
+        id: json["id"],
+        doctorId: json["doctor_id"].toString(),
+        patientId: json["patient_id"],
+        appointmentId: json["appointment_id"],
+        report: json["report"],
+        reportType: json["report_type"],
+        type: json["type"],
+        isArchieved: json["is_archieved"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "doctor_id": doctorId,
-    "patient_id": patientId,
-    "appointment_id": appointmentId,
-    "report": report,
-    "report_type": reportType,
-    "is_archieved": isArchieved,
-    "created_at": createdAt,
-    "updated_at": updatedAt,
-  };
+        "id": id,
+        "doctor_id": doctorId,
+        "patient_id": patientId,
+        "appointment_id": appointmentId,
+        "report": report,
+        "report_type": reportType,
+        "type": type,
+        "is_archieved": isArchieved,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }
-
 
 class Data {
   Data({
@@ -436,7 +444,7 @@ class UserReport {
 
   int? id;
   String? doctorId;
-  String?patientId;
+  String? patientId;
   String? appointmentId;
   String? report;
   String? reportType;
@@ -445,26 +453,26 @@ class UserReport {
   String? updatedAt;
 
   factory UserReport.fromJson(Map<String, dynamic> json) => UserReport(
-    id: json["id"],
-    doctorId: json["doctor_id"],
-    patientId: json["patient_id"],
-    appointmentId: json["appointment_id"],
-    report: json["report"],
-    reportType: json["report_type"],
-    isArchieved: json["is_archieved"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
-  );
+        id: json["id"],
+        doctorId: json["doctor_id"],
+        patientId: json["patient_id"],
+        appointmentId: json["appointment_id"],
+        report: json["report"],
+        reportType: json["report_type"],
+        isArchieved: json["is_archieved"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "doctor_id": doctorId,
-    "patient_id": patientId,
-    "appointment_id": appointmentId,
-    "report": report,
-    "report_type": reportType,
-    "is_archieved": isArchieved,
-    "created_at": createdAt,
-    "updated_at": updatedAt,
-  };
+        "id": id,
+        "doctor_id": doctorId,
+        "patient_id": patientId,
+        "appointment_id": appointmentId,
+        "report": report,
+        "report_type": reportType,
+        "is_archieved": isArchieved,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }

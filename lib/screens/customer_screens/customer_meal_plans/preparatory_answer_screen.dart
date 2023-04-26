@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../controller/preparatory_answer_controller.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 
 class PreparatoryAnswerScreen extends StatefulWidget {
@@ -47,10 +48,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
                     child: Center(
                       child: Text(
                         '${widget.days} Days Preparatory',
-                        style: TextStyle(
-                            fontFamily: "GothamBold",
-                            color: gSecondaryColor,
-                            fontSize: 11.sp),
+                        style:TabBarText().bottomSheetHeadingText(),
                       ),
                     ),
                   ),
@@ -62,11 +60,11 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
                       padding: const EdgeInsets.all(1),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: gMainColor, width: 1),
+                        border: Border.all(color: mediumTextColor, width: 1),
                       ),
                       child: Icon(
                         Icons.clear,
-                        color: gMainColor,
+                        color: mediumTextColor,
                         size: 1.6.h,
                       ),
                     ),
@@ -78,7 +76,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 1.h, horizontal: 10.w),
               height: 1,
-              color: Colors.grey.withOpacity(0.5),
+              color: lightTextColor,
             ),
             buildStatus(),
           ],
@@ -126,12 +124,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
       children: [
         Text(
           question,
-          style: TextStyle(
-            height: 1.3,
-            fontFamily: "GothamMedium",
-            color: gBlackColor,
-            fontSize: 9.sp,
-          ),
+          style: EvaluationText().questionText(),
         ),
         SizedBox(height: 1.h),
         Row(
@@ -147,12 +140,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
             ),
             Text(
               'Yes',
-              style: TextStyle(
-                height: 1.3,
-                fontFamily: "GothamBook",
-                color: gBlackColor,
-                fontSize: 8.sp,
-              ),
+              style: EvaluationText().answerText()
             ),
             SizedBox(width: 2.w),
             Radio(
@@ -167,12 +155,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
             ),
             Text(
               'No',
-              style: TextStyle(
-                height: 1.3,
-                fontFamily: "GothamBook",
-                color: gBlackColor,
-                fontSize: 8.sp,
-              ),
+              style: EvaluationText().answerText()
             ),
           ],
         ),

@@ -45,13 +45,13 @@ class _MedicalReportDetailsState extends State<MedicalReportDetails> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 7.w),
                             child: Text(
-                              "Case Study & Medical Report are not yet Completed.",
+                              "Case Sheet & Medical Report are not yet Completed.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 height: 1.5,
-                                fontSize: 12.sp,
-                                color: gPrimaryColor,
-                                fontFamily: "GothamMedium",
+                                fontSize: fontSize12,
+                                color: newBlackColor,
+                                fontFamily: fontMedium,
                               ),
                             ),
                           )

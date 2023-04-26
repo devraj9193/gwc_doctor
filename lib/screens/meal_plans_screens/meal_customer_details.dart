@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import '../customer_screens/customer_meal_plans/preparatory_meal_plans.dart';
 import '../customer_screens/customer_meal_plans/transition_meal_plan.dart';
@@ -51,56 +52,34 @@ class _MealsCustomerDetailsState extends State<MealsCustomerDetails> {
               children: [
                 Text(
                   widget.userName,
-                  style: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gTextColor,
-                      fontSize: 10.sp),
+                  style: AllListText().headingText(),
                 ),
-                SizedBox(height: 0.5.h),
                 Text(
                   widget.age,
-                  style: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gTextColor,
-                      fontSize: 8.sp),
+                  style: AllListText().subHeadingText(),
                 ),
-                SizedBox(height: 0.5.h),
                 Text(
                   widget.appointmentDetails,
-                  style: TextStyle(
-                      fontFamily: "GothamBook",
-                      color: gTextColor,
-                      fontSize: 8.sp),
+                  style: AllListText().otherText(),
                 ),
-                SizedBox(height: 0.5.h),
                 Row(
                   children: [
                     Text(
                       "Status : ",
-                      style: TextStyle(
-                          fontFamily: "GothamBook",
-                          color: gBlackColor,
-                          fontSize: 8.sp),
+                      style: AllListText().otherText(),
                     ),
                     Text(
                       widget.status,
-                      style: TextStyle(
-                          fontFamily: "GothamMedium",
-                          color: gPrimaryColor,
-                          fontSize: 8.sp),
+                      style: AllListText().subHeadingText(),
                     ),
                   ],
                 ),
-                SizedBox(height: 0.5.h),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Final Diagnosis : ",
-                      style: TextStyle(
-                          fontFamily: "GothamBook",
-                          color: gBlackColor,
-                          fontSize: 8.sp),
+                      style: AllListText().otherText(),
                     ),
                     Expanded(
                       child: RichText(
@@ -108,11 +87,7 @@ class _MealsCustomerDetailsState extends State<MealsCustomerDetails> {
                           children: <TextSpan>[
                             TextSpan(
                               text: widget.finalDiagnosis,
-                              style: TextStyle(
-                                  height: 1.3,
-                                  fontFamily: "GothamMedium",
-                                  color: gPrimaryColor,
-                                  fontSize: 8.sp),
+                              style: AllListText().subHeadingText(),
                             ),
                           ],
                         ),
@@ -122,21 +97,15 @@ class _MealsCustomerDetailsState extends State<MealsCustomerDetails> {
                 ),
                 TabBar(
                     // padding: EdgeInsets.symmetric(horizontal: 3.w),
-                    labelColor: gPrimaryColor,
-                    unselectedLabelColor: gTextColor,
+                    labelColor: tapSelectedColor,
+                    unselectedLabelColor: tapUnSelectedColor,
                     isScrollable: true,
-                    indicatorColor: gPrimaryColor,
-                    unselectedLabelStyle: TextStyle(
-                        fontFamily: "GothamBook",
-                        color: gGreyColor,
-                        fontSize: 9.sp),
+                    indicatorColor: tapIndicatorColor,
+                    labelStyle:TabBarText().selectedText(),
+                    unselectedLabelStyle: TabBarText().unSelectedText(),
                     labelPadding:
-                        EdgeInsets.only(right: 6.w, top: 1.h, bottom: 1.h),
+                        EdgeInsets.only(right: 6.w,left: 2.w, top: 1.h, bottom: 1.h),
                     indicatorPadding: EdgeInsets.only(right: 5.w),
-                    labelStyle: TextStyle(
-                        fontFamily: "GothamMedium",
-                        color: gPrimaryColor,
-                        fontSize: 10.sp),
                     tabs: const [
                       Text('Preparatory'),
                       Text("Meal & Yoga Plan"),
@@ -144,14 +113,14 @@ class _MealsCustomerDetailsState extends State<MealsCustomerDetails> {
                       Text('Evaluation'),
                       Text('User Reports'),
                       Text('Medical Report'),
-                      Text('Case Study'),
+                      Text('Case Sheet'),
                     ]),
                 Expanded(
                   child: TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       children: [
                         PreparatoryMealPlan(
-                          preparatoryCurrentDay: widget.preparatoryCurrentDay,
+                          preparatoryCurrentDay: widget.preparatoryCurrentDay, ppCurrentDay: '', presDay: '',
                         ),
                         const DayPlanDetails(),
                         TransitionMealPlan(

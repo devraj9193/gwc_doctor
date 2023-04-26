@@ -109,6 +109,9 @@ class _FoodHabitsDetailsState extends State<FoodHabitsDetails> {
                       value: "1-2",
                       activeColor: gPrimaryColor,
                       groupValue: data.data.noGalssesDay.toString(),
+                      visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity),
                       onChanged: (value) {},
                     ),
                     Text(
@@ -126,6 +129,9 @@ class _FoodHabitsDetailsState extends State<FoodHabitsDetails> {
                       value: "3-4",
                       activeColor: gPrimaryColor,
                       groupValue: data.data.noGalssesDay.toString(),
+                      visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity),
                       onChanged: (value) {},
                     ),
                     Text(
@@ -142,6 +148,9 @@ class _FoodHabitsDetailsState extends State<FoodHabitsDetails> {
                     Radio(
                         value: "6-8",
                         groupValue: data.data.noGalssesDay.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Text(
@@ -158,6 +167,9 @@ class _FoodHabitsDetailsState extends State<FoodHabitsDetails> {
                     Radio(
                         value: "9+",
                         groupValue: data.data.noGalssesDay.toString(),
+                        visualDensity: const VisualDensity(
+                            horizontal: VisualDensity.minimumDensity,
+                            vertical: VisualDensity.minimumDensity),
                         activeColor: gPrimaryColor,
                         onChanged: (value) {}),
                     Text(

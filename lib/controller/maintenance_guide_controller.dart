@@ -41,11 +41,12 @@ class MaintenanceGuideController extends GetxController {
     final response = await http.get(Uri.parse(GwcApi.maintenanceGuideUrl), headers: {
       'Authorization': 'Bearer $token',
     });
+    print("Maintenance Guide Url: ${GwcApi.maintenanceGuideUrl}");
+    print("Maintenance Guide body: ${response.body}");
     if (response.statusCode == 200) {
       MaintenanceGuideModel jsonData =
           maintenanceGuideModelFromJson(response.body);
       List<GutMaintenanceGuide>? arrData = jsonData.gutMaintenanceGuide;
-      print("status: $arrData");
       return arrData;
     } else {
       throw Exception();

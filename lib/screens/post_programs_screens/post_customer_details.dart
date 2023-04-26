@@ -3,8 +3,11 @@ import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import '../../controller/guide_meal_plan_controller.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import 'package:get/get.dart';
+
+import 'medical_feedback_answer.dart';
 
 class PostCustomerDetails extends StatefulWidget {
   const PostCustomerDetails({Key? key}) : super(key: key);
@@ -21,45 +24,40 @@ class _PostCustomerDetailsState extends State<PostCustomerDetails> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 1,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: gWhiteColor,
-        appBar: buildAppBar(() {
-          Navigator.pop(context);
-        }),
+          appBar: buildAppBar(() {
+            Navigator.pop(context);
+          }),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TabBar(
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
-                  labelColor: gPrimaryColor,
-                  unselectedLabelColor: gTextColor,
-                  unselectedLabelStyle: TextStyle(
-                      fontFamily: "GothamBook",
-                      color: gPrimaryColor,
-                      fontSize: 10.sp),
+                  labelColor: tapSelectedColor,
+                  unselectedLabelColor: tapUnSelectedColor,
+                  labelStyle: TabBarText().selectedText(),
+                  unselectedLabelStyle: TabBarText().unSelectedText(),
                   isScrollable: true,
-                  indicatorColor: gPrimaryColor,
-                  labelPadding:
-                      EdgeInsets.only(right: 15.w, top: 1.h, bottom: 1.h),
+                  indicatorColor: tapIndicatorColor,
+                  labelPadding: EdgeInsets.only(
+                      right: 15.w, left: 2.w, top: 1.h, bottom: 1.h),
                   indicatorPadding: EdgeInsets.only(right: 10.w),
-                  labelStyle: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gPrimaryColor,
-                      fontSize: 10.sp),
                   tabs: const [
-                    Text('BreakFast'),
-                    Text('Lunch'),
-                    Text('Dinner'),
+                    Text('Medical Feedback'),
+                    // Text('Lunch'),
+                    // Text('Dinner'),
                   ]),
-              Expanded(
+              const Expanded(
                 child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     children: [
-                      buildBreakFast(),
-                      buildLunch(),
-                      buildDinner(),
+                      MedicalFeedbackAnswer(),
+                      // buildBreakFast(),
+                      // buildLunch(),
+                      // buildDinner(),
                     ]),
               ),
             ],

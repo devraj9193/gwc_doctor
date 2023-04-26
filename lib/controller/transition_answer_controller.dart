@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import '../model/day_tracker_model.dart';
-import '../model/evaluation_details_model.dart';
+import '../model/transition_answer_model.dart';
 import '../utils/app_config.dart';
 import '../utils/gwc_apis.dart';
 
 class TransitionAnswerController extends GetxController {
-  DayTrackerModel? dayTrackerModel;
+  TransitionAnswerModel? transitionAnswerModel;
 
   @override
   void onInit() {
@@ -16,7 +15,7 @@ class TransitionAnswerController extends GetxController {
     fetchTransitionAnswer;
   }
 
-  Future<DayTrackerModel>? fetchTransitionAnswer(String selectedDay) async {
+  Future<TransitionAnswerModel>? fetchTransitionAnswer(String selectedDay) async {
     dynamic res;
 
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -27,13 +26,13 @@ class TransitionAnswerController extends GetxController {
     await http.get(Uri.parse("${GwcApi.transitionAnswerApiUrl}/$userId/$selectedDay"), headers: {
       'Authorization': 'Bearer $token',
     });
-    print("${GwcApi.dayTrackerApiUrl}/$userId/$selectedDay");
+    print("${GwcApi.transitionAnswerApiUrl}/$userId/$selectedDay");
     print("Day: ${response.body}");
     if (response.statusCode == 200) {
       res = jsonDecode(response.body);
-      dayTrackerModel = DayTrackerModel.fromJson(res);
-      print("Result: ${dayTrackerModel?.data?.createdAt}");
+      transitionAnswerModel = TransitionAnswerModel.fromJson(res);
+      print("Result: ${transitionAnswerModel?.data?.createdAt}");
     } else {}
-    return DayTrackerModel.fromJson(res);
+    return TransitionAnswerModel.fromJson(res);
   }
 }

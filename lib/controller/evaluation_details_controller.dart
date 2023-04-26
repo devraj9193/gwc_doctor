@@ -26,6 +26,7 @@ class EvaluationDetailsController extends GetxController {
         await http.get(Uri.parse("${GwcApi.evaluationUrl}/$patientId"), headers: {
       'Authorization': 'Bearer $token',
     });
+    print("EVALUATION: ${response.body}");
     if (response.statusCode == 200) {
       res = jsonDecode(response.body);
       evaluationDetailsModel = EvaluationDetailsModel.fromJson(res);

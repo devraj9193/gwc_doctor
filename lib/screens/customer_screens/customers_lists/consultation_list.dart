@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../controller/consultation_controller.dart';
-import '../../../utils/constants.dart';
+import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
 import '../../consultation_screen/customer_details_screen.dart';
 
@@ -52,7 +53,7 @@ class _ConsultationListState extends State<ConsultationList> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 CircleAvatar(
-                                  radius: 2.h,
+                                  radius: 3.h,
                                   backgroundImage: NetworkImage(data[index]
                                       .teamPatients
                                       .patient
@@ -73,44 +74,27 @@ class _ConsultationListState extends State<ConsultationList> {
                                             .user
                                             .name
                                             .toString(),
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 10.sp),
+                                        style: AllListText().headingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
                                       Text(
                                         "${data[index].teamPatients.patient.user.age.toString()} ${data[index].teamPatients.patient.user.gender.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamMedium",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        style: AllListText().subHeadingText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
                                       Text(
-                                        "${data[index].teamPatients.appointmentDate.toString()} / ${data[index].teamPatients.appointmentTime.toString()}",
-                                        style: TextStyle(
-                                            fontFamily: "GothamBook",
-                                            color: gTextColor,
-                                            fontSize: 8.sp),
+                                        "${DateFormat('dd MMM yyyy').format(DateTime.parse((data[index].date.toString()))).toString()} / ${getTime(data[index].slotStartTime.toString(), data[index].date.toString())}",
+                                        style: AllListText().otherText(),
                                       ),
-                                      SizedBox(height: 0.5.h),
                                       Row(
                                         children: [
                                           Text(
                                             "Status : ",
-                                            style: TextStyle(
-                                                fontFamily: "GothamBook",
-                                                color: gBlackColor,
-                                                fontSize: 8.sp),
+                                            style: AllListText().otherText(),
                                           ),
                                           Text(
                                             buildStatusText(
                                                 data[index].status.toString()),
-                                            style: TextStyle(
-                                                fontFamily: "GothamMedium",
-                                                color: gPrimaryColor,
-                                                fontSize: 8.sp),
+                                            style:
+                                                AllListText().subHeadingText(),
                                           ),
                                         ],
                                       ),
@@ -137,7 +121,7 @@ class _ConsultationListState extends State<ConsultationList> {
                                           age:
                                               "${data[index].teamPatients.patient.user.age ?? ""} ${data[index].teamPatients.patient.user.gender ?? ""}",
                                           appointmentDetails:
-                                              "${data[index].teamPatients.appointmentDate ?? ""} / ${data[index].teamPatients.appointmentTime ?? ""}",
+                                              "${DateFormat('dd MMM yyyy').format(DateTime.parse((data[index].date.toString()))).toString() ?? ""} / ${getTime(data[index].slotStartTime.toString(), data[index].date.toString()) ?? ""}",
                                           status: buildStatusText(
                                               data[index].status),
                                         ),
@@ -147,6 +131,7 @@ class _ConsultationListState extends State<ConsultationList> {
                                   child: SvgPicture.asset(
                                       "assets/images/noun-view-1041859.svg"),
                                 ),
+                                SizedBox(width: 2.w),
                               ],
                             ),
                             Container(
@@ -171,6 +156,23 @@ class _ConsultationListState extends State<ConsultationList> {
     );
   }
 
+  getTime(String time, String date) {
+    print("isReschedule" + time);
+    if (time != null) {
+      var splited = time.split(':');
+      print("splited:$splited");
+      String hour = splited[0];
+      String minute = splited[1];
+      DateTime timing = DateTime.parse("$date $time");
+      String amPm = 'AM';
+      if (timing.hour >= 12) {
+        amPm = 'PM';
+      }
+      int second = int.parse(splited[2]);
+      return '$hour:$minute $amPm';
+    }
+  }
+
   saveUserId(String patientId, String teamPatientId) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString("patient_id", patientId);
@@ -188,7 +190,22 @@ class _ConsultationListState extends State<ConsultationList> {
       return "Consultation Rejected";
     } else if (status == "consultation_waiting") {
       return "Consultation Waiting";
+    } else if (status == "pending") {
+      return "Consultation Pending";
+    } else if (status == "wait") {
+      return "Requested for Reports";
+    } else if (status == "accepted") {
+      return "Consultation Accepted";
+    } else if (status == "rejected") {
+      return "Consultation Rejected";
+    } else if (status == "evaluation_done") {
+      return "Evaluation Done";
+    } else if (status == "declined") {
+      return "Declined";
+    } else if (status == "check_user_reports") {
+      return "Check User Reports";
     }
+
     return statusText;
   }
 }

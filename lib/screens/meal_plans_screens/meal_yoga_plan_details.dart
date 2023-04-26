@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../model/day_plan_model.dart';
 import '../../utils/constants.dart';
+import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import 'package:get/get.dart';
 import '../../controller/day_plan_list_controller.dart';
@@ -29,64 +31,44 @@ class _MealYogaPlanDetailsState extends State<MealYogaPlanDetails> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: gWhiteColor,
         appBar: buildAppBar(() {
           Navigator.pop(context);
         }),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 3.w),
-              child: Text(
-                'Day ${widget.selectedDay} Meal Plan',
-                style: TextStyle(
-                    fontSize: 10.sp,
-                    fontFamily: "GothamMedium",
-                    color: gPrimaryColor),
-              ),
-            ),
-            SizedBox(height: 1.h),
-            Expanded(
-              child: buildMealPlan(),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (ct) => DayMealTracerUI(
-                      day: widget.selectedDay,
-                    ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 3.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 1.h),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(children: [
+                  TextSpan(
+                    text: "Day ",
+                    style: MealPlan().subHeadingText(),
                   ),
-                );
-              },
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
-                padding: EdgeInsets.symmetric(vertical: 1.2.h),
-                decoration: BoxDecoration(
-                  color: gPrimaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: gMainColor, width: 1),
-                ),
-                child: Center(
-                  child: Text(
-                    'Day Tracker',
-                    style: TextStyle(
-                      fontFamily: "GothamMedium",
-                      color: gMainColor,
-                      fontSize: 12.sp,
-                    ),
+                  TextSpan(
+                    text: widget.selectedDay,
+                    style: MealPlan().headingText(),
                   ),
-                ),
+                  TextSpan(
+                    text: " Meal Plan",
+                    style: MealPlan().subHeadingText(),
+                  ),
+                ]),
               ),
-            ),
-          ],
+              SizedBox(height: 2.h),
+              buildMealPlan(),
+            ],
+          ),
         ),
       ),
     );
   }
 
   buildMealPlan() {
-    return SingleChildScrollView(
+    return Expanded(
       child: FutureBuilder(
           future: dayPlanListController.fetchDayPlanList(widget.selectedDay),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
@@ -95,104 +77,43 @@ class _MealYogaPlanDetailsState extends State<MealYogaPlanDetails> {
             } else if (snapshot.hasData) {
               var data = snapshot.data;
               mealPlanData1 = data.data;
-              return Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 3.w),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          blurRadius: 20,
-                          offset: const Offset(2, 10),
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ...groupList(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (ct) => DayMealTracerUI(
+                              day: widget.selectedDay,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),
+                        padding: EdgeInsets.symmetric(vertical: 1.2.h),
+                        decoration: BoxDecoration(
+                          color: gSecondaryColor,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ],
+                        child: Center(
+                          child: Text(
+                            'Day Tracker',
+                            style: TextStyle(
+                              fontFamily: "GothamMedium",
+                              color: gWhiteColor,
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 5.h,
-                          padding: EdgeInsets.symmetric(horizontal: 5.w),
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8)),
-                            gradient: LinearGradient(
-                                colors: [
-                                  Color(0xffE06666),
-                                  Color(0xff93C47D),
-                                  Color(0xffFFD966),
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.topRight),
-                          ),
-                        ),
-                        DataTable(
-                          headingTextStyle: TextStyle(
-                            color: gWhiteColor,
-                            fontSize: 9.sp,
-                            fontFamily: "GothamMedium",
-                          ),
-                          headingRowHeight: 5.h,
-                          horizontalMargin: 2.w,
-                          dataRowHeight: getRowHeight(),
-                          columns: const <DataColumn>[
-                            DataColumn(label: Text('Time')),
-                            DataColumn(label: Text('Meal/Yoga')),
-                            DataColumn(label: Text('Status')),
-                          ],
-                          rows: dataRowWidget(),
-                        ),
-                      ],
-                    ),
-                  ),
-                  (data.comment == "")
-                      ? const SizedBox()
-                      : Container(
-                          width: double.maxFinite,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 3.w, vertical: 1.h),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 3.w, vertical: 1.h),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.3),
-                                blurRadius: 20,
-                                offset: const Offset(2, 10),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Comments : ",
-                                // 'Lorem ipsum is simply dummy text of the printing and typesetting industry.Lorem ipsum has been the industry\'s standard dummy text ever since the 1500s,when an unknown printer took a gallery of type.',
-                                style: TextStyle(
-                                    fontSize: 10.sp,
-                                    height: 1.3,
-                                    fontFamily: "GothamBook",
-                                    color: gPrimaryColor),
-                              ),
-                              SizedBox(height: 1.h),
-                              Text(
-                                data.comment ?? "",
-                                // 'Lorem ipsum is simply dummy text of the printing and typesetting industry.Lorem ipsum has been the industry\'s standard dummy text ever since the 1500s,when an unknown printer took a gallery of type.',
-                                style: TextStyle(
-                                    fontSize: 10.sp,
-                                    height: 1.3,
-                                    fontFamily: "GothamBook",
-                                    color: gTextColor),
-                              ),
-                            ],
-                          ),
-                        ),
-                ],
+
+                  ],
+                ),
               );
             }
             return Padding(
@@ -200,6 +121,181 @@ class _MealYogaPlanDetailsState extends State<MealYogaPlanDetails> {
               child: buildCircularIndicator(),
             );
           }),
+    );
+  }
+
+  groupList() {
+    List<Column> data = [];
+
+    mealPlanData1.forEach((dayTime, value) {
+      print("dayTime ===> $dayTime");
+      for (var element in value) {
+        print("values ==> ${element.toJson()}");
+      }
+      data.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 1.w),
+            child: Text(
+              dayTime,
+              style: MealPlan().titleText(),
+            ),
+          ),
+          ...value
+              .map(
+                (e) => Column(
+              children: [
+                Container(
+                  height: 120,
+                  padding:
+                  EdgeInsets.symmetric(horizontal: 1.w, vertical: 2),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child:
+                        (e.itemPhoto != null && e.itemPhoto!.isNotEmpty)
+                            ? ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: CachedNetworkImage(
+                            imageUrl: e.itemPhoto!,
+                            errorWidget: (ctx, _, __) {
+                              return Image.asset(
+                                'assets/images/meal_placeholder.png',
+                                fit: BoxFit.fill,
+                              );
+                            },
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                            : ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset(
+                            'assets/images/meal_placeholder.png',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 2.w),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    e.name ?? 'Morning Yoga',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.visible,
+                                    style: MealPlan().headingText(),
+                                  ),
+                                ),
+                                SizedBox(width: 2.w),
+                                (e.status == "followed")
+                                    ? buildMealPlanStatus(
+                                    "Followed",
+                                    "assets/images/followed2.png",
+                                    gPrimaryColor)
+                                    : buildMealPlanStatus(
+                                    "Missed It",
+                                    "assets/images/unfollowed.png",
+                                    gSecondaryColor),
+                              ],
+                            ),
+                             SizedBox(height: 1.h),
+                            (e.benefits!.isNotEmpty)
+                                ? Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.0),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ...e.benefits!
+                                          .split(' *')
+                                          .map((element) {
+                                        return Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .center,
+                                          children: [
+                                            Center(
+                                              child: Icon(
+                                                Icons.circle_sharp,
+                                                color: gGreyColor,
+                                                size: 1.h,
+                                              ),
+                                            ),
+                                            SizedBox(width: 1.w),
+                                            Expanded(
+                                              child: Text(
+                                                element.replaceAll("* ",""),
+                                                textAlign:
+                                                TextAlign.start,
+                                                style: MealPlan()
+                                                    .subHeadingText(),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      })
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                                : const SizedBox(),
+                            SizedBox(height: 0.5.h),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider()
+              ],
+            ),
+          )
+              .toList(),
+        ],
+      ));
+    });
+    return data;
+  }
+
+  buildMealPlanStatus(String status, String image, Color color) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 1.5.w, vertical: 0.5.h),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(eUser().buttonBorderRadius),
+          color: color),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            status,
+            style: TextStyle(
+                fontSize: 8.sp, fontFamily: kFontMedium, color: gWhiteColor),
+          ),
+          SizedBox(width: 1.w),
+          Image.asset(
+            image,
+            height: 2.h,
+          )
+        ],
+      ),
     );
   }
 
@@ -212,51 +308,26 @@ class _MealYogaPlanDetailsState extends State<MealYogaPlanDetails> {
             DataCell(
               Text(
                 dayTime,
-                style: TextStyle(
-                  height: 1.5,
-                  color: gTextColor,
-                  fontSize: 8.sp,
-                  fontFamily: "GothamBold",
-                ),
+                style: MealPlan().timeText(),
               ),
             ),
             DataCell(
               Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ...value
                       .map((e) => GestureDetector(
-                            onTap: () => MealPdf(pdfLink: e.url!),
-                            child: Row(
-                              children: [
-                                e.type == 'yoga'
-                                    ? GestureDetector(
-                                        onTap: () {},
-                                        child: Image(
-                                          image: const AssetImage(
-                                              "assets/images/noun-play-1832840.png"),
-                                          height: 2.h,
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                                if (e.type == 'yoga') SizedBox(width: 2.w),
-                                Expanded(
-                                  child: Text(
-                                    " ${e.name.toString()}",
-                                    maxLines: 3,
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      height: 1.5,
-                                      color: gTextColor,
-                                      fontSize: 8.sp,
-                                      fontFamily: "GothamBook",
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            onTap: () => MealPdf(pdfLink: e.url!, heading: '',),
+                            child: Expanded(
+                              child: Text(
+                                " ${e.name.toString()}",
+                                maxLines: 3,
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                style: MealPlan().mealText(),
+                              ),
                             ),
                           ))
                       .toList()
@@ -283,15 +354,15 @@ class _MealYogaPlanDetailsState extends State<MealYogaPlanDetails> {
                         decoration: BoxDecoration(
                           color: gWhiteColor,
                           borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: gMainColor, width: 1),
+                          border: Border.all(color: lightTextColor, width: 1),
                         ),
                         child: Text(
                           e.status.toString(),
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontFamily: "GothamBook",
+                              fontFamily: fontBook,
                               color: buildTextColor(e.status.toString()),
-                              fontSize: 8.sp),
+                              fontSize: fontSize08),
                         ),
                       ),
                     );

@@ -40,7 +40,7 @@ class _BottomTapBarState extends State<BottomTapBar> {
       child: (isAdmin == "1")
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 buildTabView1(
                   index: 0,
@@ -66,7 +66,7 @@ class _BottomTapBarState extends State<BottomTapBar> {
             )
           : Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 buildTabView1(
                   index: 0,
@@ -101,7 +101,7 @@ class _BottomTapBarState extends State<BottomTapBar> {
         child: Image(
             height: isSelected ? 3.5.h : 3.h,
             image: AssetImage(image),
-            color: isSelected ? gPrimaryColor : gBlackColor,
+            color: isSelected ? gSecondaryColor : gBlackColor,
             fit: BoxFit.contain),
         onTap: () => widget.onChangedTab(index),
       ),
@@ -120,7 +120,7 @@ class _BottomTapBarState extends State<BottomTapBar> {
         child: Image(
             height: isSelected ? 2.5.h : 2.h,
             image: AssetImage(image),
-            color: isSelected ? gPrimaryColor : gBlackColor,
+            color: isSelected ? gSecondaryColor : gBlackColor,
             fit: BoxFit.contain),
         onTap: () => widget.onChangedTab(index),
       ),
@@ -139,7 +139,7 @@ class _BottomTapBarState extends State<BottomTapBar> {
           height: isSelected ? 3.7.h : 3.2.h,
           child: Icon(
             Icons.notifications_outlined,
-            color: isSelected ? gPrimaryColor : gBlackColor,
+            color: isSelected ? gSecondaryColor : gBlackColor,
           ),
         ),
         onTap: () => widget.onChangedTab(index),
