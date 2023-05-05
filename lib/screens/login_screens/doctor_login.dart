@@ -368,7 +368,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
               textAlignVertical: TextAlignVertical.center,
               keyboardType: TextInputType.number,
               cursorColor: gPrimaryColor,
-             controller: otpController,
+              controller: otpController,
               obscureText: !otpVisibility,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               style: LoginScreen().mainTextField(),
@@ -564,9 +564,9 @@ class _DoctorLoginState extends State<DoctorLogin> {
       setState(() {
         showLoginProgress = false;
       });
-      final qbService = Provider.of<QuickBloxService>(context, listen:  false);
-      qbService.kaleyraLogin(
-          model.userKaleyraId.toString());
+      // final qbService = Provider.of<QuickBloxService>(context, listen:  false);
+      // qbService.kaleyraLogin(
+      //     model.userKaleyraId.toString());
       // _qbService.login("${model.loginUsername}");
 
       print("model.userEvaluationStatus: ${model.userEvaluationStatus}");

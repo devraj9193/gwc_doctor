@@ -151,40 +151,40 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                               .user
                                               .id
                                               .toString());
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (ct) =>
-                                              ActiveCustomerDetails(
-                                            userName:
-                                                data[index].patient.user.name ??
-                                                    "",
-                                            age:
-                                                "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
-                                            appointmentDetails:
-                                                "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
-                                            status: data[index].status ?? "",
-                                            startDate: '',
-                                            presentDay: '',
-                                            finalDiagnosis: '',
-                                            preparatoryCurrentDay: data[index]
-                                                    .userDetails
-                                                    .patient
-                                                    .user
-                                                    .userProgram
-                                                    .ppCurrentDay ??
-                                                "",
-                                            transitionCurrentDay: data[index]
-                                                    .userDetails
-                                                    .patient
-                                                    .user
-                                                    .userProgram
-                                                    .tpCurrentDay ??
-                                                "",
-                                            transitionDays: '',
-                                            prepDays: '',
-                                          ),
-                                        ),
-                                      );
+                                      // Navigator.of(context).push(
+                                      //   MaterialPageRoute(
+                                      //     builder: (ct) =>
+                                      //         ActiveCustomerDetails(
+                                      //       userName:
+                                      //           data[index].patient.user.name ??
+                                      //               "",
+                                      //       age:
+                                      //           "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
+                                      //       appointmentDetails:
+                                      //           "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
+                                      //       status: data[index].status ?? "",
+                                      //       startDate: '',
+                                      //       presentDay: '',
+                                      //       finalDiagnosis: '',
+                                      //       preparatoryCurrentDay: data[index]
+                                      //               .userDetails
+                                      //               .patient
+                                      //               .user
+                                      //               .userProgram
+                                      //               .ppCurrentDay ??
+                                      //           "",
+                                      //       transitionCurrentDay: data[index]
+                                      //               .userDetails
+                                      //               .patient
+                                      //               .user
+                                      //               .userProgram
+                                      //               .tpCurrentDay ??
+                                      //           "",
+                                      //       transitionDays: '',
+                                      //       prepDays: '',
+                                      //     ),
+                                      //   ),
+                                      // );
                                     },
                                     onCall: () {
                                       saveUserId(
@@ -195,7 +195,7 @@ class _DirectBridgedScreenState extends State<DirectBridgedScreen> {
                                               .user
                                               .id
                                               .toString());
-                                      callDialog(context);
+                                      // callDialog(context);
                                     },
                                     onMessage: () {
                                       // getChatGroupId(

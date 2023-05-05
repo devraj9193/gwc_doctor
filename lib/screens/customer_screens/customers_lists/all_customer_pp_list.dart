@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
-
 import '../../../controller/all_customer_pp_controller.dart';
-import '../../../utils/constants.dart';
 import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
-import '../../active_screens/active_customer_details.dart';
+import '../../post_programs_screens/post_customer_details.dart';
 
 class AllCustomerPostProgramList extends StatefulWidget {
   const AllCustomerPostProgramList({Key? key}) : super(key: key);
@@ -56,33 +53,7 @@ class _AllCustomerPostProgramListState
                               data[index].patient.user.id.toString());
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ct) => ActiveCustomerDetails(
-                                userName: data[index].patient.user.name ?? '',
-                                age:
-                                    "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
-                                appointmentDetails:
-                                    "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
-                                status: '',
-                                startDate: '',
-                                presentDay: '',
-                                finalDiagnosis: '',
-                                preparatoryCurrentDay: data[index]
-                                        .userDetails
-                                        .patient
-                                        .user
-                                        .userProgram
-                                        .ppCurrentDay ??
-                                    "",
-                                transitionCurrentDay: data[index]
-                                        .userDetails
-                                        .patient
-                                        .user
-                                        .userProgram
-                                        .tpCurrentDay ??
-                                    "",
-                                transitionDays: '',
-                                prepDays: '',
-                              ),
+                              builder: (ct) => const PostCustomerDetails(),
                             ),
                           );
                         },

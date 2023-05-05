@@ -3,17 +3,14 @@ import 'package:doctor_app_new/screens/login_screens/doctor_login.dart';
 import 'package:doctor_app_new/screens/dashboard_screens/dashboard_screen.dart';
 import 'package:doctor_app_new/screens/notification_screens/notification_screen.dart';
 import 'package:doctor_app_new/utils/app_config.dart';
-import 'package:doctor_app_new/utils/gwc_apis.dart';
 import 'package:doctor_app_new/widgets/background_widget.dart';
 import 'package:doctor_app_new/utils/constants.dart';
 import 'package:doctor_app_new/widgets/will_pop_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'controller/services/quick_blox_service.dart';
+import 'model/chat_support/chat_support_method.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -124,13 +121,13 @@ class _SplashScreenState extends State<SplashScreen> {
           print("message.data22 ${message.data['notification_type']}");
           if (message.data != null) {
             if (message.data['notification_type'] == 'new_chat') {
-              final accessToken = _pref.getString(GwcApi.kaleyraAccessToken);
+
               final uId = _pref.getString("kaleyraUserId");
 
-              final qbService =
-              Provider.of<QuickBloxService>(context, listen: false);
-              await qbService.openKaleyraChat(
-                  "$uId", message.data["title"].toString(), "$accessToken");
+              final accessToken = _pref.getString(AppConfig.KALEYRA_ACCESS_TOKEN);
+
+              // chat
+              await openKaleyraChat(uId!, message.data["title"].toString(), accessToken!);
             }
           } else {
             await Navigator.push(

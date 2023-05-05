@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../controller/gwc_team_controller.dart';
 import '../../controller/services/quick_blox_service.dart';
+import '../../model/chat_support/chat_support_method.dart';
+import '../../model/error_model.dart';
 import '../../utils/constants.dart';
 import '../../utils/gwc_apis.dart';
 import '../../widgets/common_screen_widgets.dart';
@@ -145,15 +147,33 @@ class _GwcTeamsScreenState extends State<GwcTeamsScreen> {
                                 PopUpMenuWidget(
                                   onView: () {},
                                   onCall: () {},
-                                  onMessage: () {
-                                    final kaleyraAccessToken = _pref.getString(GwcApi.kaleyraAccessToken);
+                                  onMessage: () async {
                                     final kaleyraUserId = _pref.getString("kaleyraUserId");
-                                    saveUserId(data[index].id.toString());
-                                    final qbService = Provider.of<QuickBloxService>(
-                                        context,
-                                        listen: false);
-                                    qbService.openKaleyraChat("$kaleyraUserId",
-                                        data[index].kaleyraUserId.toString(), "$kaleyraAccessToken");
+                                    final res = await getKaleyraAccessToken(kaleyraUserId!);
+
+                                    if (res.runtimeType != ErrorModel) {
+                                      final accessToken = _pref.getString(
+                                          AppConfig.KALEYRA_ACCESS_TOKEN);
+
+                                      // chat
+                                      openKaleyraChat(
+                                          kaleyraUserId, data[index].kaleyraUserId.toString(), accessToken!);
+                                    }
+                                    else {
+                                      final result = res as ErrorModel;
+                                      print(
+                                          "get Access Token error: ${result.message}");
+                                      AppConfig().showSnackBar(
+                                          context, result.message ?? '',
+                                          isError: true, bottomPadding: 70);
+                                    }
+                                    //
+                                    // saveUserId(data[index].id.toString());
+                                    // final qbService = Provider.of<QuickBloxService>(
+                                    //     context,
+                                    //     listen: false);
+                                    // qbService.openKaleyraChat("$kaleyraUserId",
+                                    //     data[index].kaleyraUserId.toString(), "$kaleyraAccessToken");
                                     // getSuccessChatGroupId(
                                     //   data[index].name ?? "",
                                     //   "${data[index].profile}",

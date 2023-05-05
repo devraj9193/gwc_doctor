@@ -371,7 +371,7 @@ class User {
     createdAt: json["created_at"],
     updatedAt: json["updated_at"],
     signupDate: json["signup_date"],
-    userProgram: UserProgram.fromJson(json["user_program"]),
+    userProgram: (json["user_program"] != null) ? UserProgram.fromJson(json["user_program"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -538,59 +538,59 @@ class TeamMember {
 
 class UserProgram {
   UserProgram({
-    required this.id,
-    required this.userId,
-    required this.programId,
-    required this.isActive,
-    required this.startProgram,
+     this.id,
+     this.userId,
+     this.programId,
+     this.isActive,
+     this.startProgram,
     this.spDate,
     this.spCurrentDay,
-    required this.prepDays,
-    required this.prepProgram,
-    required this.ppDate,
-    required this.ppCurrentDay,
-    required this.transDays,
-    required this.transProgram,
-    required this.tpDate,
-    required this.tpCurrentDay,
-    required this.createdAt,
-    required this.updatedAt,
+     this.prepDays,
+     this.prepProgram,
+     this.ppDate,
+     this.ppCurrentDay,
+     this.transDays,
+     this.transProgram,
+     this.tpDate,
+     this.tpCurrentDay,
+     this.createdAt,
+     this.updatedAt,
   });
 
-  int id;
-  String userId;
-  String programId;
-  String isActive;
-  String startProgram;
-  dynamic spDate;
-  dynamic spCurrentDay;
-  String prepDays;
-  String prepProgram;
-  String ppDate;
-  String ppCurrentDay;
-  String transDays;
-  String transProgram;
-  String tpDate;
-  String tpCurrentDay;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? id;
+  String? userId;
+  String? programId;
+  String? isActive;
+  String? startProgram;
+  String? spDate;
+  String? spCurrentDay;
+  String? prepDays;
+  String? prepProgram;
+  String? ppDate;
+  String? ppCurrentDay;
+  String? transDays;
+  String? transProgram;
+  String? tpDate;
+  String? tpCurrentDay;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   factory UserProgram.fromJson(Map<String, dynamic> json) => UserProgram(
     id: json["id"],
-    userId: json["user_id"],
-    programId: json["program_id"],
-    isActive: json["is_active"],
-    startProgram: json["start_program"],
-    spDate: json["sp_date"],
-    spCurrentDay: json["sp_current_day"],
-    prepDays: json["prep_days"],
-    prepProgram: json["prep_program"],
-    ppDate: json["pp_date"],
-    ppCurrentDay: json["pp_current_day"],
-    transDays: json["trans_days"],
-    transProgram: json["trans_program"],
-    tpDate: json["tp_date"],
-    tpCurrentDay: json["tp_current_day"],
+    userId: json["user_id"].toString(),
+    programId: json["program_id"].toString(),
+    isActive: json["is_active"].toString(),
+    startProgram: json["start_program"].toString(),
+    spDate: json["sp_date"].toString(),
+    spCurrentDay: json["sp_current_day"].toString(),
+    prepDays: json["prep_days"].toString(),
+    prepProgram: json["prep_program"].toString(),
+    ppDate: json["pp_date"].toString(),
+    ppCurrentDay: json["pp_current_day"].toString(),
+    transDays: json["trans_days"].toString(),
+    transProgram: json["trans_program"].toString(),
+    tpDate: json["tp_date"].toString(),
+    tpCurrentDay: json["tp_current_day"].toString(),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
@@ -611,8 +611,8 @@ class UserProgram {
     "trans_program": transProgram,
     "tp_date": tpDate,
     "tp_current_day": tpCurrentDay,
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
+    "created_at": createdAt,
+    "updated_at": updatedAt,
   };
 }
 

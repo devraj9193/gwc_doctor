@@ -212,7 +212,7 @@ class _PreparatoryMealPlanState extends State<PreparatoryMealPlan> {
                         GestureDetector(
                           onTap: () {
                             buildPreparatory(
-                                "${preparatoryTransitionModel?.days}", context);
+                                preparatoryTransitionModel?.days ?? "", context);
                           },
                           child: Container(
                             margin: EdgeInsets.symmetric(

@@ -1,4 +1,5 @@
 package com.fembuddy.gwc_doctor;
+
 import android.os.Bundle;
 import android.util.Log;
 
@@ -20,73 +21,99 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugins.GeneratedPluginRegistrant;
 
 public class MainActivity extends FlutterActivity {
-        private static final String CHANNEL = "callNative";
-        private static final String CHANNEL1 = "callNative1";
+    private static final String CHANNEL = "callNative";
+    private static final String CHANNEL1 = "callNative1";
 
 
-        private MainPresenter mMainPresenter;
+    private MainPresenter mMainPresenter;
 
-        MethodChannel methodChannel;
+    MethodChannel methodChannel;
 
-        EventChannel eventChannel;
+    EventChannel eventChannel;
 
-        @Override
-        protected void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            GeneratedPluginRegistrant.registerWith(new FlutterEngine(this));
-            mMainPresenter = new MainPresenter(this);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        GeneratedPluginRegistrant.registerWith(new FlutterEngine(this));
+        mMainPresenter = new MainPresenter(this);
 
-            methodChannel = new MethodChannel(Objects.requireNonNull(getFlutterEngine()).getDartExecutor().getBinaryMessenger(), CHANNEL);
-            eventChannel=   new EventChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), CHANNEL1);
+        methodChannel = new MethodChannel(Objects.requireNonNull(getFlutterEngine()).getDartExecutor().getBinaryMessenger(), CHANNEL);
+        eventChannel = new EventChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), CHANNEL1);
 
 
-            methodChannel.setMethodCallHandler(
-                    new MethodChannel.MethodCallHandler() {
-                        @Override
-                        public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
-                           if(call.method.equals("chat_support")){
+        methodChannel.setMethodCallHandler(
+                new MethodChannel.MethodCallHandler() {
+                    @Override
+                    public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
+                        switch (call.method) {
+                            case "kaleyra_call": {
+                                String userId = call.argument("user_id");
+                                String joinUrl = call.argument("url");
+                                String kaleyraAccessToken = call.argument("access_token");
+                                mMainPresenter.joinMeeting(userId, joinUrl, kaleyraAccessToken, result);
+                                break;
+                            }
+                            case "call_global":{
+                                String userId = call.argument("user_id");
+                                String kaleyraAccessToken = call.argument("access_token");
+                                mMainPresenter.globalCall(userId, kaleyraAccessToken);
+                            }
+                            case "call_support": {
+                                String userId = call.argument("user_id");
+                                String successKaleyraId = call.argument("success_id");
+                                String kaleyraAccessToken = call.argument("access_token");
+                                mMainPresenter.normalCall(userId, successKaleyraId, kaleyraAccessToken);
+                                break;
+                            }
+                            case "chat_support": {
                                 String userId = call.argument("user_id");
                                 String opponentId = call.argument("opponent_id");
                                 String kaleyraAccessToken = call.argument("access_token");
-                                mMainPresenter.openChat(userId, opponentId,kaleyraAccessToken, result);
+                                mMainPresenter.openChat(userId, opponentId, kaleyraAccessToken, result);
+                                break;
+                            }
+                            case "upload_payload": {
+                                String payload = call.argument("payload");
+                                mMainPresenter.updatePayload(payload);
+                                break;
                             }
                         }
                     }
-            );
+                }
+        );
 
-            eventChannel.setStreamHandler(new EventChannel.StreamHandler() {
-                @Override
-                public void onListen(Object arguments, EventChannel.EventSink events) {
+        eventChannel.setStreamHandler(new EventChannel.StreamHandler() {
+            @Override
+            public void onListen(Object arguments, EventChannel.EventSink events) {
 //                HashMap hashMap = (HashMap) arguments;
 
-                    Log.d("args", String.valueOf(arguments));
+                Log.d("args", String.valueOf(arguments));
 
-                    try{
-                        if(arguments.equals("eventChannel")){
+                try{
+                    if(arguments.equals("eventChannel")){
 
-                            mMainPresenter.events = events;
+                        mMainPresenter.events = events;
 
                     /*for(int i=0;i<10;i++){
                         events.success("success"+ i);
                         Log.e("valll",String.valueOf(i));
                     }*/
-                        }else{
-                            events.error("err","err","err");
+                    }else{
+                        events.error("err","err","err");
 
-                        }
                     }
-                    catch(Exception e){
-                        events.error("err", e.getMessage(), e.getMessage());
-                    }
-
+                }
+                catch(Exception e){
+                    events.error("err", e.getMessage(), e.getMessage());
                 }
 
-                @Override
-                public void onCancel(Object arguments) {
+            }
 
-                }
-            });
+            @Override
+            public void onCancel(Object arguments) {
 
+            }
+        });
 
-        }
     }
+}

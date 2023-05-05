@@ -3,10 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 import '../../../controller/all_customer_pp_controller.dart';
-import '../../../utils/constants.dart';
 import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
-import '../../post_programs_screens/new_post_program/pp_levels_demo.dart';
+import '../../post_programs_screens/post_customer_details.dart';
 
 class AllCustomersMaintenanceGuideList extends StatefulWidget {
   const AllCustomersMaintenanceGuideList({Key? key}) : super(key: key);
@@ -48,9 +47,13 @@ class _AllCustomersMaintenanceGuideListState
                     itemBuilder: ((context, index) {
                       return GestureDetector(
                         onTap: () {
+                          saveUserDetailsId(
+                              data[index].patientId.toString(),
+                              data[index].id.toString(),
+                              data[index].patient.user.id.toString(),);
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (ct) => const PPLevelsDemo(),
+                              builder: (ct) => const PostCustomerDetails(),
                             ),
                           );
                         },

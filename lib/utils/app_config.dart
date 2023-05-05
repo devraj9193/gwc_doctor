@@ -99,17 +99,19 @@ class AppConfig{
     return deviceId;
   }
 
-  showSnackBar(BuildContext context, String message,{int? duration, bool? isError, SnackBarAction? action}){
+  showSnackBar(BuildContext context, String message,{int? duration, bool? isError, SnackBarAction? action, double? bottomPadding}){
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
         backgroundColor:(isError == null || isError == false) ? gPrimaryColor : gSecondaryColor.withOpacity(0.55),
         content: Text(message),
-        duration: Duration(seconds: duration ?? 2),
+        margin: (bottomPadding != null) ? EdgeInsets.only(bottom: bottomPadding) : null,
+        duration: Duration(seconds: duration ?? 3),
         action: action,
       ),
     );
   }
+
   fixedSnackBar(BuildContext context, String message,String btnName, onPress, {Duration? duration, bool? isError}){
     ScaffoldMessenger.of(context).showMaterialBanner(
       MaterialBanner(

@@ -8,8 +8,12 @@ class PopUpMenuWidget extends StatefulWidget {
   final VoidCallback onCall;
   final VoidCallback onMessage;
 
-
-  const PopUpMenuWidget({Key? key, required this.onView, required this.onCall, required this.onMessage}) : super(key: key);
+  const PopUpMenuWidget(
+      {Key? key,
+      required this.onView,
+      required this.onCall,
+      required this.onMessage})
+      : super(key: key);
 
   @override
   State<PopUpMenuWidget> createState() => _PopUpMenuWidgetState();
@@ -20,8 +24,7 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
   Widget build(BuildContext context) {
     return PopupMenuButton(
       offset: const Offset(0, 30),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       itemBuilder: (context) => [
         PopupMenuItem(
           child: Column(
@@ -31,8 +34,7 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
               GestureDetector(
                 onTap: widget.onView,
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "View",
@@ -41,8 +43,7 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
                           color: gTextColor,
                           fontSize: 8.sp),
                     ),
-                    SvgPicture.asset(
-                        "assets/images/noun-view-1041859.svg")
+                    SvgPicture.asset("assets/images/noun-view-1041859.svg")
                   ],
                 ),
               ),
@@ -54,19 +55,18 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
               GestureDetector(
                 onTap: widget.onCall,
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Call",
                       style: TextStyle(
                           fontFamily: "GothamBook",
-                          color: gSecondaryColor,
+                          color: gTextColor,
                           fontSize: 8.sp),
                     ),
                     Image(
-                      image: const AssetImage(
-                          "assets/images/Group 4890.png"),
+                      image: const AssetImage("assets/images/Group 4890.png"),
+                      color: gTextColor,
                       height: 2.h,
                     ),
                   ],
@@ -80,8 +80,7 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
               GestureDetector(
                 onTap: widget.onMessage,
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Message",
@@ -91,8 +90,7 @@ class _PopUpMenuWidgetState extends State<PopUpMenuWidget> {
                           fontSize: 8.sp),
                     ),
                     Image(
-                      image: const AssetImage(
-                          "assets/images/Group 4891.png"),
+                      image: const AssetImage("assets/images/Group 4891.png"),
                       height: 2.h,
                     ),
                   ],

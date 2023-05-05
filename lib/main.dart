@@ -1,18 +1,17 @@
+import 'dart:io';
+
 import 'package:doctor_app_new/splash_screen.dart';
 import 'package:doctor_app_new/utils/app_config.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
-import 'package:device_preview/device_preview.dart' hide DeviceType;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-import 'controller/services/quick_blox_service.dart';
-import 'model/quick_blox_repository/quick_blox_repository.dart';
+import 'model/internet_connection/dependency_injecion.dart';
+import 'package:upgrader/upgrader.dart';
+import 'package:store_redirect/store_redirect.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
@@ -33,6 +32,8 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
+  DependencyInjection.init();
+  await Upgrader.clearSavedSettings();
   runApp(
     const MyApp(),
   );
@@ -86,17 +87,44 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    const appCastURL =
+        'https://github.com/devraj9193/gwc_success/blob/master/test/AppCast.xml';
+    final cfg = AppcastConfiguration(url: appCastURL, supportedOS: ['android']);
+
     return Sizer(builder:
         (BuildContext context, Orientation orientation, DeviceType deviceType) {
-      return MultiProvider(
-        providers: [
-          ListenableProvider<QuickBloxService>.value(value: QuickBloxService()),
-        ],
-        child: const GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: UpgradeAlert(
+          upgrader: Upgrader(
+             appcastConfig: cfg,
+            durationUntilAlertAgain: const Duration(days: 1 ),
+            dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
+            shouldPopScope: () => true,
+            messages: UpgraderMessages(code: 'en'),
+            onIgnore: () {
+              SystemNavigator.pop();
+              throw UnsupportedError('_');
+            },
+            onUpdate: () {
+              launchURL();
+              return true;
+            },
+            onLater: () {
+              SystemNavigator.pop();
+              throw UnsupportedError('_');
+            },
+          ),
+          child:SplashScreen(),
         ),
       );
     });
+  }
+
+  launchURL() async {
+    StoreRedirect.redirect(
+      androidAppId: "com.fembuddy.doctor",
+      // iOSAppId: "284882215",
+    );
   }
 }

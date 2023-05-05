@@ -396,32 +396,6 @@ class ApiClient {
     return result;
   }
 
-  Future getKaleyraAccessTokenApi(String kaleyraUID) async {
-    dynamic result;
-    // production or sandbox
-    const environment = "sandbox";
-    const region = "eu";
-
-    const endPoint = "https://cs.$environment.$region.bandyer.com";
-
-    const String url = "$endPoint/rest/sdk/credentials";
-    try {
-      final response = await httpClient.post(Uri.parse(url),
-          headers: {'apikey': 'ak_live_c1ef0ed161003e0a2b419d20'},
-          body: {"user_id": kaleyraUID});
-      if (response.statusCode == 200) {
-        final json = jsonDecode(response.body);
-        result = json['access_token'];
-      } else {
-        final json = jsonDecode(response.body);
-        result = ErrorModel.fromJson(json);
-      }
-    } catch (e) {
-      result = ErrorModel(status: "", message: e.toString());
-    }
-    return result;
-  }
-
   getChatGroupId(String userId) async {
     String path = GwcApi.customerChatListApiUrl;
 
@@ -539,6 +513,44 @@ class ApiClient {
     } catch (e) {
       print("getUserProfileApi catch error ${e}");
       result = ErrorModel(status: "0", message: e.toString());
+    }
+    return result;
+  }
+
+  Future getKaleyraAccessTokenApi(String kaleyraUID) async{
+    dynamic result;
+    // production or sandbox
+    // final environment = "sandbox";
+    // final region = "eu";
+    // testing api key: ak_live_c1ef0ed161003e0a2b419d20
+    // final endPoint = "https://cs.${environment}.${region}.bandyer.com";
+    /// live endpoint
+    const endPoint = "https://api.in.bandyer.com";
+
+    const String url = "$endPoint/rest/sdk/credentials";
+    try{
+
+      final response = await httpClient.post(Uri.parse(url),
+          headers: {
+            'apikey': 'ak_live_d2ad6702fe931fbeb2fa9cb4'
+          },
+          body: {
+            "user_id": kaleyraUID
+          }
+      );
+      if(response.statusCode == 200){
+        final json = jsonDecode(response.body);
+        result = json['access_token'];
+        print("access token got");
+        _prefs!.setString(AppConfig.KALEYRA_ACCESS_TOKEN, result);
+      }
+      else{
+        final json = jsonDecode(response.body);
+        result = ErrorModel.fromJson(json);
+      }
+    }
+    catch(e){
+      result = ErrorModel(status: "", message: e.toString());
     }
     return result;
   }

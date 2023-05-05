@@ -20,7 +20,7 @@ class _MedicalFeedbackAnswerState extends State<MedicalFeedbackAnswer> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.w),
+      padding: EdgeInsets.symmetric(horizontal: 3.w),
       child: buildMedicalFeedbackForm(),
     );
     //   UnfocusWidget(
@@ -190,7 +190,7 @@ class _MedicalFeedbackAnswerState extends State<MedicalFeedbackAnswer> {
 
   buildRadioContainer(String title) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 2.w),
+      padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 1.w),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

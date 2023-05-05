@@ -56,7 +56,7 @@ class _AllCustomersListState extends State<AllCustomersList> {
                   indicatorPadding: EdgeInsets.only(right: 5.w),
                   tabs: const [
                     Text('Consultation'),
-                    Text('Meal Plans'),
+                    Text('Meal Plan'),
                     Text('Active'),
                     Text('Post Program Consultation'),
                     Text('Maintenance Guide'),
