@@ -9,10 +9,11 @@ import '../customer_screens/customers_details/case_study_details.dart';
 import '../customer_screens/customers_details/evaluation_get_details.dart';
 import '../customer_screens/customers_details/medical_report_details.dart';
 import '../customer_screens/customers_details/user_reports_details.dart';
-import '../customer_screens/customers_details/daily_progress_screens/progress_details.dart';
+import '../nutri_delight_screens/daily_progress_screens/progress_details.dart';
 import '../customer_screens/customer_meal_plans/day_plan_details.dart';
 
 class ActiveCustomerDetails extends StatefulWidget {
+  final int userId;
   final String userName;
   final String age;
   final String appointmentDetails;
@@ -24,6 +25,7 @@ class ActiveCustomerDetails extends StatefulWidget {
   final String transitionCurrentDay;
   final String transitionDays;
   final String prepDays;
+  final String isPrepCompleted;
   const ActiveCustomerDetails(
       {Key? key,
       required this.userName,
@@ -36,7 +38,8 @@ class ActiveCustomerDetails extends StatefulWidget {
       required this.preparatoryCurrentDay,
       required this.transitionCurrentDay,
       required this.transitionDays,
-      required this.prepDays})
+      required this.prepDays,
+      required this.isPrepCompleted, required this.userId})
       : super(key: key);
 
   @override
@@ -118,7 +121,7 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                       style: AllListText().otherText(),
                     ),
                     Text(
-                     "${buildCurrentDay(widget.transitionCurrentDay)} / ${widget.transitionDays} Days",
+                      "${buildCurrentDay(widget.transitionCurrentDay)} / ${widget.transitionDays} Days",
                       style: AllListText().subHeadingText(),
                     ),
                   ],
@@ -164,7 +167,7 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                   child: TabBarView(
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        const ProgressDetails(),
+                         ProgressDetails(userId: widget.userId),
                         const DayPlanDetails(),
                         TransitionMealPlan(
                           transitionCurrentDay: widget.transitionCurrentDay,
@@ -174,11 +177,12 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
                           preparatoryCurrentDay: widget.preparatoryCurrentDay,
                           ppCurrentDay: widget.preparatoryCurrentDay,
                           presDay: widget.prepDays,
+                          isPrepCompleted: widget.isPrepCompleted,
                         ),
                         const EvaluationGetDetails(),
                         const UserReportsDetails(),
-                        const MedicalReportDetails(),
-                        const CaseStudyDetails(),
+                        const MedicalReportDetails(userId: 0,),
+                        const CaseStudyDetails(userId: 0,),
                       ]),
                 ),
               ],
@@ -189,12 +193,11 @@ class _ActiveCustomerDetailsState extends State<ActiveCustomerDetails> {
     );
   }
 
-  buildCurrentDay(String transition){
+  buildCurrentDay(String transition) {
     print("TTT : $transition");
-    if(transition == "null"){
-     return "0";
-
-    }else{
+    if (transition == "null") {
+      return "0";
+    } else {
       return transition;
     }
   }

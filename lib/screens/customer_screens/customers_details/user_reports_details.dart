@@ -17,22 +17,28 @@ class UserReportsDetails extends StatefulWidget {
 }
 
 class _UserReportsDetailsState extends State<UserReportsDetails> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   MRReportsController mrReportsController = Get.put(MRReportsController());
+  bool isPressed = true;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          Container(
-            height: 1,
-            color: Colors.grey.withOpacity(0.3),
-          ),
-          SizedBox(height: 2.h),
-          buildBeforeReports(),
-          buildAfterReports(),
-        ],
+    return Scaffold(
+      key: _scaffoldKey,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            Container(
+              height: 1,
+              color: Colors.grey.withOpacity(0.3),
+            ),
+            SizedBox(height: 2.h),
+            buildBeforeReports(),
+            buildAfterReports(),
+          ],
+        ),
       ),
     );
   }
@@ -42,16 +48,11 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
         future: mrReportsController.fetchMRReportsList(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 7.h),
-              child: Image(
-                image: const AssetImage("assets/images/Group 5294.png"),
-                height: 35.h,
-              ),
-            );
+            return buildNoData();
           } else if (snapshot.hasData) {
             var data = snapshot.data;
-            return Column(crossAxisAlignment: CrossAxisAlignment.start,
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Before Consultation User Reports',
@@ -65,7 +66,10 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
                   itemCount: data.length,
                   itemBuilder: ((context, index) {
                     return GestureDetector(
-                      onTap: () async {
+                      onTap:isPressed ?  () async {
+                        setState(() {
+                          isPressed = true;
+                        });
                         print(data[index].report.toString());
                         final a = data[index].report;
                         final file = a.split(".").last;
@@ -78,9 +82,14 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
                         } else if (format == "pdf") {
                           openPDFFile(a, context);
                         } else {
+                          setState(() {
+                            isPressed = false;
+                          });
                           AppConfig().showSnackBar(
                               context, "Invalid File Format",
-                              isError: true);
+                              isError: true,
+                          );
+
                         }
                         // final url = data[index].report.toString();
                         // if (await canLaunch(url)) {
@@ -91,7 +100,7 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
                         //     // enableJavaScript: true,
                         //   );
                         // }
-                      },
+                      } : null,
                       child: Container(
                         margin: EdgeInsets.symmetric(
                             vertical: 1.h, horizontal: 2.w),
@@ -111,7 +120,8 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
                           children: [
                             Image(
                               height: 4.h,
-                              image: const AssetImage("assets/images/pdf.png"),
+                              image:
+                                  const AssetImage("assets/images/pdf.png"),
                             ),
                             SizedBox(width: 3.w),
                             Expanded(
@@ -176,22 +186,26 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
             var data = snapshot.data;
             return data == null
                 ? const SizedBox()
-                : Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 2.h),
-                    Text(
-                      'After Consultation User Reports',
-                      style: AllListText().headingText(),
-                    ),
-                    SizedBox(height: 1.h),
-                    ListView.builder(
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 2.h),
+                      Text(
+                        'After Consultation User Reports',
+                        style: AllListText().headingText(),
+                      ),
+                      SizedBox(height: 1.h),
+                      ListView.builder(
                         scrollDirection: Axis.vertical,
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: data.length,
                         itemBuilder: ((context, index) {
                           return GestureDetector(
-                            onTap: () async {
+                            onTap: isPressed ?  () async {
+                              setState(() {
+                                isPressed = true;
+                              });
                               print(data[index].report.toString());
                               final a = data[index].report;
                               final file = a.split(".").last;
@@ -204,11 +218,14 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
                               } else if (format == "pdf") {
                                 openPDFFile(a, context);
                               } else {
+                                setState(() {
+                                  isPressed = false;
+                                });
                                 AppConfig().showSnackBar(
                                     context, "Invalid File Format",
                                     isError: true);
                               }
-                            },
+                            } : null,
                             child: Container(
                               margin: EdgeInsets.symmetric(
                                   vertical: 1.h, horizontal: 2.w),
@@ -275,8 +292,8 @@ class _UserReportsDetailsState extends State<UserReportsDetails> {
                           );
                         }),
                       ),
-                  ],
-                );
+                    ],
+                  );
           }
           return Container();
         });

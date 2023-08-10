@@ -29,11 +29,11 @@ class TransitionMealPlanModel {
   TransitionMealPlanModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     errorCode = json['errorCode'];
-    key = json['key'];
-    currentDay = json['current_day'];
-    isTransCompleted = json['is_trans_completed'];
-    note = json['note'];
-    days = json['days'];
+    key = json['key'].toString();
+    currentDay = json['current_day'].toString();
+    isTransCompleted = json['is_trans_completed'].toString();
+    note = json['note'].toString();
+    days = json['days'].toString();
     currentDayStatus = json['current_day_status'].toString();
     previousDayStatus = json['previous_day_status'].toString();
     if (json['data'] != null) {

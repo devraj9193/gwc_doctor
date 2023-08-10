@@ -24,7 +24,7 @@ class NotificationList {
   factory NotificationList.fromJson(Map<String, dynamic> json) => NotificationList(
     status: json["status"],
     errorCode: json["errorCode"],
-    key: json["key"],
+    key: json["key"].toString(),
     data: List<NotificationModel>.from(json["data"].map((x) => NotificationModel.fromJson(x))),
   );
 
@@ -65,16 +65,16 @@ class NotificationModel {
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
     id: json["id"],
-    userId: json["user_id"],
-    type: json["type"],
-    subject: json["subject"],
-    message: json["message"],
-    requestId: json["request_id"],
-    notificationType: json["notification_type"],
-    isRead: json["is_read"],
-    addedBy: json["added_by"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+    userId: json["user_id"].toString(),
+    type: json["type"].toString(),
+    subject: json["subject"].toString(),
+    message: json["message"].toString(),
+    requestId: json["request_id"].toString(),
+    notificationType: json["notification_type"].toString(),
+    isRead: json["is_read"].toString(),
+    addedBy: json["added_by"].toString(),
+    createdAt: json["created_at"].toString(),
+    updatedAt: json["updated_at"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

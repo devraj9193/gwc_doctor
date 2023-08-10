@@ -23,10 +23,14 @@ class CalendarDetailsController extends GetxController {
     print(startDate);
     print(endDate);
 
+    var path = "${GwcApi.calendarUrl}?start=$startDate&end=$endDate";
+
+    print("calendar path : $path");
+
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken);
     print(token);
-    final response = await http.get(Uri.parse("${GwcApi.calendarUrl}?start=$startDate&end=$endDate"), headers: {
+    final response = await http.get(Uri.parse(path), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {

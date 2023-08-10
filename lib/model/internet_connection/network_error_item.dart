@@ -23,11 +23,11 @@ class _NetworkErrorItemState extends State<NetworkErrorItem> {
 
   getConnectivity() {
     subscription = Connectivity().onConnectivityChanged.listen(
-          (ConnectivityResult result) async {
+      (ConnectivityResult result) async {
         isDeviceConnected = await InternetConnectionChecker().hasConnection;
         print("Internet : $isDeviceConnected");
         if (!isDeviceConnected && isAlertSet == false) {
-          Get.to(()=> const NetworkErrorItem());
+          Get.to(() => const NetworkErrorItem());
           setState(() => isAlertSet = true);
         }
       },
@@ -46,45 +46,58 @@ class _NetworkErrorItemState extends State<NetworkErrorItem> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: Get.height, //Get.height = MediaQuery.of(context).size.height
-        width: Get.width, //Get.width = MediaQuery.of(context).size.width
-        color: Colors.white,
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(
-              Icons.signal_wifi_statusbar_connected_no_internet_4_sharp,
-              color: newLightGreyColor,
-              size: 10.h,
+            // No Internet Connection
+            Image(
+              image:
+                  const AssetImage("assets/images/Dr.png"),
+              height: 30.h,
             ),
-             SizedBox(height: 2.h),
-             Text(
-              'Internet connection lost!',
-              style: LoginScreen().textFieldHeadings(),
-            ),
-            SizedBox(height: 1.h),
-             Text(
-              'Check your connection and try again.',
-              style: LoginScreen().textFieldHeadings(),
+            // Icon(
+            //   Icons.signal_wifi_statusbar_connected_no_internet_4_sharp,
+            //   color: newLightGreyColor,
+            //   size: 10.h,
+            // ),
+            SizedBox(height: 4.h),
+            Text(
+              'No Internet Connection',
+              style: LoginScreen().welcomeText(),
             ),
             SizedBox(height: 2.h),
-            TextButton(
-              onPressed: () async {
+            Text(
+              'Check your connection and try again.',
+              style: LoginScreen().doctorAppText(),
+            ),
+            SizedBox(height: 4.h),
+            GestureDetector(
+              onTap: () async {
                 Navigator.pop(context, 'Cancel');
                 setState(() => isAlertSet = false);
                 isDeviceConnected =
-                await InternetConnectionChecker().hasConnection;
+                    await InternetConnectionChecker().hasConnection;
                 if (!isDeviceConnected && isAlertSet == false) {
-                  Get.to(()=> const NetworkErrorItem());
+                  Get.to(() => const NetworkErrorItem());
                   setState(() => isAlertSet = true);
                 }
               },
-              child:  Text('Retry',style: LoginScreen().buttonText(gSecondaryColor),),
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 8.w),
+                decoration: BoxDecoration(
+                  color: gSecondaryColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  'Retry',
+                  style: LoginScreen().buttonText(gWhiteColor),
+                ),
+              ),
             ),
           ],
         ),

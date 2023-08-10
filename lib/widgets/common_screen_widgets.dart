@@ -72,7 +72,6 @@ class DashBoardScreen {
 }
 
 class TabBarText {
-
   TextStyle selectedText() {
     return TextStyle(
       fontFamily: fontMedium,
@@ -140,6 +139,32 @@ class AllListText {
       height: 1.3,
       fontFamily: fontBook,
       color: newBlackColor,
+      fontSize: fontSize08,
+    );
+  }
+
+  TextStyle getProgramStatus() {
+    return TextStyle(
+        height: 1.3,
+        fontFamily: fontMedium,
+        color: gPrimaryColor,
+        fontSize: fontSize08);
+  }
+
+  TextStyle deliveryDateOtherText() {
+    return TextStyle(
+      height: 1.3,
+      fontFamily: fontBook,
+      color: gSecondaryColor,
+      fontSize: fontSize08,
+    );
+  }
+
+  TextStyle deliveryDateText() {
+    return TextStyle(
+      height: 1.3,
+      fontFamily: fontMedium,
+      color: gSecondaryColor,
       fontSize: fontSize08,
     );
   }
@@ -218,7 +243,6 @@ class EvaluationText {
 }
 
 class MealPlan {
-
   TextStyle tabText() {
     return TextStyle(
       fontFamily: fontBold,
@@ -285,4 +309,66 @@ class MealPlan {
       fontSize: fontSize08,
     );
   }
+
+  TextStyle trackerHeading() {
+    return TextStyle(
+      height: 1.5,
+      fontFamily: fontBold,
+      color: newBlackColor,
+      fontSize: fontSize09,
+    );
+  }
+
+  TextStyle trackerSubHeading() {
+    return TextStyle(
+      height: 1.5,
+      fontFamily: fontMedium,
+      color: newBlackColor,
+      fontSize: fontSize08,
+    );
+  }
+
+  TextStyle trackerAnswer() {
+    return TextStyle(
+      height: 1.5,
+      fontFamily: fontBook,
+      color: newBlackColor,
+      fontSize: fontSize08,
+    );
+  }
 }
+
+class DialogTextStyles {
+  TextStyle headingText() {
+    return TextStyle(
+      color: newBlackColor,
+      fontFamily: fontBold,
+      fontSize: fontSize11,
+    );
+  }
+
+  TextStyle subHeadingText() {
+    return TextStyle(
+      fontFamily: fontBook,
+      color: newBlackColor,
+      fontSize: fontSize10,
+    );
+  }
+
+  TextStyle cancelText() {
+    return TextStyle(
+      color: newBlackColor,
+      fontFamily: fontMedium,
+      fontSize: fontSize09,
+    );
+  }
+
+  TextStyle logoutText() {
+    return TextStyle(
+      color: whiteTextColor,
+      fontFamily: fontMedium,
+      fontSize: fontSize09,
+    );
+  }
+}
+

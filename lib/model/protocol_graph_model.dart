@@ -28,7 +28,7 @@ class ProtocolGraphModel {
   factory ProtocolGraphModel.fromJson(Map<String, dynamic> json) => ProtocolGraphModel(
     status: json["status"],
     errorCode: json["errorCode"],
-    key: json["key"],
+    key: json["key"].toString(),
     days: json["days"],
     data: Map.from(json["data"]).map((k, v) => MapEntry<String, Graph>(k, Graph.fromJson(v))),
     teamPatientId: json["team_patient_id"],
@@ -56,9 +56,9 @@ class Graph {
   String? dinner;
 
   factory Graph.fromJson(Map<String, dynamic> json) => Graph(
-    breakfast: json["breakfast"],
-    lunch: json["lunch"],
-    dinner: json["dinner"],
+    breakfast: json["breakfast"].toString(),
+    lunch: json["lunch"].toString(),
+    dinner: json["dinner"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

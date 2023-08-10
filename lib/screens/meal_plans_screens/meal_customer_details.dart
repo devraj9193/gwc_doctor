@@ -19,16 +19,18 @@ class MealsCustomerDetails extends StatefulWidget {
   final String finalDiagnosis;
   final String preparatoryCurrentDay;
   final String transitionCurrentDay;
-  const MealsCustomerDetails(
-      {Key? key,
-      required this.userName,
-      required this.age,
-      required this.appointmentDetails,
-      required this.status,
-      required this.finalDiagnosis,
-      required this.preparatoryCurrentDay,
-      required this.transitionCurrentDay})
-      : super(key: key);
+  final String isPrepCompleted;
+  const MealsCustomerDetails({
+    Key? key,
+    required this.userName,
+    required this.age,
+    required this.appointmentDetails,
+    required this.status,
+    required this.finalDiagnosis,
+    required this.preparatoryCurrentDay,
+    required this.transitionCurrentDay,
+    required this.isPrepCompleted,
+  }) : super(key: key);
 
   @override
   State<MealsCustomerDetails> createState() => _MealsCustomerDetailsState();
@@ -101,14 +103,15 @@ class _MealsCustomerDetailsState extends State<MealsCustomerDetails> {
                     unselectedLabelColor: tapUnSelectedColor,
                     isScrollable: true,
                     indicatorColor: tapIndicatorColor,
-                    labelStyle:TabBarText().selectedText(),
+                    labelStyle: TabBarText().selectedText(),
                     unselectedLabelStyle: TabBarText().unSelectedText(),
-                    labelPadding:
-                        EdgeInsets.only(right: 6.w,left: 2.w, top: 1.h, bottom: 1.h),
+                    labelPadding: EdgeInsets.only(
+                        right: 6.w, left: 2.w, top: 1.h, bottom: 1.h),
                     indicatorPadding: EdgeInsets.only(right: 5.w),
                     tabs: const [
                       Text('Preparatory'),
-                      Text("Meal & Yoga Plan"),
+                      Text("Detox"),
+                      Text('Healing'),
                       Text('Transition'),
                       Text('Evaluation'),
                       Text('User Reports'),
@@ -117,19 +120,23 @@ class _MealsCustomerDetailsState extends State<MealsCustomerDetails> {
                     ]),
                 Expanded(
                   child: TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                         PreparatoryMealPlan(
-                          preparatoryCurrentDay: widget.preparatoryCurrentDay, ppCurrentDay: '', presDay: '',
+                          preparatoryCurrentDay: widget.preparatoryCurrentDay,
+                          ppCurrentDay: '',
+                          presDay: '',
+                          isPrepCompleted: widget.isPrepCompleted,
                         ),
+                        const DayPlanDetails(),
                         const DayPlanDetails(),
                         TransitionMealPlan(
                           transitionCurrentDay: widget.transitionCurrentDay,
                         ),
                         const EvaluationGetDetails(),
                         const UserReportsDetails(),
-                        const MedicalReportDetails(),
-                        const CaseStudyDetails(),
+                        const MedicalReportDetails(userId: 0,),
+                        const CaseStudyDetails(userId: 0,),
                       ]),
                 ),
               ],

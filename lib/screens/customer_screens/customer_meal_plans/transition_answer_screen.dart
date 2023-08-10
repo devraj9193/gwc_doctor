@@ -725,7 +725,7 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
         .toString()
         .replaceAll('[', '')
         .replaceAll(']', '')
-        .split(',');
+        .split('\/');
     print(lifeStyle);
     selectedSymptoms1 = lifeStyle;
     print("selectedSymptoms1: $selectedSymptoms1");
@@ -735,7 +735,7 @@ class _TransitionAnswerScreenState extends State<TransitionAnswerScreen> {
         .toString()
         .replaceAll('[', '')
         .replaceAll(']', '')
-        .split(',');
+        .split('\/');
     print(lifeStyle1);
     selectedSymptoms2 = lifeStyle1;
     print("selectedSymptoms2: $selectedSymptoms2");

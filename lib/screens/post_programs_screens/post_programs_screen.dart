@@ -3,7 +3,7 @@ import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
 import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
-import '../../doctor_status_screen.dart';
+import '../chart_screen/doctor_status_screen.dart';
 import '../customer_screens/customers_lists/maintenance_guide_list.dart';
 import '../customer_screens/customers_lists/post_program_list.dart';
 
@@ -34,7 +34,7 @@ class _PostProgramsScreenState extends State<PostProgramsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomerStatusScreen(),
+                const DoctorStatusScreen(),
                 SizedBox(height: 2.h),
                 TabBar(
                     labelColor: tapSelectedColor,

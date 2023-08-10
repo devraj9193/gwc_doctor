@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import '../../controller/repository/api_service.dart';
 import '../../model/doctor_profile_service/doctor_profile_repo.dart';
 import '../../model/doctor_profile_service/doctor_profile_service.dart';
+import '../../repository/api_service.dart';
 import '../../utils/app_config.dart';
 import '../../utils/constants.dart';
 import '../../widgets/common_screen_widgets.dart';

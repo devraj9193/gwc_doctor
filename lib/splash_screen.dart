@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:doctor_app_new/screens/calendar_screens/calendar_customer_details.dart';
 import 'package:doctor_app_new/screens/login_screens/doctor_login.dart';
 import 'package:doctor_app_new/screens/dashboard_screens/dashboard_screen.dart';
 import 'package:doctor_app_new/screens/notification_screens/notification_screen.dart';
 import 'package:doctor_app_new/utils/app_config.dart';
 import 'package:doctor_app_new/widgets/background_widget.dart';
 import 'package:doctor_app_new/utils/constants.dart';
-import 'package:doctor_app_new/widgets/will_pop_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -24,17 +24,33 @@ class _SplashScreenState extends State<SplashScreen> {
   int _currentPage = 0;
   Timer? _timer;
   static final _notificationsPlugin = FlutterLocalNotificationsPlugin();
+  bool isLogin = false;
   String loginStatus = "";
   String deviceToken = "";
 
   final SharedPreferences _pref = AppConfig().preferences!;
 
+  getScreen() {
+    // WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    //   if(isError){
+    //     showAlert();
+    //     _timer!.cancel();
+    //   }
+    // });
+  }
+
   getPref() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      loginStatus = preferences.getString(AppConfig().bearerToken)!;
-      print("Token: $loginStatus");
+      isLogin = _pref.getBool(AppConfig.isLogin) ?? false;
     });
+    print(
+        "_pref.getBool(AppConfig.isLogin): ${_pref.getBool(AppConfig.isLogin)}");
+    print("isLogin: $isLogin");
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    // setState(() {
+    //   loginStatus = preferences.getString(AppConfig().bearerToken)!;
+    //   print("Token: $loginStatus");
+    // });
   }
 
   @override
@@ -79,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
     );
     _notificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+      // onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
     );
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -111,7 +127,7 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen(
-          (message) async {
+      (message) async {
         print("FirebaseMessaging.onMessageOpenedApp.listen");
         if (message.notification != null) {
           print(
@@ -121,26 +137,29 @@ class _SplashScreenState extends State<SplashScreen> {
           print("message.data22 ${message.data['notification_type']}");
           if (message.data != null) {
             if (message.data['notification_type'] == 'new_chat') {
-
               final uId = _pref.getString("kaleyraUserId");
 
-              final accessToken = _pref.getString(AppConfig.KALEYRA_ACCESS_TOKEN);
+              final accessToken =
+                  _pref.getString(AppConfig.KALEYRA_ACCESS_TOKEN);
 
               // chat
-              await openKaleyraChat(uId!, message.data["title"].toString(), accessToken!);
+              await openKaleyraChat(
+                  uId!, message.data["title"].toString(), accessToken!);
+            } else {
+              print("tag_id : ${message.data['tag_id']}");
+              await Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) => CalendarCustomerDetails(
+                    userId: int.parse(message.data['tag_id']),
+                  ),
+                ),
+              );
             }
-          } else {
-            await Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (context) => const NotificationScreen(),
-              ),
-            );
           }
         }
       },
     );
-
   }
 
   void onDidReceiveNotificationResponse(
@@ -196,28 +215,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopWidget(
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            PageView(
-              physics: const NeverScrollableScrollPhysics(),
-              reverse: false,
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              controller: _pageController,
-              children: <Widget>[
-                splashImage(),
-                (loginStatus.isNotEmpty)
-                    ? const DashboardScreen()
-                    : const DoctorLogin(),
-              ],
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          PageView(
+            physics: const NeverScrollableScrollPhysics(),
+            reverse: false,
+            onPageChanged: (int page) {
+              setState(() {
+                _currentPage = page;
+              });
+            },
+            controller: _pageController,
+            children: <Widget>[
+              splashImage(),
+              (isLogin) ? const DashboardScreen() : const DoctorLogin(),
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
-import '../../controller/repository/api_service.dart';
+
+import '../../repository/api_service.dart';
 
 class DoctorMemberProfileRepository{
   ApiClient apiClient;

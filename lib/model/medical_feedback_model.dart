@@ -21,7 +21,7 @@ class MedicalFeedbackModel {
 
   factory MedicalFeedbackModel.fromJson(Map<String, dynamic> json) => MedicalFeedbackModel(
     status: json["status"],
-    key: json["key"],
+    key: json["key"].toString(),
     data: Data.fromJson(json["data"]),
   );
 
@@ -59,15 +59,15 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
-    resolvedDigestiveIssue: json["resolved_digestive_issue"],
-    unresolvedDigestiveIssue: json["unresolved_digestive_issue"],
-    mealPreferences: json["meal_preferences"],
-    hungerPattern: json["hunger_pattern"],
-    bowelPattern: json["bowel_pattern"],
-    lifestyleHabits: json["lifestyle_habits"],
-    addedBy: json["added_by"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+    resolvedDigestiveIssue: json["resolved_digestive_issue"].toString(),
+    unresolvedDigestiveIssue: json["unresolved_digestive_issue"].toString(),
+    mealPreferences: json["meal_preferences"].toString(),
+    hungerPattern: json["hunger_pattern"].toString(),
+    bowelPattern: json["bowel_pattern"].toString(),
+    lifestyleHabits: json["lifestyle_habits"].toString(),
+    addedBy: json["added_by"].toString(),
+    createdAt: json["created_at"].toString(),
+    updatedAt: json["updated_at"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

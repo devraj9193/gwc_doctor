@@ -23,10 +23,10 @@ class MealActiveListController extends GetxController {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
-      print("meal: ${response.body}");
       MealActiveModel jsonData = mealActiveModelFromJson(response.body);
       List<MealPlanList>? arrData = jsonData.mealPlanList;
-      //print("status: ${arrData?[0].userDetails?.status}");
+      print("Meal List url: ${GwcApi.mealPlanListUrl}");
+      print("Meal List response:: ${arrData?.toList()}");
       return arrData;
     } else {
       throw Exception();
@@ -40,11 +40,11 @@ class MealActiveListController extends GetxController {
     final response = await http.get(Uri.parse(GwcApi.mealPlanListUrl), headers: {
       'Authorization': 'Bearer $token',
     });
-    print("Active List: ${response.body}");
     if (response.statusCode == 200) {
       MealActiveModel jsonData = mealActiveModelFromJson(response.body);
       List<ActiveDetail>? arrData = jsonData.activeDetails;
-      print("diagnosis: ${arrData?[1].userFinalDiagnosis}");
+      print("Active List url: ${GwcApi.mealPlanListUrl}");
+      print("Active List response:: ${arrData?.toList()}");
       return arrData;
     } else {
       throw Exception();

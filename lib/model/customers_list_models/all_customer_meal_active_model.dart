@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'meal_active_model.dart';
+
 AllCustomerMealActiveModel mealActiveModelFromJson(String str) => AllCustomerMealActiveModel.fromJson(json.decode(str));
 
 String allCustomerMealActiveModelToJson(AllCustomerMealActiveModel data) => json.encode(data.toJson());
@@ -109,21 +111,21 @@ class ActiveDetailsWeb {
 
   factory ActiveDetailsWeb.fromJson(Map<String, dynamic> json) => ActiveDetailsWeb(
     id: json["id"],
-    teamId: json["team_id"],
-    patientId: json["patient_id"],
-    programId: json["program_id"],
-    assignedDate: json["assigned_date"],
-    uploadTime: json["upload_time"],
-    status: json["status"],
-    isArchieved: json["is_archieved"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
-    appointmentDate: json["appointment_date"],
-    appointmentTime: json["appointment_time"],
-    updateDate: json["update_date"],
-    updateTime: json["update_time"],
-    manifestUrl: json["manifest_url"],
-    labelUrl: json["label_url"],
+    teamId: json["team_id"].toString(),
+    patientId: json["patient_id"].toString(),
+    programId: json["program_id"].toString(),
+    assignedDate: json["assigned_date"].toString(),
+    uploadTime: json["upload_time"].toString(),
+    status: json["status"].toString(),
+    isArchieved: json["is_archieved"].toString(),
+    createdAt: json["created_at"].toString(),
+    updatedAt: json["updated_at"].toString(),
+    appointmentDate: json["appointment_date"].toString(),
+    appointmentTime: json["appointment_time"].toString(),
+    updateDate: json["update_date"].toString(),
+    updateTime: json["update_time"].toString(),
+    manifestUrl: json["manifest_url"].toString(),
+    labelUrl: json["label_url"].toString(),
     patient: Patient.fromJson(json["patient"]),
     team: Team.fromJson(json["team"]),
     appointments: List<Appointment>.from(json["appointments"].map((x) => Appointment.fromJson(x))),
@@ -173,7 +175,7 @@ class Appointment {
 
   int? id;
   String? teamPatientId;
-  DateTime? date;
+  String? date;
   String? slotStartTime;
   String? slotEndTime;
   String? type;
@@ -189,20 +191,20 @@ class Appointment {
 
   factory Appointment.fromJson(Map<String, dynamic> json) => Appointment(
     id: json["id"],
-    teamPatientId: json["team_patient_id"],
-    date: DateTime.parse(json["date"]),
-    slotStartTime: json["slot_start_time"],
-    slotEndTime: json["slot_end_time"],
-    type: json["type"],
-    status: json["status"],
-    zoomJoinUrl: json["zoom_join_url"],
-    zoomStartUrl: json["zoom_start_url"],
-    zoomId: json["zoom_id"],
-    zoomPassword: json["zoom_password"],
+    teamPatientId: json["team_patient_id"].toString(),
+    date: json["date"],
+    slotStartTime: json["slot_start_time"].toString(),
+    slotEndTime: json["slot_end_time"].toString(),
+    type: json["type"].toString(),
+    status: json["status"].toString(),
+    zoomJoinUrl: json["zoom_join_url"].toString(),
+    zoomStartUrl: json["zoom_start_url"].toString(),
+    zoomId: json["zoom_id"].toString(),
+    zoomPassword: json["zoom_password"].toString(),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
-    appointmentDate: json["appointment_date"],
-    appointmentStartTime: json["appointment_start_time"],
+    appointmentDate: json["appointment_date"].toString(),
+    appointmentStartTime: json["appointment_start_time"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -257,17 +259,17 @@ class Patient {
 
   factory Patient.fromJson(Map<String, dynamic> json) => Patient(
     id: json["id"],
-    userId: json["user_id"],
-    maritalStatus: json["marital_status"],
-    address2: json["address2"],
-    city: json["city"],
-    state: json["state"],
-    country: json["country"],
-    weight: json["weight"],
-    status:json["status"],
-    isArchieved: json["is_archieved"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+    userId: json["user_id"].toString(),
+    maritalStatus: json["marital_status"].toString(),
+    address2: json["address2"].toString(),
+    city: json["city"].toString(),
+    state: json["state"].toString(),
+    country: json["country"].toString(),
+    weight: json["weight"].toString(),
+    status:json["status"].toString(),
+    isArchieved: json["is_archieved"].toString(),
+    createdAt: json["created_at"].toString(),
+    updatedAt: json["updated_at"].toString(),
     user: User.fromJson(json["user"]),
   );
 
@@ -347,30 +349,30 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
-    roleId: json["role_id"],
-    name: json["name"],
-    fname: json["fname"],
-    lname: json["lname"],
-    email: json["email"],
-    emailVerifiedAt: json["email_verified_at"],
-    countryCode: json["country_code"],
-    phone: json["phone"],
-    gender: json["gender"],
-    profile: json["profile"],
-    address: json["address"],
-    otp: json["otp"],
-    deviceToken: json["device_token"],
-    deviceType: json["device_type"],
-    deviceId: json["device_id"],
-    age: json["age"],
-    chatId: json["chat_id"],
-    loginUsername: json["login_username"],
-    pincode: json["pincode"],
-    isActive: json["is_active"],
-    addedBy: json["added_by"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
-    signupDate: json["signup_date"],
+    roleId: json["role_id"].toString(),
+    name: json["name"].toString(),
+    fname: json["fname"].toString(),
+    lname: json["lname"].toString(),
+    email: json["email"].toString(),
+    emailVerifiedAt: json["email_verified_at"].toString(),
+    countryCode: json["country_code"].toString(),
+    phone: json["phone"].toString(),
+    gender: json["gender"].toString(),
+    profile: json["profile"].toString(),
+    address: json["address"].toString(),
+    otp: json["otp"].toString(),
+    deviceToken: json["device_token"].toString(),
+    deviceType: json["device_type"].toString(),
+    deviceId: json["device_id"].toString(),
+    age: json["age"].toString(),
+    chatId: json["chat_id"].toString(),
+    loginUsername: json["login_username"].toString(),
+    pincode: json["pincode"].toString(),
+    isActive: json["is_active"].toString(),
+    addedBy: json["added_by"].toString(),
+    createdAt: json["created_at"].toString(),
+    updatedAt: json["updated_at"].toString(),
+    signupDate: json["signup_date"].toString(),
     userProgram: (json["user_program"] != null) ? UserProgram.fromJson(json["user_program"]) : null,
   );
 
@@ -421,10 +423,10 @@ class GetTeam {
 
   factory GetTeam.fromJson(Map<String, dynamic> json) => GetTeam(
     id: json["id"],
-    teamId: json["team_id"],
-    userId: json["user_id"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+    teamId: json["team_id"].toString(),
+    userId: json["user_id"].toString(),
+    createdAt: json["created_at"].toString(),
+    updatedAt: json["updated_at"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -447,7 +449,7 @@ class MealPlanList {
 
   factory MealPlanList.fromJson(Map<String, dynamic> json) => MealPlanList(
     userDetails: ActiveDetailsWeb.fromJson(json["user_details"]),
-    userFinalDiagnosis: json["user_final_diagnosis"],
+    userFinalDiagnosis: json["user_final_diagnosis"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -479,10 +481,10 @@ class Team {
 
   factory Team.fromJson(Map<String, dynamic> json) => Team(
     id: json["id"],
-    teamName: json["team_name"],
-    shiftId: json["shift_id"],
-    slotsPerDay: json["slots_per_day"],
-    isArchieved: json["is_archieved"],
+    teamName: json["team_name"].toString(),
+    shiftId: json["shift_id"].toString(),
+    slotsPerDay: json["slots_per_day"].toString(),
+    isArchieved: json["is_archieved"].toString(),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     teamMember: List<TeamMember>.from(json["team_member"].map((x) => TeamMember.fromJson(x))),
@@ -519,8 +521,8 @@ class TeamMember {
 
   factory TeamMember.fromJson(Map<String, dynamic> json) => TeamMember(
     id: json["id"],
-    teamId: json["team_id"],
-    userId: json["user_id"],
+    teamId: json["team_id"].toString(),
+    userId: json["user_id"].toString(),
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     user: User.fromJson(json["user"]),
@@ -535,84 +537,3 @@ class TeamMember {
     "user": user.toJson(),
   };
 }
-
-class UserProgram {
-  UserProgram({
-     this.id,
-     this.userId,
-     this.programId,
-     this.isActive,
-     this.startProgram,
-    this.spDate,
-    this.spCurrentDay,
-     this.prepDays,
-     this.prepProgram,
-     this.ppDate,
-     this.ppCurrentDay,
-     this.transDays,
-     this.transProgram,
-     this.tpDate,
-     this.tpCurrentDay,
-     this.createdAt,
-     this.updatedAt,
-  });
-
-  int? id;
-  String? userId;
-  String? programId;
-  String? isActive;
-  String? startProgram;
-  String? spDate;
-  String? spCurrentDay;
-  String? prepDays;
-  String? prepProgram;
-  String? ppDate;
-  String? ppCurrentDay;
-  String? transDays;
-  String? transProgram;
-  String? tpDate;
-  String? tpCurrentDay;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-
-  factory UserProgram.fromJson(Map<String, dynamic> json) => UserProgram(
-    id: json["id"],
-    userId: json["user_id"].toString(),
-    programId: json["program_id"].toString(),
-    isActive: json["is_active"].toString(),
-    startProgram: json["start_program"].toString(),
-    spDate: json["sp_date"].toString(),
-    spCurrentDay: json["sp_current_day"].toString(),
-    prepDays: json["prep_days"].toString(),
-    prepProgram: json["prep_program"].toString(),
-    ppDate: json["pp_date"].toString(),
-    ppCurrentDay: json["pp_current_day"].toString(),
-    transDays: json["trans_days"].toString(),
-    transProgram: json["trans_program"].toString(),
-    tpDate: json["tp_date"].toString(),
-    tpCurrentDay: json["tp_current_day"].toString(),
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "user_id": userId,
-    "program_id": programId,
-    "is_active": isActive,
-    "start_program": startProgram,
-    "sp_date": spDate,
-    "sp_current_day": spCurrentDay,
-    "prep_days": prepDays,
-    "prep_program": prepProgram,
-    "pp_date": ppDate,
-    "pp_current_day": ppCurrentDay,
-    "trans_days": transDays,
-    "trans_program": transProgram,
-    "tp_date": tpDate,
-    "tp_current_day": tpCurrentDay,
-    "created_at": createdAt,
-    "updated_at": updatedAt,
-  };
-}
-

@@ -22,6 +22,9 @@ class DayPlanListController extends GetxController {
         .get(Uri.parse("${GwcApi.dayMealListUrl}/$selectedDay/$userId"), headers: {
       'Authorization': 'Bearer $token',
     });
+    print("meal plan : ${GwcApi.dayMealListUrl}/$selectedDay/$userId");
+    print("meal plan : ${response.body}");
+
     if (response.statusCode == 200) {
       print("meal: ${response.body}");
       res = jsonDecode(response.body);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 
 import 'constants.dart';
 
@@ -9,7 +10,10 @@ class AppConfig{
   factory AppConfig() => _instance ??= AppConfig._();
   AppConfig._();
 
-  final String baseUrl = "https://gwc.disol.in";
+  // final String baseUrl = "https://gwc.disol.in";
+  final String baseUrl = "https://gutandhealth.com";
+  final String uvBaseUrl = "https://support.gutandhealth.com/public/api/v1";
+
   final String shipRocket_AWB_URL = 'https://apiv2.shiprocket.in/v1/external';
   final String UUID = 'uuid';
 
@@ -121,6 +125,113 @@ class AppConfig{
           TextButton(
               onPressed: onPress,
               child: Text(btnName)
+          )
+        ],
+      ),
+    );
+  }
+
+  showSheet(BuildContext context, Widget widget,
+      {bool sheetForLogin = false,double? bottomSheetHeight,
+        String? circleIcon, Color? topColor, bool isSheetCloseNeeded = false,
+        VoidCallback? sheetCloseOnTap, bool isDismissible = false}){
+    return showModalBottomSheet(
+        isScrollControlled: true,
+        isDismissible: isDismissible,
+        enableDrag: false,
+        context: context,
+        backgroundColor: Colors.transparent,
+        builder: (ctx) {
+          return (sheetForLogin)
+              ? AnimatedPadding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            duration: const Duration(milliseconds: 100),
+            child: commonBottomSheetView(context, widget,
+                bottomSheetHeight: bottomSheetHeight, circleIcon: circleIcon, topColor: topColor, sheetForLogin: true),
+          )
+              : commonBottomSheetView(context, widget,
+              bottomSheetHeight: bottomSheetHeight, circleIcon: circleIcon, topColor: topColor, isSheetCloseNeeded: isSheetCloseNeeded,sheetCloseOnTap: sheetCloseOnTap
+          );
+        }
+    );
+  }
+
+  commonBottomSheetView(BuildContext context, Widget widget,
+      {bool sheetForLogin = false,double? bottomSheetHeight,
+        String? circleIcon, Color? topColor,
+        bool isSheetCloseNeeded = false, VoidCallback? sheetCloseOnTap}){
+    return Container(
+      decoration: const BoxDecoration(
+        color: gWhiteColor,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(22),
+            topRight: Radius.circular(22)
+        ),
+      ),
+      padding: (sheetForLogin) ? null : EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      height: bottomSheetHeight ?? 50.h,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Column(
+            children: [
+              Container(
+                height: 15.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22),
+                  color: topColor ?? kBottomSheetHeadYellow,
+                ),
+                child: Center(
+                  child: Image.asset(bsHeadStarsIcon,
+                    alignment: Alignment.topRight,
+                    fit: BoxFit.scaleDown,
+                    width: 30.w,
+                    height: 10.h,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 7.h,
+              ),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: widget,
+                ),
+              )
+
+            ],
+          ),
+          Positioned(
+              top: 8.h,
+              left: 5,
+              right: 5,
+              child: Container(
+                  decoration: BoxDecoration(
+                    // color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(blurRadius: 5, color: gHintTextColor.withOpacity(0.8))
+                    ],
+                  ),
+                  child: CircleAvatar(
+                    maxRadius: 40.sp,
+                    backgroundColor: kBottomSheetHeadCircleColor,
+                    child: Image.asset(circleIcon ?? bsHeadBellIcon,
+                      fit: BoxFit.scaleDown,
+                      width: 45,
+                      height: 45,
+                    ),
+                  )
+              )
+          ),
+          Visibility(
+            visible: isSheetCloseNeeded,
+            child: Positioned(
+                top: 10,
+                right: 10,
+                child: GestureDetector(
+                    onTap: sheetCloseOnTap ?? (){Navigator.pop(context);},
+                    child: Icon(Icons.cancel_outlined, color: gSecondaryColor,size: 28,))),
           )
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:im_animations/im_animations.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
 import '../controller/customer_call_controller.dart';
@@ -67,6 +68,44 @@ class CommonDecoration {
   }
 }
 
+buildTapCount(String title, int count) {
+  return Row(
+    children: [
+      Text(title),
+      SizedBox(width: 1.w),
+      count == 0
+          ? const SizedBox()
+          : Container(
+              padding: const EdgeInsets.all(5),
+              decoration: const BoxDecoration(
+                color: kNumberCircleRed,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                count.toString(),
+                style: TextStyle(
+                  fontSize: 7.sp,
+                  fontFamily: "GothamMedium",
+                  color: gWhiteColor,
+                ),
+              ),
+            )
+    ],
+  );
+}
+
+String buildTimeDate(String date, String time) {
+  var split = time.split(':');
+  String hour = split[0];
+  String minute = split[1];
+  DateTime timing = DateTime.parse("$date $time");
+  String amPm = 'AM';
+  if (timing.hour >= 12) {
+    amPm = 'PM';
+  }
+  return "${DateFormat('dd MMMM yyyy').format(timing)} / $hour : $minute $amPm";
+}
+
 AppBar dashboardAppBar() {
   return AppBar(
     automaticallyImplyLeading: false,
@@ -94,6 +133,118 @@ AppBar dashboardAppBar() {
       )
     ],
   );
+}
+
+buildIconWidget(String status) {
+  if (status == "consultation_done" ||
+      status == "consultation_accepted" ||
+      status == "accepted" ||
+      status == "check_user_reports" ||
+      status == "prep_meal_plan_completed") {
+    return Icon(
+      Icons.computer_sharp,
+      color: gSecondaryColor,
+      size: 2.h,
+    );
+  } else {
+    return const SizedBox();
+  }
+}
+
+buildActiveIconWidget(
+    String prepCompleted,
+    String detoxProgram,
+    String detoxCompleted,
+    String healingProgram,
+    String healingCompleted,
+    String nourishProgram,
+    ) {
+  print("prepCompleted : $prepCompleted");
+  print("detoxProgram : $detoxProgram");
+  print("detoxCompleted : $detoxCompleted");
+  print("healingProgram : $healingProgram");
+  print("healingCompleted : $healingCompleted");
+  print("nourishProgram : $nourishProgram");
+
+  if (prepCompleted == "1" && detoxProgram == "null") {
+    return buildActiveIcon();
+  } else if (prepCompleted == "1" && detoxProgram == "0") {
+    return buildActiveIcon();
+  } else if (detoxCompleted == "1" && healingProgram == "null") {
+    return buildActiveIcon();
+  }else if (detoxCompleted == "1" && healingProgram == "0") {
+    return buildActiveIcon();
+  }  else if (healingCompleted == "1" && nourishProgram == "null") {
+    return buildActiveIcon();
+  }else if (healingCompleted == "1" && nourishProgram == "0") {
+    return buildActiveIcon();
+  }else {
+    return const SizedBox();
+  }
+}
+
+buildActiveIcon() {
+  return Icon(
+    Icons.info_sharp,
+    color: gMainColor,
+    size: 2.h,
+  );
+}
+
+buildUpdatedTime(String status, String updateDate, String updateTime) {
+  print("status : $status");
+  DateFormat dateFormat = DateFormat("dd MMM yyyy HH:mm");
+
+  DateTime dateTime = dateFormat.parse("$updateDate $updateTime");
+
+  DateTime? auction = dateTime.add(const Duration(days: 1));
+
+  DateTime? now = DateTime.now();
+
+  print("auction : $auction");
+
+  print("dateTime : $dateTime");
+
+  Duration? difference = auction.difference(now);
+
+  print("difference : $difference");
+
+  if (status == "consultation_done" ||
+      status == "check_user_reports" ||
+      status == "consultation_accepted" ||
+      status == "prep_meal_plan_completed" ||
+      status == "accepted") {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Time Pending : ",
+          style: AllListText().otherText(),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text(
+            //   "$updateDate/$updateTime",
+            //   style: AllListText().subHeadingText(),
+            // ),
+            if (difference.inHours > 00)
+              Text(
+                '${difference.inHours}hrs ${difference.inMinutes.remainder(60)}mins pending',
+                style: AllListText().deliveryDateText(),
+              )
+            else
+              Text(
+                '00hrs 00mins pending',
+                style: AllListText().deliveryDateText(),
+              ),
+          ],
+        ),
+      ],
+    );
+  } else {
+    return const SizedBox();
+  }
 }
 
 Center buildLoadingBar() {
@@ -437,6 +588,32 @@ class CommonButton {
       ),
     );
   }
+}
+
+String getInitials(String string, int limitTo) {
+  var buffer = StringBuffer();
+  var wordList = string.trim().split(' ');
+
+  if (string.isEmpty) {
+    return string;
+  }
+
+  if (wordList.length <= 1) {
+    return string.characters.first;
+  }
+
+  if (limitTo > wordList.length) {
+    for (var i = 0; i < wordList.length; i++) {
+      buffer.write(wordList[i][0]);
+    }
+    return buffer.toString();
+  }
+
+// Handle all other cases
+  for (var i = 0; i < (limitTo); i++) {
+    buffer.write(wordList[i][0]);
+  }
+  return buffer.toString();
 }
 
 List<String> dailyProgress = [

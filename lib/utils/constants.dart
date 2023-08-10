@@ -17,7 +17,8 @@ const tabBarHintColor = Color(0xffBBBBBB);
 const gTextColor = boldTextColor;
 const gTapColor = Color(0xffF8FAFF);
 const gBackgroundColor = Color(0xffFFE889);
-const gChatMeColor = Color(0xFFEEEEEE);
+const gChatMeColor =Color(0xFFd4ff90);
+// const gChatMeColor = Color(0xFFEEEEEE);
 const gPdfColor = Color(0xffFCF6F0);
 const chartBackGroundColor = Color(0xffECF0F4);
 
@@ -55,6 +56,12 @@ const String kFontBlack = 'GothamBlack';
 const String kFontPoppinsRegular = 'PoppinsRegular';
 
 const kButtonColor = Color(0xffD10034);
+
+// new dashboard colors
+const kNumberCircleRed = Color(0xffEF8484);
+const kNumberCirclePurple = Color(0xff9C7ADF);
+const kNumberCircleAmber = Color(0xffFFBD59);
+const kNumberCircleGreen = Color(0xffA7CB52);
 
 class eUser {
   var kRadioButtonColor = gSecondaryColor;
@@ -226,3 +233,17 @@ const mediumTextColor = Color(0xff676363);
 const lightTextColor = Color(0xffB9B4B4);
 const whiteTextColor = Color(0xffFFFFFF);
 const dashboardTextColor = Color(0xffC7A102);
+
+const bsHeadPinIcon = "assets/images/bs-head-pin.png";
+const bsHeadBellIcon = "assets/images/bs-head-bell.png";
+const bsHeadBulbIcon = "assets/images/bs-head-bulb.png";
+const bsHeadStarsIcon = "assets/images/bs-head-stars.png";
+
+const gHintTextColor = Color(0xff676363);
+
+const kBottomSheetHeadYellow = Color(0xffFFE281);
+const kBottomSheetHeadGreen = Color(0xffA7C652);
+const kBottomSheetHeadCircleColor = Color(0xffFFF9F8);
+
+const gChatListBackgroundColor = Color(0xffFAFAFA);
+

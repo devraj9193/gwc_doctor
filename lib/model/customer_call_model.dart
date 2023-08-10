@@ -24,8 +24,8 @@ class CustomerCallModel {
   factory CustomerCallModel.fromJson(Map<String, dynamic> json) => CustomerCallModel(
     status: json["status"],
     errorCode: json["errorCode"],
-    key: json["key"],
-    data: json["data"],
+    key: json["key"].toString(),
+    data: json["data"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

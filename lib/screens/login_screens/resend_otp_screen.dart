@@ -5,11 +5,11 @@ import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
 import '../../../utils/app_config.dart';
 
-import '../../controller/repository/api_service.dart';
-import '../../controller/repository/login_otp_repository.dart';
-import '../../controller/services/login_otp_service.dart';
+import '../../repository/api_service.dart';
+import '../../repository/login_repo/login_otp_repository.dart';
 import '../../model/error_model.dart';
 import '../../model/login_model/resend_otp_model.dart';
+import '../../services/login_service/login_otp_service.dart';
 import '../../utils/constants.dart';
 import '../../widgets/unfocus_widget.dart';
 import '../../widgets/widgets.dart';

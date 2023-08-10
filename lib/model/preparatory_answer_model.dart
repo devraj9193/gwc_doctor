@@ -27,7 +27,7 @@ class PreparatoryAnswerModel {
       PreparatoryAnswerModel(
         status: json["status"],
         errorCode: json["errorCode"],
-        key: json["key"],
+        key: json["key"].toString(),
         trackingPrepMeals:
             TrackingPrepMeals.fromJson(json["tracking_prep_meals"]),
       );
@@ -68,15 +68,15 @@ class TrackingPrepMeals {
   factory TrackingPrepMeals.fromJson(Map<String, dynamic> json) =>
       TrackingPrepMeals(
         id: json["id"],
-        userId: json["user_id"],
-        teamPatientId: json["team_patient_id"],
-        hungerImproved: json["hunger_improved"],
-        appetiteImproved: json["appetite_improved"],
-        feelingLight: json["feeling_light"],
-        feelingEnergetic: json["feeling_energetic"],
-        mildReduction: json["mild_reduction"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
+        userId: json["user_id"].toString(),
+        teamPatientId: json["team_patient_id"].toString(),
+        hungerImproved: json["hunger_improved"].toString(),
+        appetiteImproved: json["appetite_improved"].toString(),
+        feelingLight: json["feeling_light"].toString(),
+        feelingEnergetic: json["feeling_energetic"].toString(),
+        mildReduction: json["mild_reduction"].toString(),
+        createdAt: json["created_at"].toString(),
+        updatedAt: json["updated_at"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

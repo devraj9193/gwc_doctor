@@ -19,13 +19,13 @@ class DayTrackerModel {
   int? status;
   int? errorCode;
   String? key;
-  Data? data;
+  DayTracker? data;
 
   factory DayTrackerModel.fromJson(Map<String, dynamic> json) => DayTrackerModel(
     status: json["status"],
     errorCode: json["errorCode"],
-    key: json["key"],
-    data: Data.fromJson(json["data"]),
+    key: json["key"].toString(),
+    data: DayTracker.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -36,8 +36,8 @@ class DayTrackerModel {
   };
 }
 
-class Data {
-  Data({
+class DayTracker {
+  DayTracker({
     this.id,
     this.teamPatientId,
     this.day,
@@ -49,6 +49,7 @@ class Data {
     this.eatSomethingOther,
     this.completedCalmMoveModules,
     this.hadAMedicalExamMedications,
+    this.trackingAttachment,
     this.createdAt,
     this.updatedAt,
   });
@@ -64,23 +65,25 @@ class Data {
   String? eatSomethingOther;
   String? completedCalmMoveModules;
   String? hadAMedicalExamMedications;
+  String? trackingAttachment;
   String? createdAt;
   String? updatedAt;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory DayTracker.fromJson(Map<String, dynamic> json) => DayTracker(
     id: json["id"],
-    teamPatientId: json["team_patient_id"],
-    day: json["day"],
-    didUMiss: json["did_u_miss"],
-    didUMissAnything: json["did_u_miss_anything"],
-    withdrawalSymptoms: json["withdrawal_symptoms"],
-    detoxification: json["detoxification"],
-    haveAnyOtherWorries: json["have_any_other_worries"],
-    eatSomethingOther: json["eat_something_other"],
-    completedCalmMoveModules: json["completed_calm_move_modules"],
-    hadAMedicalExamMedications: json["had_a_medical_exam_medications"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+    teamPatientId: json["team_patient_id"].toString(),
+    day: json["day"].toString(),
+    didUMiss: json["did_u_miss"].toString(),
+    didUMissAnything: json["did_u_miss_anything"].toString(),
+    withdrawalSymptoms: json["withdrawal_symptoms"].toString(),
+    detoxification: json["detoxification"].toString(),
+    haveAnyOtherWorries: json["have_any_other_worries"].toString(),
+    eatSomethingOther: json["eat_something_other"].toString(),
+    completedCalmMoveModules: json["completed_calm_move_modules"].toString(),
+    hadAMedicalExamMedications: json["had_a_medical_exam_medications"].toString(),
+      trackingAttachment:json['tracking_attachment'].toString(),
+    createdAt: json["created_at"].toString(),
+    updatedAt: json["updated_at"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -95,6 +98,7 @@ class Data {
     "eat_something_other": eatSomethingOther,
     "completed_calm_move_modules": completedCalmMoveModules,
     "had_a_medical_exam_medications": hadAMedicalExamMedications,
+    "tracking_attachment":trackingAttachment,
     "created_at": createdAt,
     "updated_at": updatedAt,
   };

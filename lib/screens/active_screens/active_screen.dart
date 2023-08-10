@@ -3,7 +3,7 @@ import 'package:sizer/sizer.dart';
 import '../../utils/constants.dart';
 import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
-import '../../doctor_status_screen.dart';
+import '../chart_screen/doctor_status_screen.dart';
 import '../customer_screens/customers_lists/active_list.dart';
 
 class ActiveScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _ActiveScreenState extends State<ActiveScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomerStatusScreen(),
+                const DoctorStatusScreen(),
                 SizedBox(height: 2.h),
                 TabBar(
                     labelColor: tapSelectedColor,

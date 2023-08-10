@@ -4,11 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
+import '../../model/error_model.dart';
+import '../../model/login_model/logout_model.dart';
+import '../../repository/api_service.dart';
+import '../../repository/login_repo/login_otp_repository.dart';
+import '../../services/login_service/login_otp_service.dart';
 import '../../utils/app_config.dart';
 import '../../utils/gwc_apis.dart';
 import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
+import '../kaleyra_chat_list_screen/kaleyra_chat_list_screen.dart';
+import '../customer_help_screens/ticket_list.dart';
 import 'my_profile_details.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -88,8 +96,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 1,
                   color: Colors.grey.withOpacity(0.3),
                 ),
+                profileTile(
+                    "assets/images/noun-chat-5153452.png", "Chat Support", () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const KaleyraChatListScreen(),
+                    ),
+                  );
+                }),
+                Container(
+                  height: 1,
+                  color: Colors.grey.withOpacity(0.3),
+                ),
+                // profileTile("assets/images/Group 2748.png",
+                //     "Tickets", () {
+                //       Navigator.of(context).push(
+                //         MaterialPageRoute(
+                //           builder: (context) =>
+                //           const TicketListScreen(),
+                //         ),
+                //       );
+                //     }),
+                // Container(
+                //   height: 1,
+                //   color: Colors.grey.withOpacity(0.3),
+                // ),
                 profileTile("assets/images/Group 2744.png", "Logout", () {
-                  dialog(context);
+                  logoutDialog(context);
                 }),
               ],
             ),
@@ -120,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(
             child: Text(
               title,
-              style:ProfileScreenText().subHeadingText(),
+              style: ProfileScreenText().subHeadingText(),
             ),
           ),
           GestureDetector(
@@ -136,92 +169,151 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void dialog(BuildContext context) {
+  bool showLogoutProgress = false;
+
+  var logoutProgressState;
+
+  final LoginOtpRepository repository = LoginOtpRepository(
+    apiClient: ApiClient(
+      httpClient: http.Client(),
+    ),
+  );
+
+  void logOut() async {
+    logoutProgressState(() {
+      showLogoutProgress = true;
+    });
+    final res =
+        await LoginWithOtpService(repository: repository).logoutService();
+
+    if (res.runtimeType == LogoutModel) {
+      clearAllUserDetails();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => const DoctorLogin(),
+      ));
+    } else {
+      ErrorModel model = res as ErrorModel;
+      Get.snackbar(
+        "",
+        model.message!,
+        colorText: gWhiteColor,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: gSecondaryColor.withOpacity(0.55),
+      );
+    }
+
+    logoutProgressState(() {
+      showLogoutProgress = true;
+    });
+  }
+
+  clearAllUserDetails() {
+    _pref.setBool(AppConfig.isLogin, false);
+    _pref.remove(AppConfig().BEARER_TOKEN);
+
+    _pref.remove(AppConfig.User_Name);
+    _pref.remove(AppConfig.USER_ID);
+    _pref.remove(AppConfig.QB_USERNAME);
+    _pref.remove(AppConfig.QB_CURRENT_USERID);
+    _pref.remove(AppConfig.KALEYRA_USER_ID);
+    _pref.remove(AppConfig.User_Name);
+    // _pref.remove(AppConfig.User_Profile);
+    // _pref.remove(AppConfig.User_Number);
+  }
+
+  void logoutDialog(BuildContext context) {
     showDialog(
-      barrierDismissible: false,
-      barrierColor: gWhiteColor.withOpacity(0.8),
-      context: context,
-      builder: (context) => Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 5.w),
-          padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
-          decoration: BoxDecoration(
-            color: gWhiteColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: lightTextColor, width: 1),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                "Log Out ?",
-                style: TextStyle(
-                  color: newBlackColor,
-                  fontFamily: fontBold,
-                  fontSize: fontSize11,
+        barrierDismissible: false,
+        barrierColor: gWhiteColor.withOpacity(0.8),
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (_, setstate) {
+            logoutProgressState = setstate;
+            return Center(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 5.w),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
+                decoration: BoxDecoration(
+                  color: gWhiteColor,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: lightTextColor, width: 1),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      "Log Out ?",
+                      style: TextStyle(
+                        color: newBlackColor,
+                        fontFamily: fontBold,
+                        fontSize: fontSize11,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text('Are you sure you want to log out?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: fontBook,
+                          color: newBlackColor,
+                          fontSize: fontSize10,
+                        )),
+                    SizedBox(height: 2.5.h),
+                    (showLogoutProgress)
+                        ? Center(child: buildCircularIndicator())
+                        : Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(context).pop(false),
+                          child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 9.w, vertical: 1.h),
+                              decoration: BoxDecoration(
+                                color: gWhiteColor,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: lightTextColor),
+                              ),
+                              child: Text("Cancel",
+                                  style: TextStyle(
+                                    color: newBlackColor,
+                                    fontFamily: fontMedium,
+                                    fontSize: fontSize09,
+                                  ))),
+                        ),
+                        SizedBox(width: 3.w),
+                        GestureDetector(
+                          onTap: () async {
+                            logOut();
+                            // SharedPreferences preferences =
+                            //     await SharedPreferences.getInstance();
+                            // preferences.clear();
+                            // preferences.commit();
+                            // Get.to(const DoctorLogin());
+                          },
+                          child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 9.w, vertical: 1.h),
+                              decoration: BoxDecoration(
+                                color: gSecondaryColor,
+                                borderRadius: BorderRadius.circular(8),
+                                // border: Border.all(color: gMainColor),
+                              ),
+                              child: Text("Log Out",
+                                  style: TextStyle(
+                                    color: whiteTextColor,
+                                    fontFamily: fontMedium,
+                                    fontSize: fontSize09,
+                                  ))),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 2.h),
-              Text('Are you sure you want to log out?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: fontBook,
-                    color: newBlackColor,
-                    fontSize: fontSize10,
-                  )),
-              SizedBox(height: 2.5.h),
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).pop(false),
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 9.w, vertical: 1.h),
-                        decoration: BoxDecoration(
-                          color: gWhiteColor,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: lightTextColor),
-                        ),
-                        child: Text("Cancel",
-                            style: TextStyle(
-                              color: newBlackColor,
-                              fontFamily: fontMedium,
-                              fontSize: fontSize09,
-                            ))),
-                  ),
-                  SizedBox(width: 3.w),
-                  GestureDetector(
-                    onTap: () async {
-                      SharedPreferences preferences =
-                          await SharedPreferences.getInstance();
-                      preferences.clear();
-                      preferences.commit();
-                      Get.to(const DoctorLogin());
-                    },
-                    child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 9.w, vertical: 1.h),
-                        decoration: BoxDecoration(
-                          color: gSecondaryColor,
-                          borderRadius: BorderRadius.circular(8),
-                         // border: Border.all(color: gMainColor),
-                        ),
-                        child: Text("Log Out",
-                            style: TextStyle(
-                              color: whiteTextColor,
-                              fontFamily: fontMedium,
-                              fontSize: fontSize09,
-                            ))),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          });
+        });
   }
 }
 //       SafeArea(

@@ -14,7 +14,7 @@ class DayProgressController extends GetxController {
     fetchDayProgressList();
   }
 
-  Future<List<double>?> fetchDayProgressList() async {
+  Future fetchDayProgressList() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var token = preferences.getString(AppConfig().bearerToken)!;
     var userId = preferences.getString("user_id")!;
@@ -23,13 +23,14 @@ class DayProgressController extends GetxController {
         .get(Uri.parse("${GwcApi.dayProgressListUrl}/$userId"), headers: {
       'Authorization': 'Bearer $token',
     });
+    print("progress : ${GwcApi.dayProgressListUrl}/$userId");
     print("progress : ${response.body}");
     if (response.statusCode == 200) {
       DayProgressModel jsonData = dayProgressModelFromJson(response.body);
-      List<double>? arrData = jsonData.data;
+      List<double>? arrData = jsonData.detoxDayWiseProgress;
       print("status: ${arrData?[0]}");
       print("status: ${arrData?[1]}");
-      return arrData;
+      return jsonData;
     } else {
       throw Exception();
     }

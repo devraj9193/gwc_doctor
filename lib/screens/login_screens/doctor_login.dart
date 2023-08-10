@@ -9,10 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import '../../controller/repository/api_service.dart';
-import '../../controller/repository/login_otp_repository.dart';
-import '../../controller/services/login_otp_service.dart';
-import '../../controller/services/quick_blox_service.dart';
+import '../../repository/api_service.dart';
+import '../../repository/login_repo/login_otp_repository.dart';
+import '../../services/login_service/login_otp_service.dart';
+import '../../services/quick_blox_service.dart';
 import '../../model/doctor_profile_service/doctor_profile_repo.dart';
 import '../../model/doctor_profile_service/doctor_profile_service.dart';
 import '../../model/doctor_profile_service/user_profile_model.dart';
@@ -21,6 +21,7 @@ import '../../model/login_model/login_otp_model.dart';
 import '../../model/login_model/resend_otp_model.dart';
 import '../../utils/app_config.dart';
 import '../../utils/constants.dart';
+import '../../utils/doctor_details_storage.dart';
 import '../../utils/gwc_apis.dart';
 import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
@@ -37,6 +38,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
   final formKey = GlobalKey<FormState>();
   final mobileFormKey = GlobalKey<FormState>();
   late FocusNode _phoneFocus;
+  final _prefs = AppConfig().preferences;
 
   TextEditingController phoneController = TextEditingController();
   TextEditingController otpController = TextEditingController();
@@ -88,6 +90,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
     otpVisibility = false;
     _phoneFocus = FocusNode();
     doctorDeviceToken();
+    deviceToken = _prefs?.getString("device_token");
     phoneController.addListener(() {
       setState(() {});
     });
@@ -106,7 +109,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
 
   void doctorDeviceToken() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    deviceToken = preferences.getString("device_token");
+
     setState(() {});
     print("deviceToken: $deviceToken");
   }
@@ -368,7 +371,7 @@ class _DoctorLoginState extends State<DoctorLogin> {
               textAlignVertical: TextAlignVertical.center,
               keyboardType: TextInputType.number,
               cursorColor: gPrimaryColor,
-              controller: otpController,
+               controller: otpController,
               obscureText: !otpVisibility,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               style: LoginScreen().mainTextField(),
@@ -549,15 +552,15 @@ class _DoctorLoginState extends State<DoctorLogin> {
     });
     print("---------Login---------");
 
-    await FirebaseMessaging.instance.getToken().then((value) {
-      setState(() {
-        deviceToken = value!;
-        print("Device Token is Login: $deviceToken");
-      });
-    });
+    // await FirebaseMessaging.instance.getToken().then((value) {
+    //   setState(() {
+    //     deviceToken = value!;
+    //     print("Device Token is Login: $deviceToken");
+    //   });
+    // });
 
     final result =
-        await _loginWithOtpService.loginWithOtpService(phone, otp, deviceToken!);
+        await _loginWithOtpService.loginWithOtpService(phone, otp, "$deviceToken");
 
     if (result.runtimeType == LoginOtpModel) {
       LoginOtpModel model = result as LoginOtpModel;
@@ -569,11 +572,16 @@ class _DoctorLoginState extends State<DoctorLogin> {
       //     model.userKaleyraId.toString());
       // _qbService.login("${model.loginUsername}");
 
-      print("model.userEvaluationStatus: ${model.userEvaluationStatus}");
+      // print("model.userEvaluationStatus: ${model.userEvaluationStatus}");
+
+      _pref.setString(DoctorDetailsStorage.doctorDetailsName, model.user.name);
+      _pref.setString(DoctorDetailsStorage.doctorDetailsEmail, model.user.email);
+      _pref.setString(DoctorDetailsStorage.doctorDetailsUvId, model.uvUserId);
+       _pref.setString(DoctorDetailsStorage.doctorDetailsUvToken, model.uvApiAccessToken);
 
       // _pref.setString(AppConfig.EVAL_STATUS, model.userEvaluationStatus!);
       storeBearerToken(
-        model.accessToken ?? '',
+        model.accessToken,
         model.loginUsername.toString(),
         model.chatId.toString(),
         model.isDoctorAdmin.toString(),
@@ -581,25 +589,17 @@ class _DoctorLoginState extends State<DoctorLogin> {
       );
       print("Login_Username : ${model.loginUsername}");
       print("chat_id : ${model.chatId}");
-      storeUserProfile("${model.accessToken}");
-      if (model.userEvaluationStatus!.contains("pending")) {
+      storeUserProfile(model.accessToken);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => const DashboardScreen(),
           ),
         );
-      } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const DashboardScreen(),
-          ),
-        );
-      }
     } else {
       setState(() {
         showLoginProgress = false;
       });
-      _pref.setBool(AppConfig.isLogin, true);
+      _pref.setBool(AppConfig.isLogin, false);
 
       ErrorModel response = result as ErrorModel;
       AppConfig().showSnackBar(context, response.message!, isError: true);

@@ -7,7 +7,7 @@ import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import 'package:get/get.dart';
 import '../../controller/day_plan_list_controller.dart';
-import '../customer_screens/customers_details/daily_progress_screens/day_tracker.dart';
+import '../nutri_delight_screens/daily_progress_screens/day_tracker.dart';
 import 'meal_pdf.dart';
 
 class MealYogaPlanDetails extends StatefulWidget {
@@ -84,13 +84,13 @@ class _MealYogaPlanDetailsState extends State<MealYogaPlanDetails> {
                     ...groupList(),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (ct) => DayMealTracerUI(
-                              day: widget.selectedDay,
-                            ),
-                          ),
-                        );
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (ct) => DayMealTracerUI(
+                        //       day: widget.selectedDay,
+                        //     ),
+                        //   ),
+                        // );
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 1.h),

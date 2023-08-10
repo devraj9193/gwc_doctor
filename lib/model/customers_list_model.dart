@@ -25,7 +25,7 @@ class CustomersList {
   factory CustomersList.fromJson(Map<String, dynamic> json) => CustomersList(
         status: json["status"],
         errorCode: json["errorCode"],
-        key: json["key"],
+        key: json["key"].toString(),
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
 
@@ -56,11 +56,11 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
-        fname: json["fname"],
-        lname: json["lname"],
-        date: json["date"],
-        time: json["time"],
-        profile: json["profile"],
+        fname: json["fname"].toString(),
+        lname: json["lname"].toString(),
+        date: json["date"].toString(),
+        time: json["time"].toString(),
+        profile: json["profile"].toString(),
       );
 
   Map<String, dynamic> toJson() => {

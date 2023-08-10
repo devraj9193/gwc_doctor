@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../controller/gwc_team_controller.dart';
-import '../../controller/services/quick_blox_service.dart';
+import '../../services/quick_blox_service.dart';
 import '../../model/chat_support/chat_support_method.dart';
 import '../../model/error_model.dart';
 import '../../utils/constants.dart';

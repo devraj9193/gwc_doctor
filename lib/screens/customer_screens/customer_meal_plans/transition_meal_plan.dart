@@ -61,8 +61,11 @@ class _TransitionMealPlanState extends State<TransitionMealPlan> {
         .get(Uri.parse("${GwcApi.transitionApiUrl}/$userId"), headers: {
       'Authorization': 'Bearer $token',
     });
+
+    print("transition meal plan : ${GwcApi.transitionApiUrl}/$userId");
+    print("transition meal plan : ${response.body}");
+
     if (response.statusCode == 200) {
-      print("meal: ${response.body}");
       res = jsonDecode(response.body);
       transitionMealPlanModel = TransitionMealPlanModel.fromJson(res);
       print("object: ${transitionMealPlanModel?.data}");

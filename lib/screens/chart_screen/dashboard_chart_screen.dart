@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
+import '../../utils/app_config.dart';
 import '../../utils/constants.dart';
+import '../../utils/doctor_details_storage.dart';
 import '../../widgets/common_screen_widgets.dart';
 import '../active_screens/active_screen.dart';
 import '../notification_screens/notification_screen.dart';
-import 'calender_screen.dart';
+import '../calendar_screens/calender_screen.dart';
 import '../consultation_screen/consultation_screen.dart';
 import '../meal_plans_screens/meal_plans_screen.dart';
 import '../post_programs_screens/post_programs_screen.dart';
+import '../customer_status_screens/customer_status_screen.dart';
+import '../follow_up_calls/follow_up_calls.dart';
 import 'models.dart';
 import 'package:get/get.dart';
 
 class GanttChartScreen extends StatefulWidget {
-  const GanttChartScreen({super.key});
+  const GanttChartScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,6 +27,7 @@ class GanttChartScreen extends StatefulWidget {
 
 class GanttChartScreenState extends State<GanttChartScreen>
     with TickerProviderStateMixin {
+  final _pref = AppConfig().preferences!;
   late AnimationController animationController;
 
   DateTime fromDate = DateTime(2018, 1, 1);
@@ -103,13 +108,13 @@ class GanttChartScreenState extends State<GanttChartScreen>
                 Get.to(() => const NotificationScreen());
               },
             ),
-          )
+          ),
           // GestureDetector(
           //   onTap: () {
           //     buildCalendar(context);
           //   },
           //   child: Padding(
-          //     padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.8.h),
+          //     padding: EdgeInsets.only(left: 0.w, top: 2.h,right: 4.w,bottom: 2.h),
           //     child: const Image(
           //       image: AssetImage("assets/images/noun-calendar-5347015.png"),
           //       color: gBlackColor,
@@ -126,18 +131,107 @@ class GanttChartScreenState extends State<GanttChartScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 3.w),
+              child: Text(
+                "Hi,Welcome back Dr. ${_pref.getString(DoctorDetailsStorage.doctorDetailsName)}",
+                style: DashBoardScreen().headingTextField(),
+              ),
+            ),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: gWhiteColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                margin: EdgeInsets.symmetric(horizontal: 1.w),
-                child: const CalenderScreen(),
-                //  const GanttChart(),
+                margin: EdgeInsets.symmetric(horizontal: 1.w,vertical: 0.h),
+                child:
+                 const CalenderScreen(),
+                  // const GanttChart(),
               ),
             ),
-            buildDetails(),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IntrinsicWidth(
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(() => const CustomerStatusScreen());
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
+                        margin: EdgeInsets.only(bottom: 1.h,left: 3.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: gSecondaryColor,
+                          //border: Border.all(color: gMainColor, width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 5,
+                              offset: const Offset(2, 6),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                              height: 3.h,
+                              image:
+                              const AssetImage("assets/images/Group 3011.png"),
+                              color: whiteTextColor,
+                            ),
+                            SizedBox(width: 2.w),
+                            Text(
+                              "Customer Status",
+                              style: DashBoardScreen().gridTextField(),
+                            ),
+                          ],
+                        )),
+                  ),
+                ),
+                IntrinsicWidth(
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(() => const FollowUpCallsScreen());
+                    },
+                    child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 1.h,horizontal: 3.w),
+                        margin: EdgeInsets.only(bottom: 1.h,left: 3.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: gSecondaryColor,
+                          //border: Border.all(color: gMainColor, width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              blurRadius: 5,
+                              offset: const Offset(2, 6),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image(
+                              height: 3.h,
+                              image:
+                              const AssetImage("assets/images/Group 3011.png"),
+                              color: whiteTextColor,
+                            ),
+                            SizedBox(width: 2.w),
+                            Text(
+                              "Follow Up Calls",
+                              style: DashBoardScreen().gridTextField(),
+                            ),
+                          ],
+                        )),
+                  ),
+                ),
+
+              ],
+            ),
+            // buildDetails(),
             //     SizedBox(height: 1.h),
           ],
         ),

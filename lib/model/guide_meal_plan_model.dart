@@ -30,9 +30,9 @@ class GuideMealPlanModel {
   factory GuideMealPlanModel.fromJson(Map<String, dynamic> json) => GuideMealPlanModel(
     status: json["status"],
     errorCode: json["errorCode"],
-    key: json["key"],
+    key: json["key"].toString(),
     day: json["day"].toString(),
-    time: json["time"],
+    time: json["time"].toString(),
     data: Data.fromJson(json["data"]),
     history: List<History>.from(json["history"].map((x) => History.fromJson(x))),
   );
@@ -106,7 +106,7 @@ class The0 {
   factory The0.fromJson(Map<String, dynamic> json) => The0(
     id: json["id"],
     itemId: json["item_id"],
-    name: json["name"],
+    name: json["name"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -142,8 +142,8 @@ class History {
   String? day;
 
   factory History.fromJson(Map<String, dynamic> json) => History(
-    totalScore: json["total_score"],
-    day: json["day"],
+    totalScore: json["total_score"].toString(),
+    day: json["day"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

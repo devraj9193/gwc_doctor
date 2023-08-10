@@ -3,10 +3,9 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import '../../../controller/consultation_controller.dart';
-import '../../../utils/constants.dart';
 import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
-import '../../consultation_screen/customer_details_screen.dart';
+import '../../nutri_delight_screens/nutri_delight_screen.dart';
 
 class DocumentUploadList extends StatefulWidget {
   const DocumentUploadList({Key? key}) : super(key: key);
@@ -52,16 +51,37 @@ class _DocumentUploadListState extends State<DocumentUploadList> {
                                     data[index].id.toString());
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (ct) => CustomerDetailsScreen(
+                                    builder: (ct) => NutriDelightScreen(
+                                      userId: data[index]
+                                          .patient
+                                          .user
+                                          .id,
+                                      tabIndex: 0,
                                       userName:
-                                          data[index].patient.user.name ?? '',
+                                          data[index].patient.user.name ?? '',updateTime: '', updateDate: '',
                                       age:
                                           "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
                                       appointmentDetails:
                                           "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
                                       status:
                                           buildStatusText(data[index].status),
+                                      finalDiagnosis: '',
+                                      preparatoryCurrentDay: '',
+                                      transitionCurrentDay: '',
+                                      isPrepCompleted: '',
+                                      isProgramStatus: '',
+                                      programDaysStatus: '',
                                     ),
+                                    //     CustomerDetailsScreen(
+                                    //   userName:
+                                    //       data[index].patient.user.name ?? '',
+                                    //   age:
+                                    //       "${data[index].patient.user.age ?? ""} ${data[index].patient.user.gender ?? ""}",
+                                    //   appointmentDetails:
+                                    //       "${data[index].appointmentDate ?? ""} / ${data[index].appointmentTime ?? ""}",
+                                    //   status:
+                                    //       buildStatusText(data[index].status),
+                                    // ),
                                   ),
                                 );
                               },
@@ -92,47 +112,49 @@ class _DocumentUploadListState extends State<DocumentUploadList> {
                                                   .user
                                                   .name
                                                   .toString(),
-                                              style: AllListText().headingText(),
+                                              style:
+                                                  AllListText().headingText(),
                                             ),
-                            
                                             Text(
                                               "${data[index].patient.user.age.toString()} ${data[index].patient.user.gender.toString()}",
-                                              style: AllListText().subHeadingText(),
+                                              style: AllListText()
+                                                  .subHeadingText(),
                                             ),
-                            
                                             Text(
                                               "${data[index].appointmentDate.toString()} / ${data[index].appointmentTime.toString()}",
-                                              style:AllListText().otherText(),
+                                              style: AllListText().otherText(),
                                             ),
-                            
                                             Row(
                                               children: [
                                                 Text(
                                                   "Status : ",
-                                                  style: AllListText().otherText(),
+                                                  style:
+                                                      AllListText().otherText(),
                                                 ),
                                                 Text(
                                                   buildStatusText(data[index]
                                                       .status
                                                       .toString()),
-                                                  style: AllListText().subHeadingText(),
+                                                  style: AllListText()
+                                                      .subHeadingText(),
                                                 ),
                                               ],
                                             ),
-                            
                                             RichText(
                                               text: TextSpan(
                                                 children: <TextSpan>[
                                                   TextSpan(
                                                     text:
                                                         "Time left for MR Upload : ",
-                                                    style: AllListText().otherText(),
+                                                    style: AllListText()
+                                                        .otherText(),
                                                   ),
                                                   TextSpan(
                                                     text: data[index]
                                                         .uploadTime
                                                         .toString(),
-                                                    style: AllListText().subHeadingText(),
+                                                    style: AllListText()
+                                                        .subHeadingText(),
                                                   ),
                                                 ],
                                               ),
@@ -258,7 +280,7 @@ class _DocumentUploadListState extends State<DocumentUploadList> {
     } else if (status == "consultation_rejected") {
       return "Consultation Rejected";
     } else if (status == "consultation_waiting") {
-      return "Consultation Waiting";
+      return "Waiting for Reports";
     } else if (status == "pending") {
       return "Consultation Pending";
     } else if (status == "wait") {

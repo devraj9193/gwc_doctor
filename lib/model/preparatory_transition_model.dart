@@ -22,11 +22,11 @@ class PreparatoryTransitionModel {
   PreparatoryTransitionModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     errorCode = json['errorCode'];
-    key = json['key'];
-    currentDay = json['current_day'];
-    isPrepCompleted = json['is_prep_completed'];
-    note = json['note'];
-    days = json['days'];
+    key = json['key'].toString();
+    currentDay = json['current_day'].toString();
+    isPrepCompleted = json['is_prep_completed'].toString();
+    note = json['note'].toString();
+    days = json['days'].toString();
 
     if (json['data'] != null) {
       data = {};
@@ -43,14 +43,14 @@ class PreparatoryTransitionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errorCode'] = this.errorCode;
-    data['key'] = this.key;
-    data['current_day'] = this.currentDay;
-    data['is_prep_completed'] = this.isPrepCompleted;
-    data['days'] = this.days;
-    data['note'] = this.note;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['errorCode'] = errorCode;
+    data['key'] = key;
+    data['current_day'] = currentDay;
+    data['is_prep_completed'] = isPrepCompleted;
+    data['days'] = days;
+    data['note'] = note;
     if (this.data != null) {
       data['data'] = this.data!;
     }
@@ -65,7 +65,7 @@ class SubItems {
   SubItems({this.subItems});
 
   SubItems.fromJson(Map<String, dynamic> json) {
-    if (json != null && json.isNotEmpty) {
+    if (json.isNotEmpty) {
       subItems = {};
       json.forEach((key, value) {
         subItems!.putIfAbsent(
@@ -118,55 +118,55 @@ class Preparatory {
   Preparatory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     itemId = json['item_id'];
-    name = json['name'];
-    benefits = json['benefits'];
+    name = json['name'].toString();
+    benefits = json['benefits'].toString();
     subtitle = json['subtitle'];
-    itemPhoto = json['item_photo'];
-    recipeUrl = json['recipe_url'];
-    howToStore = json['how_to_store'];
-    howToPrepare = json['how_to_prepare'];
+    itemPhoto = json['item_photo'].toString();
+    recipeUrl = json['recipe_url'].toString();
+    howToStore = json['how_to_store'].toString();
+    howToPrepare = json['how_to_prepare'].toString();
     if (json['ingredient'] != null) {
       ingredient = <Ingredient>[];
       json['ingredient'].forEach((v) {
-        ingredient!.add(new Ingredient.fromJson(v));
+        ingredient!.add(Ingredient.fromJson(v));
       });
     }
     if (json['variation'] != null) {
       variation = <Variation>[];
       json['variation'].forEach((v) {
-        variation!.add(new Variation.fromJson(v));
+        variation!.add(Variation.fromJson(v));
       });
     }
     if (json['faq'] != null) {
       faq = <Faq>[];
       json['faq'].forEach((v) {
-        faq!.add(new Faq.fromJson(v));
+        faq!.add(Faq.fromJson(v));
       });
     }
     cookingTime = json['cooking_time'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['item_id'] = this.itemId;
-    data['name'] = this.name;
-    data['benefits'] = this.benefits;
-    data['subtitle'] = this.subtitle;
-    data['item_photo'] = this.itemPhoto;
-    data['recipe_url'] = this.recipeUrl;
-    data['how_to_store'] = this.howToStore;
-    data['how_to_prepare'] = this.howToPrepare;
-    if (this.ingredient != null) {
-      data['ingredient'] = this.ingredient!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['item_id'] = itemId;
+    data['name'] = name;
+    data['benefits'] = benefits;
+    data['subtitle'] = subtitle;
+    data['item_photo'] = itemPhoto;
+    data['recipe_url'] = recipeUrl;
+    data['how_to_store'] = howToStore;
+    data['how_to_prepare'] = howToPrepare;
+    if (ingredient != null) {
+      data['ingredient'] = ingredient!.map((v) => v.toJson()).toList();
     }
-    if (this.variation != null) {
-      data['variation'] = this.variation!.map((v) => v.toJson()).toList();
+    if (variation != null) {
+      data['variation'] = variation!.map((v) => v.toJson()).toList();
     }
-    if (this.faq != null) {
-      data['faq'] = this.faq!.map((v) => v.toJson()).toList();
+    if (faq != null) {
+      data['faq'] = faq!.map((v) => v.toJson()).toList();
     }
-    data['cooking_time'] = this.cookingTime;
+    data['cooking_time'] = cookingTime;
     return data;
   }
 }
@@ -188,22 +188,22 @@ class Ingredient {
       this.weightTypeId});
 
   Ingredient.fromJson(Map<String, dynamic> json) {
-    ingredientName = json['ingredient_name'];
-    ingredientThumbnail = json['ingredient_thumbnail'];
-    unit = json['unit'];
-    qty = json['qty'];
-    ingredientId = json['ingredient_id'];
-    weightTypeId = json['weight_type_id'];
+    ingredientName = json['ingredient_name'].toString();
+    ingredientThumbnail = json['ingredient_thumbnail'].toString();
+    unit = json['unit'].toString();
+    qty = json['qty'].toString();
+    ingredientId = json['ingredient_id'].toString();
+    weightTypeId = json['weight_type_id'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ingredient_name'] = this.ingredientName;
-    data['ingredient_thumbnail'] = this.ingredientThumbnail;
-    data['unit'] = this.unit;
-    data['qty'] = this.qty;
-    data['ingredient_id'] = this.ingredientId;
-    data['weight_type_id'] = this.weightTypeId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['ingredient_name'] = ingredientName;
+    data['ingredient_thumbnail'] = ingredientThumbnail;
+    data['unit'] = unit;
+    data['qty'] = qty;
+    data['ingredient_id'] = ingredientId;
+    data['weight_type_id'] = weightTypeId;
     return data;
   }
 }
@@ -215,14 +215,14 @@ class Variation {
   Variation({this.variationTitle, this.variationDescription});
 
   Variation.fromJson(Map<String, dynamic> json) {
-    variationTitle = json['variation_title'];
-    variationDescription = json['variation_description'];
+    variationTitle = json['variation_title'].toString();
+    variationDescription = json['variation_description'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['variation_title'] = this.variationTitle;
-    data['variation_description'] = this.variationDescription;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['variation_title'] = variationTitle;
+    data['variation_description'] = variationDescription;
     return data;
   }
 }
@@ -234,14 +234,14 @@ class Faq {
   Faq({this.faqQuestion, this.faqAnswer});
 
   Faq.fromJson(Map<String, dynamic> json) {
-    faqQuestion = json['faq_question'];
-    faqAnswer = json['faq_answer'];
+    faqQuestion = json['faq_question'].toString();
+    faqAnswer = json['faq_answer'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['faq_question'] = this.faqQuestion;
-    data['faq_answer'] = this.faqAnswer;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['faq_question'] = faqQuestion;
+    data['faq_answer'] = faqAnswer;
     return data;
   }
 }

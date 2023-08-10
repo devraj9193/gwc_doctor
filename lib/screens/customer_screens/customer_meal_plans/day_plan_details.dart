@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import '../../meal_plans_screens/meal_pdf.dart';
 
 class DayPlanDetails extends StatefulWidget {
+
   const DayPlanDetails({Key? key}) : super(key: key);
 
   @override

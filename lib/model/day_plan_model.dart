@@ -27,8 +27,8 @@ class DayPlanModel {
   factory DayPlanModel.fromJson(Map<String, dynamic> json) => DayPlanModel(
     status: json["status"],
     errorCode: json["errorCode"],
-    programDay: json["program_day"],
-    comment: json["comment"],
+    programDay: json["program_day"].toString(),
+    comment: json["comment"].toString(),
     data: Map.from(json["data"]).map((k, v) =>
         MapEntry<String, List<DayPlan>>(
             k, List<DayPlan>.from(v.map((x) => DayPlan.fromJson(x))))),
@@ -77,18 +77,18 @@ class DayPlan {
 
   factory DayPlan.fromJson(Map<String, dynamic> json) => DayPlan(
     id: json["id"],
-    type: json["type"],
-    mealTime: json["meal_time"],
+    type: json["type"].toString(),
+    mealTime: json["meal_time"].toString(),
     itemId: json["item_id"],
-    name: json["name"],
-    mealWeight: json["meal_weight"],
-    weightType: json["weight_type"],
-    url: json["url"],
-    status: json["status"],
-    itemPhoto: json["item_photo"],
-    subTitle: json['sub_title'],
-    benefits: json['benefits'],
-    note: json['note'],
+    name: json["name"].toString(),
+    mealWeight: json["meal_weight"].toString(),
+    weightType: json["weight_type"].toString(),
+    url: json["url"].toString(),
+    status: json["status"].toString(),
+    itemPhoto: json["item_photo"].toString(),
+    subTitle: json['sub_title'].toString(),
+    benefits: json['benefits'].toString(),
+    note: json['note'].toString(),
   );
 
   Map<String, dynamic> toJson() => {

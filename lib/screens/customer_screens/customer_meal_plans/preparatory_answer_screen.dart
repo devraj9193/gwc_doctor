@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
-import '../../../controller/preparatory_answer_controller.dart';
+import '../../../model/combined_meal_model/all_day_tracker_model.dart';
+import '../../../model/error_model.dart';
+import '../../../repository/api_service.dart';
+import '../../../repository/nutri_delight_repo/nutri_delight_repository.dart';
+import '../../../services/nutri_delight_service/nutri_delight_service.dart';
 import '../../../utils/constants.dart';
 import '../../../widgets/common_screen_widgets.dart';
 import '../../../widgets/widgets.dart';
@@ -18,8 +22,45 @@ class PreparatoryAnswerScreen extends StatefulWidget {
 }
 
 class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
-  PreparatoryAnswerController preparatoryAnswerController =
-      Get.put(PreparatoryAnswerController());
+  AllDayTrackerModel? allDayTrackerModel;
+  Preparatory? preparatory;
+  bool isLoading = false;
+
+  getProgramData() async {
+    setState(() {
+      isLoading = true;
+    });
+    final result =
+        await ProgramService(repository: repository).getAllDayTrackerService();
+    print("result: $result");
+
+    if (result.runtimeType == AllDayTrackerModel) {
+      print("meal plan");
+      AllDayTrackerModel model = result as AllDayTrackerModel;
+      preparatory = model.preparatory!;
+
+      print("Detox Tracker : ${model.detox}");
+    } else {
+      ErrorModel model = result as ErrorModel;
+      print("error: ${model.message}");
+    }
+    setState(() {
+      isLoading = false;
+    });
+    print(result);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getProgramData();
+  }
+
+  final ProgramRepository repository = ProgramRepository(
+    apiClient: ApiClient(
+      httpClient: http.Client(),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +89,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
                     child: Center(
                       child: Text(
                         '${widget.days} Days Preparatory',
-                        style:TabBarText().bottomSheetHeadingText(),
+                        style: TabBarText().bottomSheetHeadingText(),
                       ),
                     ),
                   ),
@@ -86,34 +127,24 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
   }
 
   buildStatus() {
-    return Expanded(
+    return   Expanded(
       child: SingleChildScrollView(
-        child: FutureBuilder(
-            future: preparatoryAnswerController.fetchUserProfile(),
-            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              if (snapshot.hasError) {
-                return buildNoData();
-              } else if (snapshot.hasData) {
-                var data = snapshot.data;
-                return LayoutBuilder(builder: (context, constraints) {
-                  return Column(
-                    children: [
-                      buildRadioButton("Has your hunger improved?", data.trackingPrepMeals.hungerImproved),
-                      buildRadioButton("Has your appetite improved?", data.trackingPrepMeals.appetiteImproved),
-                      buildRadioButton("Are you feeling light?", data.trackingPrepMeals.feelingLight),
-                      buildRadioButton("Are you feeling energetic?", data.trackingPrepMeals.feelingEnergetic),
-                      buildRadioButton(
-                          "Are you feeling a mild reduction in your primary symptoms?",
-                          data.trackingPrepMeals.mildReduction),
-                    ],
-                  );
-                });
-              }
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.h),
-                child: buildCircularIndicator(),
-              );
-            }),
+        child: (isLoading)
+            ? Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          child: buildCircularIndicator(),
+        )
+            : Column(
+          children: [
+            buildRadioButton("Has your hunger improved?",
+                "${preparatory?.hungerImproved}"),
+            buildRadioButton("Has your appetite improved?","${preparatory?.appetiteImproved}"),
+            buildRadioButton("Are you feeling light?","${preparatory?.feelingLight}"),
+            buildRadioButton("Are you feeling energetic?","${preparatory?.feelingEnergetic}"),
+            buildRadioButton(
+                "Are you feeling a mild reduction in your primary symptoms?","${preparatory?.mildReduction}"),
+          ],
+        ),
       ),
     );
   }
@@ -138,10 +169,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
                   vertical: VisualDensity.minimumDensity),
               onChanged: (value) {},
             ),
-            Text(
-              'Yes',
-              style: EvaluationText().answerText()
-            ),
+            Text('Yes', style: EvaluationText().answerText()),
             SizedBox(width: 2.w),
             Radio(
               value: "No",
@@ -153,10 +181,7 @@ class _PreparatoryAnswerScreenState extends State<PreparatoryAnswerScreen> {
               groupValue: radio,
               onChanged: (value) {},
             ),
-            Text(
-              'No',
-              style: EvaluationText().answerText()
-            ),
+            Text('No', style: EvaluationText().answerText()),
           ],
         ),
         Container(

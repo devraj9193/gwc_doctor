@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:doctor_app_new/splash_screen.dart';
-import 'package:doctor_app_new/utils/app_config.dart';
-import 'package:flutter/material.dart';
+import 'package:doctor_app_new/utils/app_config.dart' show AppConfig;
 import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:get/get.dart';
@@ -70,11 +70,11 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   getDeviceId() async {
-    final _pref = AppConfig().preferences;
+    final pref = AppConfig().preferences;
     await AppConfig().getDeviceId().then((id) {
       print("deviceId: $id");
       if (id != null) {
-        _pref!.setString(AppConfig().deviceId, id);
+        pref!.setString(AppConfig().deviceId, id);
       }
     });
   }
@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     const appCastURL =
-        'https://github.com/devraj9193/gwc_success/blob/master/test/AppCast.xml';
+        'https://github.com/devraj9193/gwc_doctor/blob/master/test/AppCast.xml';
     final cfg = AppcastConfiguration(url: appCastURL, supportedOS: ['android']);
 
     return Sizer(builder:
@@ -97,9 +97,11 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         home: UpgradeAlert(
           upgrader: Upgrader(
-             appcastConfig: cfg,
-            durationUntilAlertAgain: const Duration(days: 1 ),
-            dialogStyle: Platform.isIOS ? UpgradeDialogStyle.cupertino : UpgradeDialogStyle.material,
+            appcastConfig: cfg,
+            durationUntilAlertAgain: const Duration(days: 1),
+            dialogStyle: Platform.isIOS
+                ? UpgradeDialogStyle.cupertino
+                : UpgradeDialogStyle.material,
             shouldPopScope: () => true,
             messages: UpgraderMessages(code: 'en'),
             onIgnore: () {
@@ -115,7 +117,7 @@ class _MyAppState extends State<MyApp> {
               throw UnsupportedError('_');
             },
           ),
-          child:SplashScreen(),
+          child: const SplashScreen(),
         ),
       );
     });
@@ -123,7 +125,7 @@ class _MyAppState extends State<MyApp> {
 
   launchURL() async {
     StoreRedirect.redirect(
-      androidAppId: "com.fembuddy.doctor",
+      androidAppId: "com.fembuddy.gwc_doctor",
       // iOSAppId: "284882215",
     );
   }

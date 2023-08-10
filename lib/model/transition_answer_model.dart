@@ -24,7 +24,7 @@ class TransitionAnswerModel {
   factory TransitionAnswerModel.fromJson(Map<String, dynamic> json) => TransitionAnswerModel(
     status: json["status"],
     errorCode: json["errorCode"],
-    key: json["key"],
+    key: json["key"].toString(),
     data: Data.fromJson(json["data"]),
   );
 
@@ -69,18 +69,18 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
-    teamPatientId: json["team_patient_id"],
-    day: json["day"],
-    didUMiss: json["did_u_miss"],
-    didUMissAnything: json["did_u_miss_anything"],
-    withdrawalSymptoms: json["withdrawal_symptoms"],
-    detoxification: json["detoxification"],
-    haveAnyOtherWorries: json["have_any_other_worries"],
-    eatSomethingOther: json["eat_something_other"],
-    completedCalmMoveModules: json["completed_calm_move_modules"],
-    hadAMedicalExamMedications: json["had_a_medical_exam_medications"],
-    createdAt:json["created_at"],
-    updatedAt:json["updated_at"],
+    teamPatientId: json["team_patient_id"].toString(),
+    day: json["day"].toString(),
+    didUMiss: json["did_u_miss"].toString(),
+    didUMissAnything: json["did_u_miss_anything"].toString(),
+    withdrawalSymptoms: json["withdrawal_symptoms"].toString(),
+    detoxification: json["detoxification"].toString(),
+    haveAnyOtherWorries: json["have_any_other_worries"].toString(),
+    eatSomethingOther: json["eat_something_other"].toString(),
+    completedCalmMoveModules: json["completed_calm_move_modules"].toString(),
+    hadAMedicalExamMedications: json["had_a_medical_exam_medications"].toString(),
+    createdAt:json["created_at"].toString(),
+    updatedAt:json["updated_at"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

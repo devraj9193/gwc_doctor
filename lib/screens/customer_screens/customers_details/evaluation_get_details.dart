@@ -278,7 +278,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                       if (snapshot.data.runtimeType == EvaluationDetailsModel) {
                         EvaluationDetailsModel model =
                             snapshot.data as EvaluationDetailsModel;
-                        EvaluationDetailsModel? model1 = snapshot.data;
+                        EvaluationDetailsModel? model1 = snapshot.data as EvaluationDetailsModel?;
                         getDetails(model1);
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: 1.w),
@@ -642,7 +642,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                 Row(
                   children: [
                     Radio(
-                        value: "liquid consistency with no solid pieces",
+                        value: "Liquid consistency with no solid pieces",
                         groupValue: model?.data?.closestStoolType,
                         visualDensity: const VisualDensity(
                             horizontal: VisualDensity.minimumDensity,
@@ -650,7 +650,7 @@ class _EvaluationGetDetailsState extends State<EvaluationGetDetails> {
                         activeColor: kPrimaryColor,
                         onChanged: (value) {}),
                     Text(
-                      "liquid consistency with no solid pieces",
+                      "Liquid consistency with no solid pieces",
                       style: EvaluationText().answerText(),
                     ),
                   ],

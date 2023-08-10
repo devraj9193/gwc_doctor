@@ -20,7 +20,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=3.0.0 <4.0.0'
+
+#  sdk: ">=2.16.2 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,14 +38,20 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  device_preview: ^1.0.0
+
+  #AppBar
+  convex_bottom_bar: any
+  anim_search_bar: ^2.0.3
+
+  device_preview: any
   sizer: ^2.0.15
   get: ^4.6.1
   syncfusion_flutter_calendar: ^20.2.49
   country_code_picker_mp: ^1.0.3
   flutter_svg: ^2.0.4
   grouped_list: ^5.1.2
-  intl: ^0.17.0
+  flutter_widget_from_html: ^0.10.3
+  intl: any
   syncfusion_flutter_pdfviewer: ^20.2.50-beta
   percent_indicator: ^4.2.2
   numberpicker: ^2.1.1
@@ -62,14 +70,14 @@ dependencies:
   flutter_sim_country_code: ^0.1.2
   mime: any
   photo_view: any
-  catcher: ^0.7.0
+#  catcher: ^0.7.0
   cached_network_image: any
   shimmer: any
 
   # Firebase
   firebase_core: ^2.4.1
   firebase_messaging: ^14.2.1
-  flutter_local_notifications: ^13.0.0
+  flutter_local_notifications: any
   cloud_firestore: any
 
   file_picker: ^5.2.4
@@ -89,6 +97,9 @@ dependencies:
   #app update
   upgrader: ^6.3.0
   store_redirect: ^2.0.1
+
+  #pull to refresh
+  pull_to_refresh_flutter3: ^2.0.1
 
 dev_dependencies:
   flutter_test:

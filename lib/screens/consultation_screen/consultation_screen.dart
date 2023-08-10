@@ -4,7 +4,7 @@ import '../../utils/constants.dart';
 import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import '../customer_screens/customers_lists/consultation_list.dart';
-import '../../doctor_status_screen.dart';
+import '../chart_screen/doctor_status_screen.dart';
 import '../customer_screens/customers_lists/document_upload_list.dart';
 
 class ConsultationScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _ConsultationScreenState extends State<ConsultationScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomerStatusScreen(),
+                const DoctorStatusScreen(),
                 SizedBox(height: 2.h),
                 TabBar(
                     labelColor: tapSelectedColor,

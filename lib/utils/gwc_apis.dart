@@ -7,6 +7,11 @@ class GwcApi {
 
   static String getOtpUrl = "${AppConfig().baseUrl}/api/sendOTP";
 
+  static String logOutUrl = "${AppConfig().baseUrl}/api/logout";
+
+  static String followUpCallsUrl =
+      "${AppConfig().baseUrl}/api/listData/follow_up_calls_list";
+
   static String consultationUrl =
       "${AppConfig().baseUrl}/api/listData/consultation";
 
@@ -14,6 +19,9 @@ class GwcApi {
       "${AppConfig().baseUrl}/api/listData/customer_evaluation_form";
 
   static String calendarUrl = "${AppConfig().baseUrl}/api/listData/calendar";
+
+  static String getCustomerProfileApiUrl =
+      "${AppConfig().baseUrl}/api/getDataValue/customer_profile";
 
   static String customerMRReport =
       "${AppConfig().baseUrl}/api/listData/customer_profile";
@@ -99,6 +107,16 @@ class GwcApi {
   static String customersListApiUrl =
       "${AppConfig().baseUrl}/api/getDataValue/customers_list";
 
+  static String nutriDelightApiUrl =
+      "${AppConfig().baseUrl}/api/getData/NutriDelight";
+
+  // selected day, user id, detox = 1, healing = 2 need to pass
+  static String dailyProgressMealPlanApiUrl =
+      "${AppConfig().baseUrl}/api/getDataList/user_day_meal_plan";
+
+  static String allDayTrackerApiUrl =
+      "${AppConfig().baseUrl}/api/getData/NutriDelightTracker";
+
   static const String groupId = '635fa22932eaaf0030c5ef1e';
   static const String successGroupId = '635fa22932eaaf0030c5ef1e';
   static const String qbCurrentUserId = 'curr_userId';
@@ -111,6 +129,9 @@ class GwcApi {
   static String successMemberName = "successMemberName";
   static String successMemberProfile = "successMemberProfile";
   static String successMemberAddress = "successMemberAddress";
+
+  // static String uvDeskAccessToken =
+  //     "HBTCAEHAAAOTTVECVMNJGLWYVXVN3GBJUR0XVZNOJTO4N1Y4LD7LT3LE4PVONODF";
 
   static SharedPreferences? preferences;
 
@@ -146,7 +167,22 @@ class GwcApi {
       "${AppConfig().baseUrl}/api/getData/medical_feedback";
 
   static const String apiKey = "ak_live_d2ad6702fe931fbeb2fa9cb4";
-  static const String appId = "mAppId_a4908f3e2fa60c828daff5e875b0af422545696fa0bffa76d614489aae8d";
+  static const String appId =
+      "mAppId_a4908f3e2fa60c828daff5e875b0af422545696fa0bffa76d614489aae8d";
   static const String kaleyraAccessToken = "kaleyra_access_token";
 
+  //uvDesk Urls
+  static String uvDeskTicketRaiseApiUrl =
+      "${AppConfig().uvBaseUrl}/tickets.json";
+
+  static String openListApiUrl = "${AppConfig().uvBaseUrl}/tickets?status=1&agent=";
+
+  static String answeredListApiUrl = "${AppConfig().uvBaseUrl}/tickets?status=3&agent=";
+
+  static String resolvedListApiUrl = "${AppConfig().uvBaseUrl}/tickets?status=4&agent=";
+
+  static String closedListApiUrl = "${AppConfig().uvBaseUrl}/tickets?status=5&agent=";
+
+  static String reassignApiUrl =
+      "${AppConfig().uvBaseUrl}/tickets/agent.json";
 }

@@ -16,12 +16,14 @@ class PreparatoryMealPlan extends StatefulWidget {
   final String preparatoryCurrentDay;
   final String ppCurrentDay;
   final String presDay;
-  const PreparatoryMealPlan(
-      {Key? key,
-      required this.preparatoryCurrentDay,
-      required this.ppCurrentDay,
-      required this.presDay})
-      : super(key: key);
+  final String isPrepCompleted;
+  const PreparatoryMealPlan({
+    Key? key,
+    required this.preparatoryCurrentDay,
+    required this.ppCurrentDay,
+    required this.presDay,
+    required this.isPrepCompleted,
+  }) : super(key: key);
 
   @override
   State<PreparatoryMealPlan> createState() => _PreparatoryMealPlanState();
@@ -64,8 +66,11 @@ class _PreparatoryMealPlanState extends State<PreparatoryMealPlan> {
         .get(Uri.parse("${GwcApi.preparatoryApiUrl}/$userId"), headers: {
       'Authorization': 'Bearer $token',
     });
+
+    print("preparatory meal plan : ${GwcApi.preparatoryApiUrl}/$userId");
+    print("preparatory meal plan : ${response.body}");
+
     if (response.statusCode == 200) {
-      print("meal: ${response.body}");
       res = jsonDecode(response.body);
       preparatoryTransitionModel = PreparatoryTransitionModel.fromJson(res);
       print("object: ${preparatoryTransitionModel?.data}");
@@ -141,18 +146,18 @@ class _PreparatoryMealPlanState extends State<PreparatoryMealPlan> {
                             ),
                           ]),
                         ),
-                        SizedBox(height: 1.h),
-                        (widget.presDay == widget.ppCurrentDay &&
-                                (widget.presDay.isNotEmpty) &&
-                                widget.ppCurrentDay.isNotEmpty)
-                            ? Text(
-                                "Preparatory Plan Completed by user",
-                                style: TextStyle(
-                                    fontFamily: fontMedium,
-                                    color: gSecondaryColor,
-                                    fontSize: fontSize08),
-                              )
-                            : const SizedBox(),
+                        buildPreparatoryStatus(widget.isPrepCompleted),
+                        // (widget.presDay == widget.ppCurrentDay &&
+                        //         (widget.presDay.isNotEmpty) &&
+                        //         widget.ppCurrentDay.isNotEmpty)
+                        //     ? Text(
+                        //         "Preparatory Plan Completed by user",
+                        //         style: TextStyle(
+                        //             fontFamily: fontMedium,
+                        //             color: gSecondaryColor,
+                        //             fontSize: fontSize08),
+                        //       )
+                        //     : const SizedBox(),
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 25.w, vertical: 2.h),
@@ -212,7 +217,8 @@ class _PreparatoryMealPlanState extends State<PreparatoryMealPlan> {
                         GestureDetector(
                           onTap: () {
                             buildPreparatory(
-                                preparatoryTransitionModel?.days ?? "", context);
+                                preparatoryTransitionModel?.days ?? "",
+                                context);
                           },
                           child: Container(
                             margin: EdgeInsets.symmetric(
@@ -294,7 +300,7 @@ class _PreparatoryMealPlanState extends State<PreparatoryMealPlan> {
                                     ),
                             ),
                           ),
-                          SizedBox(width: 1.w),
+                          SizedBox(width: 3.w),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.only(right: 8.0),
@@ -321,47 +327,43 @@ class _PreparatoryMealPlanState extends State<PreparatoryMealPlan> {
                                   SizedBox(height: 0.5.h),
                                   (lst[index].benefits != null)
                                       ? Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 5.0),
-                                            child: SingleChildScrollView(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  ...lst[index]
-                                                      .benefits!
-                                                      .split(' -')
-                                                      .map((element) {
-                                                    return Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Center(
-                                                          child: Icon(
-                                                            Icons.circle_sharp,
-                                                            color: gGreyColor,
-                                                            size: 1.h,
-                                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ...lst[index]
+                                                    .benefits!
+                                                    .split(' -')
+                                                    .map((element) {
+                                                  return Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Center(
+                                                        child: Icon(
+                                                          Icons.circle_sharp,
+                                                          color: gGreyColor,
+                                                          size: 1.h,
                                                         ),
-                                                        SizedBox(width: 1.w),
-                                                        Expanded(
-                                                          child: Text(
-                                                            element.replaceAll(
-                                                                "-", ""),
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: MealPlan()
-                                                                .subHeadingText(),
-                                                          ),
+                                                      ),
+                                                      SizedBox(width: 1.w),
+                                                      Expanded(
+                                                        child: Text(
+                                                          element.replaceAll(
+                                                              "-", ""),
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          style: MealPlan()
+                                                              .subHeadingText(),
                                                         ),
-                                                      ],
-                                                    );
-                                                  })
-                                                ],
-                                              ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                })
+                                              ],
                                             ),
                                           ),
                                         )
@@ -413,6 +415,19 @@ class _PreparatoryMealPlanState extends State<PreparatoryMealPlan> {
         ),
       ),
     );
+  }
+
+  buildPreparatoryStatus(String isPrepCompleted) {
+    return (isPrepCompleted == "1") && (isPrepCompleted != "null")
+        ? Text(
+      "Preparatory Plan Completed by user",
+      style: TextStyle(
+          height: 1.3,
+          fontFamily: fontMedium,
+          color: gSecondaryColor,
+          fontSize: fontSize08),
+    )
+        : const SizedBox();
   }
 
   void buildPreparatory(String days, BuildContext context) {

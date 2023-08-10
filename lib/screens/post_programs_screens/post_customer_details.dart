@@ -6,25 +6,32 @@ import '../../utils/constants.dart';
 import '../../widgets/common_screen_widgets.dart';
 import '../../widgets/widgets.dart';
 import 'package:get/get.dart';
-
+import '../customer_screens/customers_details/case_study_details.dart';
+import '../customer_screens/customers_details/evaluation_get_details.dart';
+import '../customer_screens/customers_details/medical_report_details.dart';
+import '../customer_screens/customers_details/user_reports_details.dart';
+import '../nutri_delight_screens/daily_progress_screens/progress_details.dart';
+import '../nutri_delight_screens/nutri_delight_detox.dart';
+import '../nutri_delight_screens/nutri_delight_healing.dart';
+import '../nutri_delight_screens/nutri_delight_nourish.dart';
+import '../nutri_delight_screens/nutri_delight_preparatory.dart';
 import 'medical_feedback_answer.dart';
 
 class PostCustomerDetails extends StatefulWidget {
-  const PostCustomerDetails({Key? key}) : super(key: key);
+  final int userId;
+  const PostCustomerDetails({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<PostCustomerDetails> createState() => _PostCustomerDetailsState();
 }
 
 class _PostCustomerDetailsState extends State<PostCustomerDetails> {
-  List types = ['Do', "Don't Do", 'none'];
-
   GuideMealPlanController guideMealPlanController =
       Get.put(GuideMealPlanController());
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 1,
+      length: 10,
       child: SafeArea(
         child: Scaffold(
           backgroundColor: gWhiteColor,
@@ -47,17 +54,30 @@ class _PostCustomerDetailsState extends State<PostCustomerDetails> {
                   indicatorPadding: EdgeInsets.only(right: 10.w),
                   tabs: const [
                     Text('Medical Feedback'),
-                    // Text('Lunch'),
-                    // Text('Dinner'),
+                    Text('Daily Progress'),
+                    Text('Preparatory'),
+                    Text("Detox"),
+                    Text('Healing'),
+                    Text('Nourish'),
+                    Text('Evaluation'),
+                    Text('User Reports'),
+                    Text('Medical Report'),
+                    Text('Case Sheet'),
                   ]),
-              const Expanded(
+              Expanded(
                 child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      MedicalFeedbackAnswer(),
-                      // buildBreakFast(),
-                      // buildLunch(),
-                      // buildDinner(),
+                      const MedicalFeedbackAnswer(),
+                      ProgressDetails(userId: widget.userId),
+                      NutriDelightPreparatory(userId: widget.userId),
+                      NutriDelightDetox(userId: widget.userId),
+                      NutriDelightHealing(userId: widget.userId),
+                      NutriDelightNourish(userId: widget.userId),
+                      const EvaluationGetDetails(),
+                      const UserReportsDetails(),
+                      const MedicalReportDetails(userId: 0,),
+                      const CaseStudyDetails(userId: 0,),
                     ]),
               ),
             ],
@@ -126,125 +146,125 @@ class _PostCustomerDetailsState extends State<PostCustomerDetails> {
     );
   }
 
-  buildBreakFast() {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: FutureBuilder(
-          future: guideMealPlanController.fetchBreakFastPlan(),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasError) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 7.h),
-                child: Image(
-                  image: const AssetImage("assets/images/Group 5294.png"),
-                  height: 35.h,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              var data = snapshot.data;
-              print("Do: $data");
-              return Column(
-                children: [
-                  Container(
-                    height: 1,
-                    color: Colors.grey.withOpacity(0.3),
-                  ),
-                  SizedBox(height: 2.h),
-                  buildTile('assets/lottie/loading_tick.json', types[0],
-                      mainText: data.data.dataDo.the0.name ?? ''),
-                  buildTile('assets/lottie/loading_wrong.json', types[1],
-                      mainText: data.data.doNot.the0.name ?? ""),
-                  buildTile('assets/lottie/loading_wrong.json', types[2],
-                      mainText: ''),
-                ],
-              );
-            }
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: buildCircularIndicator(),
-            );
-          }),
-    );
-  }
-
-  buildLunch() {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: FutureBuilder(
-          future: guideMealPlanController.fetchLunchPlan(),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasError) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 7.h),
-                child: Image(
-                  image: const AssetImage("assets/images/Group 5294.png"),
-                  height: 35.h,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              var data = snapshot.data;
-              print("Do: $data");
-              return Column(
-                children: [
-                  Container(
-                    height: 1,
-                    color: Colors.grey.withOpacity(0.3),
-                  ),
-                  SizedBox(height: 2.h),
-                  buildTile('assets/lottie/loading_tick.json', types[0],
-                      mainText: data.data.dataDo.the0.name ?? ''),
-                  buildTile('assets/lottie/loading_wrong.json', types[1],
-                      mainText: data.data.doNot.the0.name ?? ""),
-                  buildTile('assets/lottie/loading_wrong.json', types[2],
-                      mainText: ''),
-                ],
-              );
-            }
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: buildCircularIndicator(),
-            );
-          }),
-    );
-  }
-
-  buildDinner() {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: FutureBuilder(
-          future: guideMealPlanController.fetchDinnerPlan(),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            if (snapshot.hasError) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 7.h),
-                child: Image(
-                  image: const AssetImage("assets/images/Group 5294.png"),
-                  height: 35.h,
-                ),
-              );
-            } else if (snapshot.hasData) {
-              var data = snapshot.data;
-              return Column(
-                children: [
-                  Container(
-                    height: 1,
-                    color: Colors.grey.withOpacity(0.3),
-                  ),
-                  SizedBox(height: 2.h),
-                  buildTile('assets/lottie/loading_tick.json', types[0],
-                      mainText: data.data.dataDo.the0.name ?? ''),
-                  buildTile('assets/lottie/loading_wrong.json', types[1],
-                      mainText: data.data.doNot.the0.name ?? ""),
-                  buildTile('assets/lottie/loading_wrong.json', types[2],
-                      mainText: ''),
-                ],
-              );
-            }
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: buildCircularIndicator(),
-            );
-          }),
-    );
-  }
+  // buildBreakFast() {
+  //   return SingleChildScrollView(
+  //     physics: const BouncingScrollPhysics(),
+  //     child: FutureBuilder(
+  //         future: guideMealPlanController.fetchBreakFastPlan(),
+  //         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+  //           if (snapshot.hasError) {
+  //             return Padding(
+  //               padding: EdgeInsets.symmetric(vertical: 7.h),
+  //               child: Image(
+  //                 image: const AssetImage("assets/images/Group 5294.png"),
+  //                 height: 35.h,
+  //               ),
+  //             );
+  //           } else if (snapshot.hasData) {
+  //             var data = snapshot.data;
+  //             print("Do: $data");
+  //             return Column(
+  //               children: [
+  //                 Container(
+  //                   height: 1,
+  //                   color: Colors.grey.withOpacity(0.3),
+  //                 ),
+  //                 SizedBox(height: 2.h),
+  //                 buildTile('assets/lottie/loading_tick.json', types[0],
+  //                     mainText: data.data.dataDo.the0.name ?? ''),
+  //                 buildTile('assets/lottie/loading_wrong.json', types[1],
+  //                     mainText: data.data.doNot.the0.name ?? ""),
+  //                 buildTile('assets/lottie/loading_wrong.json', types[2],
+  //                     mainText: ''),
+  //               ],
+  //             );
+  //           }
+  //           return Padding(
+  //             padding: EdgeInsets.symmetric(vertical: 10.h),
+  //             child: buildCircularIndicator(),
+  //           );
+  //         }),
+  //   );
+  // }
+  //
+  // buildLunch() {
+  //   return SingleChildScrollView(
+  //     physics: const BouncingScrollPhysics(),
+  //     child: FutureBuilder(
+  //         future: guideMealPlanController.fetchLunchPlan(),
+  //         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+  //           if (snapshot.hasError) {
+  //             return Padding(
+  //               padding: EdgeInsets.symmetric(vertical: 7.h),
+  //               child: Image(
+  //                 image: const AssetImage("assets/images/Group 5294.png"),
+  //                 height: 35.h,
+  //               ),
+  //             );
+  //           } else if (snapshot.hasData) {
+  //             var data = snapshot.data;
+  //             print("Do: $data");
+  //             return Column(
+  //               children: [
+  //                 Container(
+  //                   height: 1,
+  //                   color: Colors.grey.withOpacity(0.3),
+  //                 ),
+  //                 SizedBox(height: 2.h),
+  //                 buildTile('assets/lottie/loading_tick.json', types[0],
+  //                     mainText: data.data.dataDo.the0.name ?? ''),
+  //                 buildTile('assets/lottie/loading_wrong.json', types[1],
+  //                     mainText: data.data.doNot.the0.name ?? ""),
+  //                 buildTile('assets/lottie/loading_wrong.json', types[2],
+  //                     mainText: ''),
+  //               ],
+  //             );
+  //           }
+  //           return Padding(
+  //             padding: EdgeInsets.symmetric(vertical: 10.h),
+  //             child: buildCircularIndicator(),
+  //           );
+  //         }),
+  //   );
+  // }
+  //
+  // buildDinner() {
+  //   return SingleChildScrollView(
+  //     physics: const BouncingScrollPhysics(),
+  //     child: FutureBuilder(
+  //         future: guideMealPlanController.fetchDinnerPlan(),
+  //         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+  //           if (snapshot.hasError) {
+  //             return Padding(
+  //               padding: EdgeInsets.symmetric(vertical: 7.h),
+  //               child: Image(
+  //                 image: const AssetImage("assets/images/Group 5294.png"),
+  //                 height: 35.h,
+  //               ),
+  //             );
+  //           } else if (snapshot.hasData) {
+  //             var data = snapshot.data;
+  //             return Column(
+  //               children: [
+  //                 Container(
+  //                   height: 1,
+  //                   color: Colors.grey.withOpacity(0.3),
+  //                 ),
+  //                 SizedBox(height: 2.h),
+  //                 buildTile('assets/lottie/loading_tick.json', types[0],
+  //                     mainText: data.data.dataDo.the0.name ?? ''),
+  //                 buildTile('assets/lottie/loading_wrong.json', types[1],
+  //                     mainText: data.data.doNot.the0.name ?? ""),
+  //                 buildTile('assets/lottie/loading_wrong.json', types[2],
+  //                     mainText: ''),
+  //               ],
+  //             );
+  //           }
+  //           return Padding(
+  //             padding: EdgeInsets.symmetric(vertical: 10.h),
+  //             child: buildCircularIndicator(),
+  //           );
+  //         }),
+  //   );
+  // }
 }
